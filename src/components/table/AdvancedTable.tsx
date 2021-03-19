@@ -16,7 +16,8 @@ export interface AdvancedTableProps<T extends object> extends ToolbarProps, Cont
 function AdvancedTable<T extends object>(props: AdvancedTableProps<T>) {
   return (
     <Styles>
-      {props.showTopBar && <TopBar name={props.name} length={props.data.length} />}
+      {props.showTopBar &&
+      <TopBar name={props.name} length={props.data.length}/>}
       {props.showToolbar && (
         <Toolbar
           showButton={props.showButton}
@@ -27,7 +28,7 @@ function AdvancedTable<T extends object>(props: AdvancedTableProps<T>) {
           onSearch={props.onSearch}
         />
       )}
-      <Content columns={props.columns} data={props.data} />
+      <Content columns={props.columns} data={props.data}/>
     </Styles>
   );
 }

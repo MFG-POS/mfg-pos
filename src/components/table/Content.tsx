@@ -27,7 +27,13 @@ export interface ContentProps<T extends object> {
 }
 
 function Content<T extends object>(props: ContentProps<T>) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow }: TableInstance<T> = useTable(
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  }: TableInstance<T> = useTable(
     {
       columns: props.columns,
       data: props.data,
@@ -38,8 +44,9 @@ function Content<T extends object>(props: ContentProps<T>) {
   return (
     <Styles>
       <Table variant="simple" {...getTableProps()}>
-        <Header headerGroups={headerGroups} />
-        <Body bodyProps={getTableBodyProps()} prepareRow={prepareRow} rows={rows} />
+        <Header headerGroups={headerGroups}/>
+        <Body bodyProps={getTableBodyProps()} prepareRow={prepareRow}
+              rows={rows}/>
       </Table>
     </Styles>
   );
