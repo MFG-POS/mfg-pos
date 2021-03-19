@@ -4,7 +4,7 @@ import AddSupplierButtons from 'components/Supplier/AddSupplierButtons';
 import AddSupplierData from 'components/Supplier/AppSupplierData/AddSupplierData';
 
 const Form = () => (
-  <Flex w="100rum" p="1em">
+  <Flex w="96rem" p="1em">
     <Box w="22em" h="30em" bg="gray.200" />
     <Box w="1em" h="1em" bg="white" />
     <VStack w="72em" divider={<StackDivider borderColor="gray.200" />} spacing={3} align="stretch">
