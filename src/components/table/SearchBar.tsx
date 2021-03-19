@@ -17,7 +17,7 @@ type SearchBarProps = {
 const SearchBar = (props: SearchBarProps) => (
   <StyledInputGroup>
     <InputLeftElement pointerEvents="none">
-      <MdSearch color="gray.300" />
+      <MdSearch color="gray.300"/>
     </InputLeftElement>
     <Input
       onChange={(event) => props.onSearch && props.onSearch(event.target.value)}
