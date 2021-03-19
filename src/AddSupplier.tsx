@@ -1,24 +1,22 @@
 import { VStack, StackDivider, Box, Flex } from '@chakra-ui/react';
-import AddSupplierTittle from './Supplier/AddSupplierTittle';
-import AddSupplierButtons from './Supplier/AddSupplierButtons';
-import AddSupplierData from './Supplier/AddSupplierData/AddSupplierData';
+import AddSupplierTitle from 'components/Supplier/AddSupplierTitle';
+import AddSupplierButtons from 'components/Supplier/AddSupplierButtons';
+import AddSupplierData from 'components/Supplier/AppSupplierData/AddSupplierData';
 
-function Form() {
-  return (
-    <Flex w="100%" p="4">
-      <Box w="26%" h="520" bg="gray.200" />
-      <Box w="2%" h="10" bg="white" />
-      <VStack w="72%" divider={<StackDivider borderColor="gray.200" />} spacing={3} align="stretch">
-        <Box h="40px">
-          <AddSupplierTittle />
-        </Box>
-        <Box h="400px" w="100%">
-          <AddSupplierData />
-        </Box>
-        <AddSupplierButtons />
-      </VStack>
-    </Flex>
-  );
-}
+const Form = () => (
+  <Flex w="100rum" p="1em">
+    <Box w="22em" h="30em" bg="gray.200" />
+    <Box w="1em" h="1em" bg="white" />
+    <VStack w="72em" divider={<StackDivider borderColor="gray.200" />} spacing={3} align="stretch">
+      <Box h="2em">
+        <AddSupplierTitle />
+      </Box>
+      <Box h="26em" w="70em">
+        <AddSupplierData />
+      </Box>
+      <AddSupplierButtons />
+    </VStack>
+  </Flex>
+);
 
 export default Form;
