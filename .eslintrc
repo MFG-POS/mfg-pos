@@ -14,6 +14,7 @@
   },
   "rules": {
     "object-curly-spacing": ["warn", "always"],
+    "no-nested-ternary": "off",
     "no-unused-vars": [
       "warn",
       {
