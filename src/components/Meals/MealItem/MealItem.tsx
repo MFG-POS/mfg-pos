@@ -1,9 +1,9 @@
-import { Meals } from 'api/firebase/firebase.types';
+import { Meal } from 'api/firebase/firebase.types';
 import React from 'react';
 import { ListItem, ListIcon, Box, Heading, Flex, Text } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
-const MealItem = React.memo<{ meal: Meals }>(({ meal: { id, name, ingredients } }) => (
+const MealItem = React.memo<{ meal: Meal }>(({ meal: { id, name, ingredients } }) => (
   <ListItem>
     <Box p="20px">
       <Heading>

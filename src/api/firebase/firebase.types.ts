@@ -6,7 +6,7 @@ export type Firestore = {
 };
 
 // Interface for sample documents inside sample collection called "meals"
-export interface Meals {
+export interface Meal {
   id: string;
   name: string;
   ingredients: [{ ingredient: string; portion: string }];
