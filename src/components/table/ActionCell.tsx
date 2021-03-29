@@ -1,6 +1,6 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { Row } from 'react-table';
-import { TableAction } from '../../model/table';
+import { TableAction } from '../../model/table/table-definitions';
 
 type ActionCellProps<T extends object> = {
   name: string;
@@ -15,8 +15,7 @@ function ActionCell<T extends object>(props: ActionCellProps<T>) {
 
       <MenuList>
         {props.actions.map((action) => (
-          <MenuItem key={action.name}
-                    onClick={() => action.callback(props.row)}>
+          <MenuItem key={action.name} onClick={() => action.callback(props.row)}>
             {action.name}
           </MenuItem>
         ))}
