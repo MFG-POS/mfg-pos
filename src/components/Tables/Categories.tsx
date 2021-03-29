@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Row } from 'react-table';
 import { ColumnDefinition, TableAction } from '../../model/table/table-definitions';
-import AdvancedTable, { AdvancedTableProps } from '../table/AdvancedTable';
+import AdvancedTable, { AdvancedTableProps } from '../Table/AdvancedTable';
 import { CategoryType } from '../../model/enums/category-type';
 import { TableCategory } from '../../model/table/table-types';
 
