@@ -41,9 +41,8 @@ const Toolbar = (props: ToolbarProps) => (
         {props.buttonText && props.buttonText.toUpperCase()}
       </Button>
     )}
-    {props.showFilter &&
-    <Filter onFilterClick={props.onFilterClick} filterText={props.filterText}/>}
-    {props.showSearchBar && <SearchBar onSearch={props.onSearch}/>}
+    {props.showFilter && <Filter onFilterClick={props.onFilterClick} filterText={props.filterText} />}
+    {props.showSearchBar && <SearchBar onSearch={props.onSearch} />}
   </Styles>
 );
 
