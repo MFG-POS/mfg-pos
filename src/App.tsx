@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import MealsList from 'components/Meals/MealsList/MealsList';
-import AddSupplier from './AddSupplier';
-import Categories from './components/tables/Categories';
+import AddSupplier from './components/Supplier/AddSupplier';
+import Categories from './components/Tables/Categories';
 
 const App = () => (
   <ChakraProvider>
