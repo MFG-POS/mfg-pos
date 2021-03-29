@@ -4,9 +4,7 @@ type PictureCellProps = {
   src: string;
 };
 
-const PictureCell = (props: PictureCellProps) => <img width={props.width}
-                                                      src={props.src}
-                                                      alt={props.alt}/>;
+const PictureCell = (props: PictureCellProps) => <img width={props.width} src={props.src} alt={props.alt} />;
 
 PictureCell.defaultProps = {
   width: '50px',

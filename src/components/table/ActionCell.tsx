@@ -15,8 +15,7 @@ function ActionCell<T extends object>(props: ActionCellProps<T>) {
 
       <MenuList>
         {props.actions.map((action) => (
-          <MenuItem key={action.name}
-                    onClick={() => action.callback(props.row)}>
+          <MenuItem key={action.name} onClick={() => action.callback(props.row)}>
             {action.name}
           </MenuItem>
         ))}

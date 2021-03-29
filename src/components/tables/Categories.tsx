@@ -5,16 +5,11 @@ import { ColumnDefinition, TableAction } from '../../model/table';
 import AdvancedTable, { AdvancedTableProps } from '../table/AdvancedTable';
 
 const Categories = () => {
-  const onRowDelete = (row: Row<Category>): void =>
-    console.log(`Should delete row with id ${row.id}`);
-  const onRowEdit = (row: Row<Category>): void =>
-    console.log(`Should edit row with id ${row.id}`);
-  const onButtonClick = (): void =>
-    console.log(`Should do something on button click.`);
-  const onFilterClick = (): void =>
-    console.log(`Should open filter menu.`);
-  const onSearch = (value: string): void =>
-    console.log(`Should search by value '${value}' passed.`);
+  const onRowDelete = (row: Row<Category>): void => console.log(`Should delete row with id ${row.id}`);
+  const onRowEdit = (row: Row<Category>): void => console.log(`Should edit row with id ${row.id}`);
+  const onButtonClick = (): void => console.log(`Should do something on button click.`);
+  const onFilterClick = (): void => console.log(`Should open filter menu.`);
+  const onSearch = (value: string): void => console.log(`Should search by value '${value}' passed.`);
 
   const actions: TableAction<Category>[] = useMemo(
     () => [
