@@ -1,9 +1,9 @@
+import { Article } from 'model/documents/article';
+import { Recipe } from 'model/documents/recipe';
+import { Category } from 'model/documents/category';
+import { Ingredient } from 'model/documents/ingredient';
+import { Tax } from 'model/documents/tax';
 import { TableDocument } from './table-definitions';
-import { Article } from '../documents/article';
-import { Recipe } from '../documents/recipe';
-import { Category } from '../documents/category';
-import { Ingredient } from '../documents/ingredient';
-import { Tax } from '../documents/tax';
 
 export type TableArticle = Article & TableDocument<Article>;
 export type TableRecipe = Recipe & TableDocument<Recipe>;
