@@ -1,6 +1,5 @@
 import { VStack, StackDivider, Box, Flex } from '@chakra-ui/react';
 import AddSupplierTitle from 'components/Supplier/AddSupplierTitle';
-import AddSupplierButtons from 'components/Supplier/AddSupplierButtons';
 import AddSupplierData from 'components/Supplier/AppSupplierData/AddSupplierData';
 
 const Form = () => (
@@ -11,10 +10,9 @@ const Form = () => (
       <Box h="2em">
         <AddSupplierTitle />
       </Box>
-      <Box h="26em" w="70em">
+      <Box h="26em" w="72em">
         <AddSupplierData />
       </Box>
-      <AddSupplierButtons />
     </VStack>
   </Flex>
 );
