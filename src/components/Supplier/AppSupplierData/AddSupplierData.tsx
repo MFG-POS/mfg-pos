@@ -17,12 +17,12 @@ import styled from 'styled-components';
 const AddSupplierData = () => {
   const { register, handleSubmit, errors } = useForm();
 
-  const StylesS = styled.span`
+  const StyledSpan = styled.span`
     color: red;
     padding: 0.5rem 0 0 0;
   `;
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: Object) => {
     console.log(data);
   };
 
@@ -43,18 +43,14 @@ const AddSupplierData = () => {
                   name="name"
                   ref={register({ required: 'Brak nazwy' })}
                 />
-                {errors.name && (
-                  <StylesS>
-                    <span>{errors.name.message}</span>
-                  </StylesS>
-                )}
+                {errors.name && <StyledSpan>{errors.name.message}</StyledSpan>}
               </Box>
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Telefon
               </Container>
               <NumberInput>
                 <NumberInputField
-                  name="telefonNumber"
+                  name="telephoneNumber"
                   maxLength={11}
                   border="1px"
                   borderRadius="2em"
@@ -67,17 +63,13 @@ const AddSupplierData = () => {
                     },
                   })}
                 />
-                {errors.telefonNumber && (
-                  <StylesS>
-                    <span>{errors.telefonNumber.message}</span>
-                  </StylesS>
-                )}
+                {errors.telephoneNumber && <StyledSpan>{errors.telephoneNumber.message}</StyledSpan>}
               </NumberInput>
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Komentarz
               </Container>
               <Textarea
-                name="Comment"
+                name="comment"
                 maxHeight="8em"
                 h="8em"
                 border="1px"
@@ -98,11 +90,7 @@ const AddSupplierData = () => {
                   borderColor="gray.300"
                   ref={register({ required: 'Nie podano artykułów', minLength: 1 })}
                 />
-                {errors.articlesSupplied && (
-                  <StylesS>
-                    <span>{errors.articlesSupplied.message}</span>
-                  </StylesS>
-                )}
+                {errors.articlesSupplied && <StyledSpan>{errors.articlesSupplied.message}</StyledSpan>}
               </Box>
             </Grid>
           </Box>
@@ -127,10 +115,10 @@ const AddSupplierData = () => {
                       ref={register({ minLength: 1, required: 'Nie podano miasta' })}
                     />
                     {errors.city && (
-                      <StylesS>
+                      <StyledSpan>
                         <br />
-                        <span>{errors.city.message}</span>
-                      </StylesS>
+                        {errors.city.message}
+                      </StyledSpan>
                     )}
                   </Box>
                   <Container px="2em" py="0.2em" fontWeight="Bold">
@@ -139,7 +127,7 @@ const AddSupplierData = () => {
                   <Box>
                     <Input
                       w="16em"
-                      name="kodNumber"
+                      name="postalCode"
                       maxLength={6}
                       border="1px"
                       borderRadius="2em"
@@ -152,11 +140,11 @@ const AddSupplierData = () => {
                         },
                       })}
                     />
-                    {errors.kodNumber && (
-                      <StylesS>
+                    {errors.postalCode && (
+                      <StyledSpan>
                         <br />
-                        <span>{errors.kodNumber.message}</span>
-                      </StylesS>
+                        {errors.postalCode.message}
+                      </StyledSpan>
                     )}
                   </Box>
                   <Container px="2em" py="0.2em" fontWeight="Bold">
@@ -169,13 +157,13 @@ const AddSupplierData = () => {
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
-                      ref={register({ minLength: 1, required: 'Nie podano miasta' })}
+                      ref={register({ minLength: 1, required: 'Nie podano ulicy' })}
                     />
                     {errors.street && (
-                      <StylesS>
+                      <StyledSpan>
                         <br />
-                        <span>{errors.street.message}</span>
-                      </StylesS>
+                        {errors.street.message}
+                      </StyledSpan>
                     )}
                   </Box>
                   <Container px="2em" py="0.2em" fontWeight="Bold">
@@ -183,18 +171,18 @@ const AddSupplierData = () => {
                   </Container>
                   <Box>
                     <Input
-                      name="buildNumber"
+                      name="buildingNumber"
                       w="16em"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
                       ref={register({ minLength: 1, required: 'Nie podano numeru budynku/lokalu' })}
                     />
-                    {errors.buildNumber && (
-                      <StylesS>
+                    {errors.buildingNumber && (
+                      <StyledSpan>
                         <br />
-                        <span>{errors.buildNumber.message}</span>
-                      </StylesS>
+                        {errors.buildingNumber.message}
+                      </StyledSpan>
                     )}
                   </Box>
                 </Grid>
