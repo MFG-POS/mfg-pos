@@ -9,18 +9,18 @@ import {
   NumberInputField,
   VStack,
   StackDivider,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import AddSupplierButtons from 'components/Supplier/AddSupplierButtons';
-import styled from 'styled-components';
+import StyledSpan from 'styled/Supplier/AppSupplierData/StyledSpan';
+import StyledWrapItem from 'styled/Supplier/AppSupplierData/StyledWrapItem';
+import StyledGrid from 'styled/Supplier/AppSupplierData/StyledGrid';
+import StyledVStack from 'styled/Supplier/AppSupplierData/StyledVStack';
 
 const AddSupplierData = () => {
   const { register, handleSubmit, errors } = useForm();
-
-  const StyledSpan = styled.span`
-    color: red;
-    padding: 0.5rem 0 0 0;
-  `;
 
   const onSubmit = (data: Object) => {
     console.log(data);
@@ -29,9 +29,9 @@ const AddSupplierData = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <VStack divider={<StackDivider borderColor="gray.200" />} spacing={3} align="stretch">
-        <Flex w="70em" h="30em">
-          <Box w="80em" h="26em">
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+        <Wrap w="100%" h="30em">
+          <StyledWrapItem h="26em">
+            <StyledGrid templateColumns="repeat(2, 1fr)" gap={2}>
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Nazwa
               </Container>
@@ -92,23 +92,22 @@ const AddSupplierData = () => {
                 />
                 {errors.articlesSupplied && <StyledSpan>{errors.articlesSupplied.message}</StyledSpan>}
               </Box>
-            </Grid>
-          </Box>
-          <Box w="6em" h="26em" />
-          <Box w="100em" h="26em">
-            <VStack spacing={3} align="stretch">
+            </StyledGrid>
+          </StyledWrapItem>
+          <StyledWrapItem h="26em">
+            <StyledVStack spacing={3} align="stretch" w="100%">
               <Box h="3em" fontWeight="Bold">
                 Adres
               </Box>
-              <Box h="22em" w="40em" border="1px" borderRadius="2em" borderColor="gray.300">
-                <Grid w="42em" h="20em" templateColumns="repeat(2, 1fr)" gap={4} p="2em">
+              <Box h="22em" w="100%" border="1px" borderRadius="2em" borderColor="gray.300">
+                <Grid w="100%" h="20em" templateColumns="repeat(2, 1fr)" gap={4} p="2em">
                   <Container px="2em" py="0.2em" fontWeight="Bold">
                     Miasto
                   </Container>
                   <Box>
                     <Input
                       name="city"
-                      w="16em"
+                      w="100%"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
@@ -126,7 +125,7 @@ const AddSupplierData = () => {
                   </Container>
                   <Box>
                     <Input
-                      w="16em"
+                      w="100%"
                       name="postalCode"
                       maxLength={6}
                       border="1px"
@@ -153,7 +152,7 @@ const AddSupplierData = () => {
                   <Box>
                     <Input
                       name="street"
-                      w="16em"
+                      w="100%"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
@@ -172,7 +171,7 @@ const AddSupplierData = () => {
                   <Box>
                     <Input
                       name="buildingNumber"
-                      w="16em"
+                      w="100%"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
@@ -187,12 +186,15 @@ const AddSupplierData = () => {
                   </Box>
                 </Grid>
               </Box>
-            </VStack>
-          </Box>
-        </Flex>
-        <Box w="72em">
-          <AddSupplierButtons />
-        </Box>
+            </StyledVStack>
+          </StyledWrapItem>
+          <WrapItem w="100%">
+            <Box w="100%" borderTop="1px" borderColor="gray.300" marginTop="1em" />
+          </WrapItem>
+          <WrapItem>
+            <AddSupplierButtons />
+          </WrapItem>
+        </Wrap>
       </VStack>
     </form>
   );
