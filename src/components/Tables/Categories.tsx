@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { Row } from 'react-table';
-import { CategoryType } from 'model/enums/category-type';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import AdvancedTable, { AdvancedTableProps } from 'components/Table/AdvancedTable';
 import { TableCategory } from 'model/table/table-types';
@@ -26,37 +25,31 @@ const Categories = () => {
         id: '1',
         imagePath: 'https://pngimg.com/uploads/sugar/sugar_PNG8.png',
         name: 'Słodziki',
-        type: CategoryType.INGREDIENTS,
       },
       {
         id: '2',
         imagePath: 'https://pngimg.com/uploads/flour/flour_PNG11.png',
         name: 'Mąki',
-        type: CategoryType.INGREDIENTS,
       },
       {
         id: '3',
         imagePath: 'https://pngimg.com/uploads/soup/soup_PNG71.png',
         name: 'Zupy',
-        type: CategoryType.RECIPES,
       },
       {
         id: '4',
         imagePath: 'https://pngimg.com/uploads/sugar/sugar_PNG8.png',
         name: 'Słodziki',
-        type: CategoryType.INGREDIENTS,
       },
       {
         id: '5',
         imagePath: 'https://pngimg.com/uploads/flour/flour_PNG11.png',
         name: 'Mąki',
-        type: CategoryType.INGREDIENTS,
       },
       {
         id: '6',
         imagePath: 'https://pngimg.com/uploads/soup/soup_PNG71.png',
         name: 'Zupy',
-        type: CategoryType.RECIPES,
       },
     ],
     [],
@@ -74,11 +67,6 @@ const Categories = () => {
         Header: 'Nazwa',
         accessor: 'name',
         minWidth: 200,
-      },
-      {
-        Header: 'Rodzaj',
-        accessor: 'type',
-        minWidth: 250,
       },
       {
         Header: 'Akcje',
