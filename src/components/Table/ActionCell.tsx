@@ -1,6 +1,6 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { Row } from 'react-table';
-import { TableAction } from '../../model/table';
+import { TableAction } from '../../model/table/table-definitions';
 
 type ActionCellProps<T extends object> = {
   name: string;

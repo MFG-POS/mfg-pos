@@ -10,6 +10,10 @@ export interface TableAction<T extends object> {
 }
 
 export interface ColumnProperties<T extends object> {
-  isPhoto?: boolean;
+  isImageColumn?: boolean;
+  actions?: TableAction<T>[];
+}
+
+export interface TableDocument<T extends object> {
   actions?: TableAction<T>[];
 }

@@ -3,7 +3,7 @@ import { Table } from '@chakra-ui/react';
 import styled from 'styled-components';
 import Header from './Header';
 import Body from './Body';
-import { ColumnDefinition } from '../../model/table';
+import { ColumnDefinition } from '../../model/table/table-definitions';
 
 const Styles = styled.div`
   display: block;
