@@ -1,19 +1,20 @@
 import { Tbody, Td, Tr } from '@chakra-ui/react';
 import { Cell, Row, TableBodyProps } from 'react-table';
 import { ColumnInstanceDefinition } from 'model/table/table-definitions';
+import { BaseObject } from 'model/base-object';
 import ActionCell from './ActionCell';
 import ImageCell from './ImageCell';
 
-type BodyProps<T extends object> = {
+type BodyProps<T extends BaseObject> = {
   bodyProps: TableBodyProps;
-  rows: Array<Row<T>>;
+  page: Array<Row<T>>;
   prepareRow: (row: Row<T>) => void;
 };
 
-function Body<T extends object>(props: BodyProps<T>) {
+function Body<T extends BaseObject>(props: BodyProps<T>) {
   return (
     <Tbody {...props.bodyProps}>
-      {props.rows.map((row) => {
+      {props.page.map((row) => {
         props.prepareRow(row);
         return (
           <Tr borderBottom="1px" borderColor="gray.200" {...row.getRowProps()} key={row.id}>
