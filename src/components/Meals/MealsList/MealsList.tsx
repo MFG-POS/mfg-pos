@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { getFirestoreDocs } from 'api/firebase/firestore/meals-actions';
 import { useEffect, useState } from 'react';
 import { UnorderedList } from '@chakra-ui/react';
