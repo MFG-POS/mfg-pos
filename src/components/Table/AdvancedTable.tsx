@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { all } from 'api/firebase/firestore/firestore-actions';
+import { getAll } from 'api/firebase/firestore/firestore-actions';
 import { isEmpty } from 'others/helper-functions';
 import { BaseObject } from 'model/base-object';
 import { TableInstance, useFlexLayout, usePagination, useTable } from 'react-table';
@@ -28,7 +28,7 @@ function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
   const [displayedData, setDisplayedData] = useState<T[]>([]);
 
   useEffect(() => {
-    const docs = all<T>(props.collection);
+    const docs = getAll<T>(props.collection);
     docs
       .then((categories) => {
         setData(categories);
