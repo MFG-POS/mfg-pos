@@ -4,7 +4,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        minWidth: '360px',
+        minWidth: '320px',
       },
     },
   },
