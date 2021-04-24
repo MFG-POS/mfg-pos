@@ -20,7 +20,20 @@ import StyledGrid from 'styled/Supplier/AppSupplierData/StyledGrid';
 import StyledVStack from 'styled/Supplier/AppSupplierData/StyledVStack';
 
 const AddSupplierData = () => {
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{
+    nameSupplier: string;
+    telephoneNumber: number;
+    comment: string;
+    articlesSupplied: string;
+    city: string;
+    postalCode: string;
+    street: string;
+    buildingNumber: string;
+  }>();
 
   const onSubmit = (data: Object) => {
     console.log(data);
@@ -40,22 +53,20 @@ const AddSupplierData = () => {
                   border="1px"
                   borderRadius="2em"
                   borderColor="gray.300"
-                  name="name"
-                  ref={register({ required: 'Brak nazwy' })}
+                  {...register('nameSupplier', { required: 'Brak numeru telefonu' })}
                 />
-                {errors.name && <StyledSpan>{errors.name.message}</StyledSpan>}
+                {errors.nameSupplier && <StyledSpan>{errors.nameSupplier.message}</StyledSpan>}
               </Box>
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Telefon
               </Container>
               <NumberInput>
                 <NumberInputField
-                  name="telephoneNumber"
                   maxLength={11}
                   border="1px"
                   borderRadius="2em"
                   borderColor="gray.300"
-                  ref={register({
+                  {...register('telephoneNumber', {
                     required: 'Brak numeru telefonu',
                     minLength: {
                       value: 9,
@@ -69,26 +80,24 @@ const AddSupplierData = () => {
                 Komentarz
               </Container>
               <Textarea
-                name="comment"
                 maxHeight="8em"
                 h="8em"
                 border="1px"
                 borderRadius="2em"
                 borderColor="gray.300"
-                ref={register}
+                {...register('comment')}
               />
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Dostarczane artykuły
               </Container>
               <Box>
                 <Textarea
-                  name="articlesSupplied"
                   maxHeight="8em"
                   h="8em"
                   border="1px"
                   borderRadius="2em"
                   borderColor="gray.300"
-                  ref={register({ required: 'Nie podano artykułów', minLength: 1 })}
+                  {...register('articlesSupplied', { required: 'Nie podano artykułów', minLength: 1 })}
                 />
                 {errors.articlesSupplied && <StyledSpan>{errors.articlesSupplied.message}</StyledSpan>}
               </Box>
@@ -106,12 +115,11 @@ const AddSupplierData = () => {
                   </Container>
                   <Box>
                     <Input
-                      name="city"
                       w="100%"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
-                      ref={register({ minLength: 1, required: 'Nie podano miasta' })}
+                      {...register('city', { minLength: 1, required: 'Nie podano miasta' })}
                     />
                     {errors.city && (
                       <StyledSpan>
@@ -126,12 +134,11 @@ const AddSupplierData = () => {
                   <Box>
                     <Input
                       w="100%"
-                      name="postalCode"
                       maxLength={6}
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
-                      ref={register({
+                      {...register('postalCode', {
                         required: 'Brak kodu pocztowego',
                         pattern: {
                           value: /[0-9]{2}-[0-9]{3}/i,
@@ -151,12 +158,11 @@ const AddSupplierData = () => {
                   </Container>
                   <Box>
                     <Input
-                      name="street"
                       w="100%"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
-                      ref={register({ minLength: 1, required: 'Nie podano ulicy' })}
+                      {...register('street', { minLength: 1, required: 'Nie podano ulicy' })}
                     />
                     {errors.street && (
                       <StyledSpan>
@@ -170,12 +176,11 @@ const AddSupplierData = () => {
                   </Container>
                   <Box>
                     <Input
-                      name="buildingNumber"
                       w="100%"
                       border="1px"
                       borderRadius="2em"
                       borderColor="gray.300"
-                      ref={register({ minLength: 1, required: 'Nie podano numeru budynku/lokalu' })}
+                      {...register('buildingNumber', { minLength: 1, required: 'Nie podano numeru budynku/lokalu' })}
                     />
                     {errors.buildingNumber && (
                       <StyledSpan>
