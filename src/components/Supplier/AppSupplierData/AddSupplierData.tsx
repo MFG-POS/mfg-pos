@@ -1,5 +1,4 @@
 import {
-  Flex,
   Box,
   Container,
   Grid,
@@ -8,16 +7,14 @@ import {
   NumberInput,
   NumberInputField,
   VStack,
-  StackDivider,
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import AddSupplierButtons from 'components/Supplier/AddSupplierButtons';
-import StyledSpan from 'styled/Supplier/AppSupplierData/StyledSpan';
-import StyledWrapItem from 'styled/Supplier/AppSupplierData/StyledWrapItem';
-import StyledGrid from 'styled/Supplier/AppSupplierData/StyledGrid';
-import StyledVStack from 'styled/Supplier/AppSupplierData/StyledVStack';
+import breakpoints from 'styled/Supplier/AppSupplierData/breakpoints';
+import breakpointsFontSize from 'styled/Supplier/AppSupplierData/breakpointsFontSize';
+import breakpointsMargin from 'styled/Supplier/AppSupplierData/breakpointsMargin';
 
 const AddSupplierData = () => {
   const {
@@ -41,10 +38,13 @@ const AddSupplierData = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack divider={<StackDivider borderColor="gray.200" />} spacing={3} align="stretch">
+      <Box>
         <Wrap w="100%" h="30em">
-          <StyledWrapItem h="26em">
-            <StyledGrid templateColumns="repeat(2, 1fr)" gap={2}>
+          <WrapItem w="100%">
+            <Box w="100%" borderTop="1px" borderColor="gray.300" />
+          </WrapItem>
+          <WrapItem h="26em" w={breakpoints} minWidth="28em">
+            <Grid templateColumns="repeat(2, 1fr)" gap={2} w="100%">
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Nazwa
               </Container>
@@ -55,7 +55,11 @@ const AddSupplierData = () => {
                   borderColor="gray.300"
                   {...register('nameSupplier', { required: 'Brak numeru telefonu' })}
                 />
-                {errors.nameSupplier && <StyledSpan>{errors.nameSupplier.message}</StyledSpan>}
+                {errors.nameSupplier && (
+                  <Box fontSize={breakpointsFontSize} color="red">
+                    {errors.nameSupplier.message}
+                  </Box>
+                )}
               </Box>
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Telefon
@@ -74,14 +78,18 @@ const AddSupplierData = () => {
                     },
                   })}
                 />
-                {errors.telephoneNumber && <StyledSpan>{errors.telephoneNumber.message}</StyledSpan>}
+                {errors.telephoneNumber && (
+                  <Box fontSize={breakpointsFontSize} color="red">
+                    {errors.telephoneNumber.message}
+                  </Box>
+                )}
               </NumberInput>
               <Container px="2em" py="0.2em" fontWeight="Bold">
                 Komentarz
               </Container>
               <Textarea
                 maxHeight="8em"
-                h="8em"
+                h="7em"
                 border="1px"
                 borderRadius="2em"
                 borderColor="gray.300"
@@ -93,18 +101,23 @@ const AddSupplierData = () => {
               <Box>
                 <Textarea
                   maxHeight="8em"
-                  h="8em"
+                  h="7em"
                   border="1px"
                   borderRadius="2em"
                   borderColor="gray.300"
                   {...register('articlesSupplied', { required: 'Nie podano artykułów', minLength: 1 })}
                 />
-                {errors.articlesSupplied && <StyledSpan>{errors.articlesSupplied.message}</StyledSpan>}
+                {errors.articlesSupplied && (
+                  <Box fontSize={breakpointsFontSize} color="red">
+                    {errors.articlesSupplied.message}
+                  </Box>
+                )}
               </Box>
-            </StyledGrid>
-          </StyledWrapItem>
-          <StyledWrapItem h="26em">
-            <StyledVStack spacing={3} align="stretch" w="100%">
+            </Grid>
+          </WrapItem>
+          <WrapItem w="1em" />
+          <WrapItem h="26em" w={breakpoints} minWidth="28em">
+            <VStack spacing={3} align="stretch" w="100%">
               <Box h="3em" fontWeight="Bold">
                 Adres
               </Box>
@@ -122,10 +135,10 @@ const AddSupplierData = () => {
                       {...register('city', { minLength: 1, required: 'Nie podano miasta' })}
                     />
                     {errors.city && (
-                      <StyledSpan>
+                      <Box fontSize={breakpointsFontSize} marginTop={breakpointsMargin} color="red">
                         <br />
                         {errors.city.message}
-                      </StyledSpan>
+                      </Box>
                     )}
                   </Box>
                   <Container px="2em" py="0.2em" fontWeight="Bold">
@@ -147,10 +160,10 @@ const AddSupplierData = () => {
                       })}
                     />
                     {errors.postalCode && (
-                      <StyledSpan>
+                      <Box fontSize={breakpointsFontSize} marginTop={breakpointsMargin} color="red">
                         <br />
                         {errors.postalCode.message}
-                      </StyledSpan>
+                      </Box>
                     )}
                   </Box>
                   <Container px="2em" py="0.2em" fontWeight="Bold">
@@ -165,10 +178,10 @@ const AddSupplierData = () => {
                       {...register('street', { minLength: 1, required: 'Nie podano ulicy' })}
                     />
                     {errors.street && (
-                      <StyledSpan>
+                      <Box fontSize={breakpointsFontSize} marginTop={breakpointsMargin} color="red">
                         <br />
                         {errors.street.message}
-                      </StyledSpan>
+                      </Box>
                     )}
                   </Box>
                   <Container px="2em" py="0.2em" fontWeight="Bold">
@@ -183,24 +196,24 @@ const AddSupplierData = () => {
                       {...register('buildingNumber', { minLength: 1, required: 'Nie podano numeru budynku/lokalu' })}
                     />
                     {errors.buildingNumber && (
-                      <StyledSpan>
+                      <Box fontSize={breakpointsFontSize} marginTop={breakpointsMargin} color="red">
                         <br />
                         {errors.buildingNumber.message}
-                      </StyledSpan>
+                      </Box>
                     )}
                   </Box>
                 </Grid>
               </Box>
-            </StyledVStack>
-          </StyledWrapItem>
+            </VStack>
+          </WrapItem>
           <WrapItem w="100%">
-            <Box w="100%" borderTop="1px" borderColor="gray.300" marginTop="1em" />
+            <Box w="100%" borderTop="1px" borderColor="gray.300" />
           </WrapItem>
           <WrapItem>
             <AddSupplierButtons />
           </WrapItem>
         </Wrap>
-      </VStack>
+      </Box>
     </form>
   );
 };
