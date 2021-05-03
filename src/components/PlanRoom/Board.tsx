@@ -1,8 +1,9 @@
-import { Box, Image } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 const Board = () => (
   <Box
-    h="28em"
+    id="board"
+    h="29em"
     w="100%"
     border="1px solid black"
     bgImage="url('https://firebasestorage.googleapis.com/v0/b/mfg-pos.appspot.com/o/Board%2FbackGroundBoard.png?alt=media&token=76b04e32-6b94-4b6f-8dce-7cf512fe20a0')"

@@ -1,9 +1,10 @@
 import { Button, ButtonGroup, Box } from '@chakra-ui/react';
 import breakpointsButton from 'styled/PlanRoom/breakpointsButton';
 import breakpointsFontSize from 'styled/PlanRoom/breakpointsFontSize';
+import AddTable from './RoomTables/Item';
 
 const saveBoard = () => (
-  <Box h="4em" w="breakpoints" border="1px solid black">
+  <Box h="4em" border="1px solid black">
     <ButtonGroup variant="outline" spacing="6" px="2em" py="0.8em">
       <Box minWidth="10%">
         <Button
@@ -29,6 +30,7 @@ const saveBoard = () => (
           borderColor="black"
           w={breakpointsButton}
           fontSize={breakpointsFontSize}
+          onClick={AddTable}
         >
           DODAJ STOLIK
         </Button>
