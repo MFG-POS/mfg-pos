@@ -25,7 +25,7 @@ const AddSupplierData = () => {
     nameSupplier: string;
     telephoneNumber: number;
     comment: string;
-    articlesSupplied: string;
+    productsSupplied: string;
     city: string;
     postalCode: string;
     street: string;
@@ -105,11 +105,11 @@ const AddSupplierData = () => {
                   border="1px"
                   borderRadius="2em"
                   borderColor="gray.300"
-                  {...register('articlesSupplied', { required: 'Nie podano artykułów', minLength: 1 })}
+                  {...register('productsSupplied', { required: 'Nie podano artykułów', minLength: 1 })}
                 />
-                {errors.articlesSupplied && (
+                {errors.productsSupplied && (
                   <Box fontSize={breakpointsFontSize} color="red">
-                    {errors.articlesSupplied.message}
+                    {errors.productsSupplied.message}
                   </Box>
                 )}
               </Box>
