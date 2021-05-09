@@ -1,5 +1,4 @@
 import { ChakraProvider, ColorModeScript, Flex } from '@chakra-ui/react';
-import Categories from 'components/organisms/Tables/Categories';
 
 import MainTemplate from 'components/templates/MainTemplate';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -21,6 +20,8 @@ import Tables from 'views/Settings/Tables';
 import DishForm from 'views/Menu/DishForm';
 import ProductForm from 'views/Menu/ProductForm';
 import IngredientForm from 'views/Menu/IngredientForm';
+import Categories from 'views/Menu/Categories';
+import CategoriesForm from 'views/Menu/CategoriesForm';
 
 const App = () => (
   <Router>
@@ -64,6 +65,9 @@ const App = () => (
             </Route>
             <Route path={ROUTE_MENU.CATEGORIES.path}>
               <Categories />
+            </Route>
+            <Route path={ROUTE_MENU_FORMS.CATEGORY.path}>
+              <CategoriesForm />
             </Route>
             <Route path={ROUTE_WAREHOUSE.STOCK.path}>
               <Stock />
