@@ -1,4 +1,4 @@
-import { BaseModel } from '../base-model';
+import { BaseModel } from 'model/base-model';
 
 export interface Tax extends BaseModel {
   name: string;

@@ -1,7 +1,8 @@
-import { BaseModel } from '../base-model';
+import { BaseModel } from 'model/base-model';
 
 export interface Category extends BaseModel {
-  imagePath: string;
   name: string;
   parent?: Category;
+  tax?: string[];
+  image: string | FileList;
 }
