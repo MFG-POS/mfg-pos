@@ -1,6 +1,6 @@
+import Categories from 'components/Tables/Categories';
 import Employees from 'views/Access/Employees';
 import Dashboard from 'views/Dashboard';
-import Categories from 'views/Menu/Categories';
 import CategoryForm from 'views/Menu/CategoryForm';
 import Dishes from 'views/Menu/Dishes';
 import DishForm from 'views/Menu/DishForm';

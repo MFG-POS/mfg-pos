@@ -1,5 +1,8 @@
 import styled from 'styled-components';
+import { Link as RouterLink } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
+import { ROUTE_MENU_FORMS } from 'routing';
+
 import Filter from './Filter';
 import SearchBar from './SearchBar';
 
@@ -37,7 +40,7 @@ export interface ToolbarProps {
 const Toolbar = (props: ToolbarProps) => (
   <Styles>
     {props.showButton && (
-      <Button size="md" onClick={props.onButtonClick}>
+      <Button as={RouterLink} to={ROUTE_MENU_FORMS.CATEGORY.path} size="md" onClick={props.onButtonClick}>
         {props.buttonText && props.buttonText.toUpperCase()}
       </Button>
     )}
