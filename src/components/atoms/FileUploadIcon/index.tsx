@@ -3,7 +3,7 @@ import { Icon } from '@chakra-ui/react';
 const FileUploadIcon = () => (
   <Icon
     mx="auto"
-    boxSize={12}
+    boxSize="12"
     color="gray.400"
     stroke="currentColor"
     fill="none"

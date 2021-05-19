@@ -24,16 +24,16 @@ const FormGroupFile = ({ label, id, name, register, errors, validation }: FormGr
     </FormLabel>
     <Flex
       justify="center"
-      px={6}
-      pt={5}
-      pb={6}
-      mt={1}
+      px="6"
+      pt="5"
+      pb="6"
+      mt="1"
       borderWidth={2}
       borderColor={errors[name] ? 'red.400' : 'gray.300'}
       borderStyle="dashed"
       rounded="md"
     >
-      <Stack spacing={1} textAlign="center">
+      <Stack spacing="1" textAlign="center">
         <FileUploadIcon />
         <Flex fontSize="sm" color="gray.600" alignItems="baseline">
           <FormLabel

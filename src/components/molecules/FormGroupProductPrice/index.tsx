@@ -9,6 +9,7 @@ import {
   NumberDecrementStepper,
   VStack,
   Text,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { DeepMap, FieldError, FieldPath, FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
 
@@ -83,6 +84,7 @@ const FormGroupProductPrice = ({ id, name, register, errors, validation, tax, ti
         </NumberInput>
       </VStack>
     </Stack>
+    <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
   </FormControl>
 );
 

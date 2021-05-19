@@ -36,7 +36,7 @@ const FormGroupSelect = ({
       id={id}
       placeholder={placeholder}
       {...register(name, validation)}
-      mt={1}
+      mt="1"
       focusBorderColor="brand.400"
       shadow="sm"
       size="sm"
