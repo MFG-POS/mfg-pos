@@ -2,13 +2,12 @@ import { useMemo } from 'react';
 import { Row } from 'react-table';
 import { TableCategory } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
-import AdvancedTable, { AdvancedTableProps } from 'components/Table/AdvancedTable';
+import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
+import { ROUTE_MENU_FORMS } from 'routing';
 
-const Categories = () => {
+const CategoriesTable = () => {
   const onRowDelete = (row: Row<TableCategory>): void => console.log(`Should delete row with id ${row.id}`);
   const onRowEdit = (row: Row<TableCategory>): void => console.log(`Should edit row with id ${row.id}`);
-  const onButtonClick = (): void => console.log(`Should do something on button click.`);
-  const onFilterClick = (): void => console.log(`Should open filter menu.`);
 
   const actions: TableAction<TableCategory>[] = useMemo(
     () => [
@@ -30,6 +29,7 @@ const Categories = () => {
         Header: 'Nazwa',
         accessor: 'name',
         minWidth: 200,
+        canFilter: true,
       },
       {
         Header: 'Akcje',
@@ -44,17 +44,10 @@ const Categories = () => {
     name: 'Kategorie',
     collection: 'categories',
     columns,
-    showTopBar: true,
-    showToolbar: true,
-    showButton: true,
-    showFilter: true,
-    showSearchBar: true,
-    filterColumns: ['name'],
-    onButtonClick,
-    onFilterClick,
+    buttonRoutePath: ROUTE_MENU_FORMS.CATEGORY.path,
   };
 
   return <AdvancedTable<TableCategory> {...tableProps} />;
 };
 
-export default Categories;
+export default CategoriesTable;
