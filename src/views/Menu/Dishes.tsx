@@ -1,13 +1,8 @@
-import { Heading, Link } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
-import { ROUTE_MENU_FORMS } from 'routing';
+import DishesTable from 'views/Tables/DishesTable';
 
 const Dishes = () => (
   <>
-    <Heading>MOCK: Dania</Heading>
-    <Link as={RouterLink} to={ROUTE_MENU_FORMS.DISH.path}>
-      Formularz
-    </Link>
+    <DishesTable />
   </>
 );
 
