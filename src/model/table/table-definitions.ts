@@ -13,6 +13,7 @@ export interface TableAction<T extends BaseObject> {
 export interface ColumnProperties<T extends BaseObject> {
   isImageColumn?: boolean;
   actions?: TableAction<T>[];
+  canFilter?: boolean;
 }
 
 export interface TableDocument<T extends BaseObject> {
