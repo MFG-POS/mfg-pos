@@ -7,6 +7,8 @@ import { ROUTE_MENU } from 'routing';
 
 import { Category } from 'model/documents/category';
 
+import { requiredErrorMessage } from 'others/form-default-errors';
+
 import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
@@ -57,7 +59,7 @@ const CategoryForm = () => {
           name="name"
           register={register}
           errors={errors}
-          validation={{ required: 'To pole jest wymagane' }}
+          validation={{ required: requiredErrorMessage }}
         />
         <FormGroupSelect
           label="Kategoria nadrzędna (opcjonalne)"
@@ -85,7 +87,7 @@ const CategoryForm = () => {
           name="image"
           register={register}
           errors={errors}
-          validation={{ required: 'To pole jest wymagane' }}
+          validation={{ required: requiredErrorMessage }}
         />
         <Button isLoading={isSubmitting} type="submit" colorScheme="green" variant="solid" alignSelf="flex-start">
           Zapisz

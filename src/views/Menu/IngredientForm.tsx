@@ -6,6 +6,8 @@ import { Button, useToast } from '@chakra-ui/react';
 import { ROUTE_MENU } from 'routing';
 import { Ingredient } from 'model/documents/ingredient';
 
+import { requiredErrorMessage } from 'others/form-default-errors';
+
 import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormTemplate from 'components/templates/FormTemplate';
@@ -55,7 +57,7 @@ const IngredientForm = () => {
           name="name"
           register={register}
           errors={errors}
-          validation={{ required: 'To pole jest wymagane' }}
+          validation={{ required: requiredErrorMessage }}
         />
         <FormGroupSelect
           label="Jednostka"
@@ -64,7 +66,7 @@ const IngredientForm = () => {
           placeholder="Wybierz jednostkę"
           register={register}
           errors={errors}
-          validation={{ required: 'To pole jest wymagane' }}
+          validation={{ required: requiredErrorMessage }}
           options={MOCK_UNITS_OPTIONS}
         />
         <FormGroupNumber
