@@ -1,11 +1,11 @@
 import { FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
-import { InputTypes } from 'others/input-types';
+import { InputType } from 'others/input-types';
 import { DeepMap, FieldError, FieldPath, FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
 // import { CategoryFormValues } from 'views/Menu/CategoryForm';
 
 type FormGroupInputProps = {
   label: string;
-  type?: InputTypes;
+  type?: InputType;
   id: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   name: FieldPath<any>;

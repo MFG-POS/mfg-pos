@@ -1,4 +1,4 @@
-export type InputTypes =
+export type InputType =
   | 'button'
   | 'checkbox'
   | 'color'
