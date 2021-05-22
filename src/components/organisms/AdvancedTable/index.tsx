@@ -1,24 +1,20 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { getAll } from 'api/firebase/firestore/firestore-actions';
 import { isEmpty } from 'others/helper-functions';
 import { BaseObject } from 'model/base-object';
 import { TableInstance, useFlexLayout, usePagination, useTable } from 'react-table';
 import { ColumnDefinition } from 'model/table/table-definitions';
-import TopBar from './TopBar';
-import Paginator from './Paginator';
-import Content from './Content';
-import Toolbar, { ToolbarProps } from './Toolbar';
+import { FilterColumn, FilterFunctions, FilterRuleDefinition } from 'model/table/table-filter-types';
+import TopBar from 'components/molecules/Table/TopBar';
+import Content from 'components/molecules/Table/Content';
+import { Box } from '@chakra-ui/react';
+import Paginator from 'components/molecules/Table/Paginator';
+import Toolbar, { ToolbarProps } from 'components/molecules/Table/Toolbar';
 
-const Styles = styled.div`
-  margin: 2rem;
-`;
-
-export interface AdvancedTableProps<T extends BaseObject> extends ToolbarProps {
+export interface AdvancedTableProps<T extends BaseObject> extends Omit<ToolbarProps, 'filterColumns'> {
   name: string;
   collection: string;
   columns: ColumnDefinition<T>[];
-  filterColumns?: string[];
   showTopBar?: boolean;
   showToolbar?: boolean;
 }
@@ -26,6 +22,11 @@ export interface AdvancedTableProps<T extends BaseObject> extends ToolbarProps {
 function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
   const [data, setData] = useState<T[]>([]);
   const [displayedData, setDisplayedData] = useState<T[]>([]);
+
+  const filterColumns: FilterColumn[] = props.columns
+    .filter((column) => column.canFilter)
+    .map((column) => ({ name: column.Header as string, accessor: column.accessor as string }));
+  const filterColumnsAccessors: string[] = filterColumns.map((column) => column.accessor);
 
   useEffect(() => {
     const docs = getAll<T>(props.collection);
@@ -40,25 +41,12 @@ function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
   }, [props.collection]);
 
   const onSearch = (value: string): void => {
-    if (isEmpty(value) || isEmpty(props.filterColumns)) setDisplayedData(data);
-    else setDisplayedData(data.filter((row) => filterRow(row, value)));
+    if (isEmpty(value) || isEmpty(filterColumns)) setDisplayedData(data);
+    else setDisplayedData(FilterFunctions.text(data, filterColumnsAccessors, value));
   };
 
-  const filterRow = (row: T, value: string): boolean => {
-    let show: boolean = false;
-    if (props.filterColumns !== undefined) {
-      for (let i = 0; i < props.filterColumns.length; i += 1) {
-        const columnName: string = props.filterColumns[i];
-        const columnValue: unknown = row[columnName];
-        const hasProperType: boolean = typeof columnValue === 'string' || typeof columnValue === 'number';
-        if (hasProperType && String(columnValue).toLowerCase().includes(value.toLowerCase())) {
-          show = true;
-          break;
-        }
-      }
-    }
-    return show;
-  };
+  const onFilter = (filterRules: FilterRuleDefinition[]): void =>
+    setDisplayedData(FilterFunctions.filterRows(data, filterColumnsAccessors, filterRules));
 
   const tableInstance: TableInstance<T> = useTable(
     {
@@ -71,22 +59,28 @@ function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
   );
 
   return (
-    <Styles>
+    <Box m="2rem" minW="90%">
       {props.showTopBar && <TopBar name={props.name} length={data.length} />}
       {props.showToolbar && (
         <Toolbar
           showButton={props.showButton}
           showFilter={props.showFilter}
+          filterColumns={filterColumns}
           showSearchBar={props.showSearchBar}
-          onButtonClick={props.onButtonClick}
-          onFilterClick={props.onFilterClick}
+          buttonRoutePath={props.buttonRoutePath}
           onSearch={onSearch}
+          onFilter={onFilter}
         />
       )}
       <Content {...tableInstance} />
       <Paginator {...tableInstance} />
-    </Styles>
+    </Box>
   );
 }
+
+AdvancedTable.defaultProps = {
+  showTopBar: true,
+  showToolbar: true,
+};
 
 export default AdvancedTable;

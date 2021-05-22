@@ -2,8 +2,8 @@ import { Tbody, Td, Tr } from '@chakra-ui/react';
 import { Cell, Row, TableBodyProps } from 'react-table';
 import { ColumnInstanceDefinition } from 'model/table/table-definitions';
 import { BaseObject } from 'model/base-object';
-import ActionCell from './ActionCell';
-import ImageCell from './ImageCell';
+import ActionCell from 'components/molecules/Table/ActionCell';
+import ImageCell from 'components/molecules/Table/ImageCell';
 
 type BodyProps<T extends BaseObject> = {
   bodyProps: TableBodyProps;
@@ -11,11 +11,11 @@ type BodyProps<T extends BaseObject> = {
   prepareRow: (row: Row<T>) => void;
 };
 
-function Body<T extends BaseObject>(props: BodyProps<T>) {
+function Body<T extends BaseObject>({ bodyProps, page, prepareRow }: BodyProps<T>) {
   return (
-    <Tbody {...props.bodyProps}>
-      {props.page.map((row) => {
-        props.prepareRow(row);
+    <Tbody {...bodyProps}>
+      {page.map((row) => {
+        prepareRow(row);
         return (
           <Tr borderBottom="1px" borderColor="gray.200" {...row.getRowProps()} key={row.id}>
             {row.cells.map((cell: Cell<T>) => {
