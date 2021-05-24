@@ -67,6 +67,7 @@
     "react/jsx-wrap-multilines": "off",
     "react/destructuring-assignment": "off",
     "react/react-in-jsx-scope": "off",
-    "import/no-cycle": "off"
+    "import/no-cycle": "off",
+    "react/require-default-props": "off"
   }
 }
