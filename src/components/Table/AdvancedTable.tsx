@@ -12,6 +12,8 @@ import Toolbar, { ToolbarProps } from './Toolbar';
 
 const Styles = styled.div`
   margin: 2rem;
+  width: 90%;
+  min-height: 100vh;
 `;
 
 export interface AdvancedTableProps<T extends BaseObject> extends ToolbarProps {

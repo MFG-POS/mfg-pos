@@ -1,11 +1,8 @@
-import { BaseModel } from '../base-model';
-import { UnitOfMeasure } from '../enums/unit-of-measure';
-import { Category } from './category';
+import { BaseModel } from 'model/base-model';
+import { UnitOfMeasure } from 'model/enums/unit-of-measure';
 
-export interface Ingredient extends BaseModel {
-  imagePath: string;
+export type Ingredient = BaseModel & {
   name: string;
-  category: Category;
   unitOfMeasure: UnitOfMeasure;
   supplies: number;
-}
+};

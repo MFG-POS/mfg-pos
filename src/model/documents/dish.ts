@@ -1,9 +1,8 @@
-import { BaseModel } from '../base-model';
+import { BaseModel } from 'model/base-model';
 import { Category } from './category';
 import { Tax } from './tax';
 
-export interface Dish extends BaseModel {
-  imagePath: string;
+export type Dish = BaseModel & {
   name: string;
   category: Category;
   netPrice: number;
@@ -11,4 +10,5 @@ export interface Dish extends BaseModel {
   netWeight: number;
   overhead: number;
   tax: Tax;
-}
+  image: string | FileList;
+};
