@@ -2,7 +2,7 @@ import { BaseModel } from 'model/base-model';
 import { Category } from './category';
 import { Tax } from './tax';
 
-export interface Dish extends BaseModel {
+export type Dish = BaseModel & {
   name: string;
   category: Category;
   netPrice: number;
@@ -11,4 +11,4 @@ export interface Dish extends BaseModel {
   overhead: number;
   tax: Tax;
   image: string | FileList;
-}
+};

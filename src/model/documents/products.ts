@@ -2,7 +2,7 @@ import { BaseModel } from 'model/base-model';
 import { Category } from './category';
 import { Tax } from './tax';
 
-export interface Product extends BaseModel {
+export type Product = BaseModel & {
   name: string;
   category: Category;
   netPrice: number;
@@ -10,4 +10,4 @@ export interface Product extends BaseModel {
   overhead: number;
   tax: Tax;
   image: string | FileList;
-}
+};

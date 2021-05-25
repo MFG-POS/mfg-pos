@@ -1,9 +1,9 @@
 import { BaseModel } from 'model/base-model';
 import { Tax } from './tax';
 
-export interface Category extends BaseModel {
+export type Category = BaseModel & {
   name: string;
-  parent?: Category;
+  // parent?: Category; TODO: Fix circularly referenced type error
   tax?: Tax;
   image: string | FileList;
-}
+};
