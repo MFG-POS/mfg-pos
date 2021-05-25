@@ -1,6 +1,5 @@
 import Employees from 'views/Access/Employees';
 import Dashboard from 'views/Dashboard';
-import Categories from 'components/Tables/Categories'; // TODO: To be changed later for proper view - views/Menu/Categories
 import CategoryForm from 'views/Menu/CategoryForm';
 import Dishes from 'views/Menu/Dishes';
 import DishForm from 'views/Menu/DishForm';
@@ -18,6 +17,7 @@ import Sales from 'views/Statistics/Sales';
 import Taxes from 'views/Statistics/Taxes';
 import Stocks from 'views/Warehouse/Stocks';
 import Supplies from 'views/Warehouse/Supplies';
+import Categories from 'views/Menu/Categories';
 
 export type RouteCategories = 'Statystyki' | 'Menu' | 'Magazyn' | 'Dostęp' | 'Ustawienia';
 

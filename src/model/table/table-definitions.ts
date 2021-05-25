@@ -6,7 +6,7 @@ export type ColumnDefinition<T extends BaseObject> = Column<T> & ColumnPropertie
 
 export type ColumnInstanceDefinition<T extends BaseObject> = ColumnInstance<T> & ColumnProperties<T>;
 
-export interface TableAction<T extends BaseModel> {
+export interface TableAction<T extends BaseObject> {
   name: string;
   callback: (row: Row<T>) => void;
 }
