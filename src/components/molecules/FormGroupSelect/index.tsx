@@ -2,23 +2,18 @@ import { FormControl, FormErrorMessage, FormLabel, Select } from '@chakra-ui/rea
 import { DeepMap, FieldError, FieldPath, FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 
-type FormGroupSelectProps = {
+type FormGroupSelectProps<MenuForm> = {
   label: string;
   id: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  name: FieldPath<any>;
+  name: FieldPath<MenuForm>;
   placeholder?: string;
   options: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  register: UseFormRegister<any>;
+  register: UseFormRegister<MenuForm>;
   errors: DeepMap<FieldValues, FieldError>;
   validation: RegisterOptions;
-
-  // name: FieldPath<CategoryFormValues>;
-  // register: UseFormRegister<CategoryFormValues>;
 };
 
-const FormGroupSelect = ({
+function FormGroupSelect<MenuForm>({
   label,
   id,
   name,
@@ -27,31 +22,33 @@ const FormGroupSelect = ({
   register,
   errors,
   validation,
-}: FormGroupSelectProps) => (
-  <FormControl isInvalid={errors[name]}>
-    <FormLabel htmlFor={id} fontSize="sm" fontWeight="md" color="gray.700">
-      {label}
-    </FormLabel>
-    <Select
-      id={id}
-      placeholder={placeholder}
-      {...register(name, validation)}
-      mt="1"
-      focusBorderColor="brand.400"
-      shadow="sm"
-      size="sm"
-      w="full"
-      rounded="md"
-    >
-      {options.map((o) => (
-        <option key={uuidv4()} value={o}>
-          {o}
-        </option>
-      ))}
-    </Select>
-    <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
-  </FormControl>
-);
+}: FormGroupSelectProps<MenuForm>) {
+  return (
+    <FormControl isInvalid={errors[name]}>
+      <FormLabel htmlFor={id} fontSize="sm" fontWeight="md" color="gray.700">
+        {label}
+      </FormLabel>
+      <Select
+        id={id}
+        placeholder={placeholder}
+        {...register(name, validation)}
+        mt="1"
+        focusBorderColor="brand.400"
+        shadow="sm"
+        size="sm"
+        w="full"
+        rounded="md"
+      >
+        {options.map((o) => (
+          <option key={uuidv4()} value={o}>
+            {o}
+          </option>
+        ))}
+      </Select>
+      <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
+    </FormControl>
+  );
+}
 
 FormGroupSelect.defaultProps = {
   placeholder: '',

@@ -64,7 +64,7 @@ const CategoryForm = () => {
         <FormGroupSelect
           label="Kategoria nadrzędna (opcjonalne)"
           id="parent-category"
-          name="parent"
+          name="name" // TODO: Change to "parent" after fixing circularly referenced type error
           placeholder="Wybierz kategorię nadrzędną"
           register={register}
           errors={errors}

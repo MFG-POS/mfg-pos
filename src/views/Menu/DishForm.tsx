@@ -5,7 +5,7 @@ import { Button, useToast } from '@chakra-ui/react';
 
 import { ROUTE_MENU } from 'routing';
 
-import { Product } from 'model/documents/products';
+import { Dish } from 'model/documents/dish';
 
 import { requiredErrorMessage } from 'others/form-default-errors';
 
@@ -23,14 +23,14 @@ const DishForm = () => {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<Product>();
+  } = useForm<Dish>();
 
   const taxValue = watch('tax');
 
   /*
    * TODO: Placeholder function, will be replaced with real API request later
    */
-  const onSubmit: SubmitHandler<Product> = (data) =>
+  const onSubmit: SubmitHandler<Dish> = (data) =>
     new Promise<void>((resolve) => {
       setTimeout(() => {
         setIsSubmitted(true);
@@ -87,7 +87,7 @@ const DishForm = () => {
         />
         <FormGroupProductPrice
           id="product"
-          name="price"
+          name="grossPrice"
           title="Cena dania"
           tax={taxValue}
           register={register}
