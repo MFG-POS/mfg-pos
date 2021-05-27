@@ -1,40 +1,45 @@
 import { Box, Textarea } from '@chakra-ui/react';
 import { useDrag } from 'react-dnd';
 import ItemTypes from './ItemTypes';
-import { idElement } from './Item';
+import { TableType } from './Types';
 
-type IdType = {
-  id: number;
-};
-
-const Table = ({ id }: IdType) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.TABLE,
-    end: () => {
-      idElement(id);
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+const Table = ({ id, left, top, height, width, children, borderRadius }: TableType) => {
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: ItemTypes.TABLE,
+      item: { id, left, top },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
     }),
-  }));
+    [id, left, top],
+  );
 
+  if (isDragging) {
+    return <Box ref={drag} />;
+  }
   return (
-    <Textarea
-      id={id.toString()}
-      bg="#707070"
-      color="white"
-      textAlign="center"
+    <Box
+      id={id}
       ref={drag}
-      width="100%"
-      height="100%"
-      minHeight="40px"
-      maxHeight="40px"
-      paddingTop="5%"
-      maxLength={4}
+      position="absolute"
+      borderRadius={borderRadius}
+      cursor="pointer"
+      textAlign="center"
+      padding="0.8rem"
+      left={left}
+      top={top}
+      width={width}
+      height={height}
+      backgroundColor="#211F1F"
+      color="white"
+      role="Box"
       onDoubleClick={() => {
         TableRadius(id.toString());
       }}
-    />
+    >
+      {children}
+    </Box>
   );
 };
 
