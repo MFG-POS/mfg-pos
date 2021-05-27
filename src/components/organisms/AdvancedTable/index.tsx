@@ -15,8 +15,6 @@ export interface AdvancedTableProps<T extends BaseObject> extends Omit<ToolbarPr
   name: string;
   collection: string;
   columns: ColumnDefinition<T>[];
-  showTopBar?: boolean;
-  showToolbar?: boolean;
 }
 
 function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
@@ -60,24 +58,17 @@ function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
 
   return (
     <Box m="2rem" minW="90%">
-      {props.showTopBar && <TopBar name={props.name} length={data.length} />}
-      {props.showToolbar && (
-        <Toolbar
-          filterColumns={filterColumns}
-          buttonRoutePath={props.buttonRoutePath}
-          onSearch={onSearch}
-          onFilter={onFilter}
-        />
-      )}
+      <TopBar name={props.name} length={data.length} />
+      <Toolbar
+        filterColumns={filterColumns}
+        buttonRoutePath={props.buttonRoutePath}
+        onSearch={onSearch}
+        onFilter={onFilter}
+      />
       <Content {...tableInstance} />
       <Paginator {...tableInstance} />
     </Box>
   );
 }
-
-AdvancedTable.defaultProps = {
-  showTopBar: true,
-  showToolbar: true,
-};
 
 export default AdvancedTable;
