@@ -63,10 +63,7 @@ function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
       {props.showTopBar && <TopBar name={props.name} length={data.length} />}
       {props.showToolbar && (
         <Toolbar
-          showButton={props.showButton}
-          showFilter={props.showFilter}
           filterColumns={filterColumns}
-          showSearchBar={props.showSearchBar}
           buttonRoutePath={props.buttonRoutePath}
           onSearch={onSearch}
           onFilter={onFilter}

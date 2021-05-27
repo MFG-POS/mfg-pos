@@ -1,9 +1,8 @@
-import { Tbody, Td, Tr } from '@chakra-ui/react';
+import { Image, Tbody, Td, Tr } from '@chakra-ui/react';
 import { Cell, Row, TableBodyProps } from 'react-table';
 import { ColumnInstanceDefinition } from 'model/table/table-definitions';
 import { BaseObject } from 'model/base-object';
 import ActionCell from 'components/molecules/Table/ActionCell';
-import ImageCell from 'components/molecules/Table/ImageCell';
 
 type BodyProps<T extends BaseObject> = {
   bodyProps: TableBodyProps;
@@ -24,7 +23,7 @@ function Body<T extends BaseObject>({ bodyProps, page, prepareRow }: BodyProps<T
               return (
                 <Td alignSelf="center" border="none" {...cell.getCellProps()} key={cell.column.id}>
                   {column.isImageColumn ? (
-                    <ImageCell src={cell.value} width="100px" />
+                    <Image src={cell.value} alt="" width="100px" />
                   ) : column.actions ? (
                     <ActionCell name="Akcje" actions={column.actions} row={row} />
                   ) : (

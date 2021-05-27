@@ -4,9 +4,7 @@ import CategoryForm from 'views/Menu/CategoryForm';
 import Dishes from 'views/Menu/Dishes';
 import DishForm from 'views/Menu/DishForm';
 import IngredientForm from 'views/Menu/IngredientForm';
-import Ingredients from 'views/Menu/Ingredients';
 import ProductForm from 'views/Menu/ProductForm';
-import Products from 'views/Menu/Products';
 import General from 'views/Settings/General';
 import Subscription from 'views/Settings/Subscription';
 import Tables from 'views/Settings/Tables';
@@ -17,7 +15,9 @@ import Sales from 'views/Statistics/Sales';
 import Taxes from 'views/Statistics/Taxes';
 import Stocks from 'views/Warehouse/Stocks';
 import Supplies from 'views/Warehouse/Supplies';
+import Products from 'views/Menu/Products';
 import Categories from 'views/Menu/Categories';
+import Ingredients from 'views/Menu/Ingredients';
 
 export type RouteCategories = 'Statystyki' | 'Menu' | 'Magazyn' | 'Dostęp' | 'Ustawienia';
 
