@@ -7,16 +7,15 @@ type HeaderProps<T extends BaseObject> = {
   headerGroups: Array<HeaderGroup<T>>;
 };
 
-function Header<T extends BaseObject>(props: HeaderProps<T>) {
-  const headerGroups: Array<HeaderGroup<T>> = props.headerGroups.map((group) => {
-    const extendedGroup: HeaderGroup<T> = group;
-    extendedGroup.id = uuidv4();
-    return extendedGroup;
-  });
+function Header<T extends BaseObject>({ headerGroups }: HeaderProps<T>) {
+  const extendedHeaderGroups: Array<HeaderGroup<T>> = headerGroups.map((group) => ({
+    ...group,
+    id: uuidv4(),
+  }));
 
   return (
     <Thead>
-      {headerGroups.map((headerGroup) => (
+      {extendedHeaderGroups.map((headerGroup) => (
         <Tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
             <Th {...header.getHeaderProps()} key={header.id}>

@@ -8,4 +8,15 @@ export const theme = extendTheme({
       },
     },
   },
+  components: {
+    Popover: {
+      variants: {
+        responsive: {
+          popper: {
+            maxWidth: 'fit-content',
+          },
+        },
+      },
+    },
+  },
 });

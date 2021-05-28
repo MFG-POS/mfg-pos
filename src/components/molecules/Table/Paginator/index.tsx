@@ -14,7 +14,17 @@ import { ArrowLeftIcon, ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from
 import { TableInstance } from 'react-table';
 import { BaseObject } from 'model/base-object';
 
-function Paginator<T extends BaseObject>(props: TableInstance<T>) {
+function Paginator<T extends BaseObject>({
+  gotoPage,
+  canPreviousPage,
+  previousPage,
+  state,
+  pageOptions,
+  setPageSize,
+  nextPage,
+  canNextPage,
+  pageCount,
+}: TableInstance<T>) {
   return (
     <Flex
       justifyContent="space-between"
@@ -28,8 +38,8 @@ function Paginator<T extends BaseObject>(props: TableInstance<T>) {
         <Tooltip label="Pierwsza strona">
           <IconButton
             aria-label="Pierwsza strona"
-            onClick={() => props.gotoPage(0)}
-            isDisabled={!props.canPreviousPage}
+            onClick={() => gotoPage(0)}
+            isDisabled={!canPreviousPage}
             icon={<ArrowLeftIcon h={3} w={3} />}
             mr={{ base: 2, lg: 4 }}
           />
@@ -37,8 +47,8 @@ function Paginator<T extends BaseObject>(props: TableInstance<T>) {
         <Tooltip label="Poprzednia strona">
           <IconButton
             aria-label="Poprzednia strona"
-            onClick={props.previousPage}
-            isDisabled={!props.canPreviousPage}
+            onClick={previousPage}
+            isDisabled={!canPreviousPage}
             icon={<ChevronLeftIcon h={6} w={6} />}
             mr={{ base: 4, lg: 0 }}
           />
@@ -55,11 +65,11 @@ function Paginator<T extends BaseObject>(props: TableInstance<T>) {
         <Text mr={{ base: 2, lg: 8 }} minW={24}>
           Strona{' '}
           <Text fontWeight="bold" as="span">
-            {props.state.pageIndex + 1}
+            {state.pageIndex + 1}
           </Text>{' '}
           z{' '}
           <Text fontWeight="bold" as="span">
-            {props.pageOptions.length}
+            {pageOptions.length}
           </Text>
         </Text>
         <Text minW={32}>Przejdź do strony:</Text>{' '}
@@ -70,12 +80,12 @@ function Paginator<T extends BaseObject>(props: TableInstance<T>) {
           mb={{ base: 2, lg: 0 }}
           w={20}
           min={1}
-          max={props.pageOptions.length}
+          max={pageOptions.length}
           onChange={(value) => {
             const pageNumber = value ? Number(value) - 1 : 0;
-            props.gotoPage(pageNumber);
+            gotoPage(pageNumber);
           }}
-          defaultValue={props.state.pageIndex + 1}
+          defaultValue={state.pageIndex + 1}
         >
           <NumberInputField />
           <NumberInputStepper>
@@ -85,9 +95,9 @@ function Paginator<T extends BaseObject>(props: TableInstance<T>) {
         </NumberInput>
         <Select
           w={52}
-          value={props.state.pageSize}
+          value={state.pageSize}
           onChange={(event) => {
-            props.setPageSize(Number(event.target.value));
+            setPageSize(Number(event.target.value));
           }}
         >
           {[1, 10, 20, 30, 40, 50].map((establishedSize) => (
@@ -102,16 +112,16 @@ function Paginator<T extends BaseObject>(props: TableInstance<T>) {
         <Tooltip label="Następna strona">
           <IconButton
             aria-label="Następna strona"
-            onClick={props.nextPage}
-            isDisabled={!props.canNextPage}
+            onClick={nextPage}
+            isDisabled={!canNextPage}
             icon={<ChevronRightIcon h={6} w={6} />}
           />
         </Tooltip>
         <Tooltip label="Ostatnia strona">
           <IconButton
             aria-label="Ostatnia strona"
-            onClick={() => props.gotoPage(props.pageCount - 1)}
-            isDisabled={!props.canNextPage}
+            onClick={() => gotoPage(pageCount - 1)}
+            isDisabled={!canNextPage}
             icon={<ArrowRightIcon h={3} w={3} />}
             ml={{ base: 2, lg: 4 }}
             mr={{ base: 4, lg: 0 }}

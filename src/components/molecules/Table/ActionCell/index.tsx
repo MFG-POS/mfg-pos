@@ -9,14 +9,14 @@ type ActionCellProps<T extends BaseObject> = {
   actions: TableAction<T>[];
 };
 
-function ActionCell<T extends BaseObject>(props: ActionCellProps<T>) {
+function ActionCell<T extends BaseObject>({ name, row, actions }: ActionCellProps<T>) {
   return (
     <Menu>
-      <MenuButton as={Button}>{props.name}</MenuButton>
+      <MenuButton as={Button}>{name}</MenuButton>
 
       <MenuList>
-        {props.actions.map((action) => (
-          <MenuItem key={action.name} onClick={() => action.callback(props.row)}>
+        {actions.map((action) => (
+          <MenuItem key={action.name} onClick={() => action.callback(row)}>
             {action.name}
           </MenuItem>
         ))}
