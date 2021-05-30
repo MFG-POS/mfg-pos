@@ -31,9 +31,9 @@ function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
   useEffect(() => {
     const docs = getAll<T>(props.collection, props.references);
     docs
-      .then((categories) => {
-        setData(categories);
-        setDisplayedData(categories);
+      .then((documents) => {
+        setData(documents);
+        setDisplayedData(documents);
       })
       .catch((error) => {
         throw new Error(`Could not fetch ${props.collection} collection!. Error: ${error.message}`);
