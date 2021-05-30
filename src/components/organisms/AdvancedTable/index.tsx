@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAll } from 'api/firebase/firestore/firestore-actions';
 import { isEmpty } from 'others/helper-functions';
-import { BaseObject } from 'model/base-object';
 import { TableInstance, useFlexLayout, usePagination, useTable } from 'react-table';
 import { ColumnDefinition } from 'model/table/table-definitions';
 import { FilterColumn, FilterFunctions, FilterRuleDefinition } from 'model/table/table-filter-types';
@@ -10,14 +9,17 @@ import Content from 'components/molecules/Table/Content';
 import { Box } from '@chakra-ui/react';
 import Paginator from 'components/molecules/Table/Paginator';
 import Toolbar, { ToolbarProps } from 'components/molecules/Table/Toolbar';
+import { MenuDocument } from 'model/menu/menu';
+import { DocumentReferenceHolder } from 'api/firebase/firebase.types';
 
-export interface AdvancedTableProps<T extends BaseObject> extends Omit<ToolbarProps, 'filterColumns'> {
+export interface AdvancedTableProps<T extends MenuDocument> extends Omit<ToolbarProps, 'filterColumns'> {
   name: string;
   collection: string;
   columns: ColumnDefinition<T>[];
+  references?: DocumentReferenceHolder[];
 }
 
-function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
+function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
   const [data, setData] = useState<T[]>([]);
   const [displayedData, setDisplayedData] = useState<T[]>([]);
 
@@ -27,7 +29,7 @@ function AdvancedTable<T extends BaseObject>(props: AdvancedTableProps<T>) {
   const filterColumnsAccessors: string[] = filterColumns.map((column) => column.accessor);
 
   useEffect(() => {
-    const docs = getAll<T>(props.collection);
+    const docs = getAll<T>(props.collection, props.references);
     docs
       .then((categories) => {
         setData(categories);
