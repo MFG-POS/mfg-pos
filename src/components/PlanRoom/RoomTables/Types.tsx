@@ -18,4 +18,5 @@ export type TableType = {
   width: number;
   height: number;
   borderRadius: number;
+  text: string;
 };
