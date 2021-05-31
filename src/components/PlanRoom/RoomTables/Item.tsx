@@ -151,6 +151,7 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType) 
       maxLength={2}
       focusBorderColor="none"
       paddingTop="25px"
+      maxH="80px"
       defaultValue={text}
       onDoubleClick={() => {
         changeValueTableBorderRadius(id.toString(), TableRadius(borderRadius));
