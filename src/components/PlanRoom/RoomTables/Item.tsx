@@ -74,8 +74,8 @@ const Items = () => {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
         let left = item.left + delta.x;
         let top = item.top + delta.y;
-        if (top > 350) {
-          const difference: number = top - 350;
+        if (top > 319) {
+          const difference: number = top - 319;
           top -= difference;
         }
         if (top < 0) {

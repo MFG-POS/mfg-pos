@@ -1,12 +1,13 @@
-import { Article } from 'model/documents/article';
-import { Recipe } from 'model/documents/recipe';
+import { Product } from 'model/documents/products';
+import { Dish } from 'model/documents/dish';
 import { Category } from 'model/documents/category';
 import { Ingredient } from 'model/documents/ingredient';
 import { Tax } from 'model/documents/tax';
+import { BaseObject } from 'model/base-object';
 import { TableDocument } from './table-definitions';
 
-export type TableArticle = Article & TableDocument<Article>;
-export type TableRecipe = Recipe & TableDocument<Recipe>;
-export type TableCategory = Category & TableDocument<Category>;
-export type TableIngredient = Ingredient & TableDocument<Ingredient>;
-export type TableTax = Tax & TableDocument<Tax>;
+export type TableProduct = Product & TableDocument<Product> & BaseObject;
+export type TableDish = Dish & TableDocument<Dish> & BaseObject;
+export type TableCategory = Category & TableDocument<Category> & BaseObject;
+export type TableIngredient = Ingredient & TableDocument<Ingredient> & BaseObject;
+export type TableTax = Tax & TableDocument<Tax> & BaseObject;

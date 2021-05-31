@@ -1,19 +1,22 @@
 import { Column, ColumnInstance, Row } from 'react-table';
+import { BaseObject } from 'model/base-object';
+import { BaseModel } from 'model/base-model';
 
-export type ColumnDefinition<T extends object> = Column<T> & ColumnProperties<T>;
+export type ColumnDefinition<T extends BaseObject> = Column<T> & ColumnProperties<T>;
 
-export type ColumnInstanceDefinition<T extends object> = ColumnInstance<T> & ColumnProperties<T>;
+export type ColumnInstanceDefinition<T extends BaseObject> = ColumnInstance<T> & ColumnProperties<T>;
 
-export interface TableAction<T extends object> {
+export interface TableAction<T extends BaseObject> {
   name: string;
   callback: (row: Row<T>) => void;
 }
 
-export interface ColumnProperties<T extends object> {
+export interface ColumnProperties<T extends BaseObject> {
   isImageColumn?: boolean;
   actions?: TableAction<T>[];
+  canFilter?: boolean;
 }
 
-export interface TableDocument<T extends object> {
+export interface TableDocument<T extends BaseModel> {
   actions?: TableAction<T>[];
 }
