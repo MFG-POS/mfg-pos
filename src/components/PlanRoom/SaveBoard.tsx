@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Box } from '@chakra-ui/react';
 import breakpointsButton from 'styled/PlanRoom/breakpointsButton';
 import breakpointsFontSize from 'styled/PlanRoom/breakpointsFontSize';
-import { NewTable } from './RoomTables/Item';
+import { NewTable, SaveTables } from './RoomTables/Item';
 
 const saveBoard = () => (
   <Box h="4em" border="1px solid black">
@@ -16,6 +16,7 @@ const saveBoard = () => (
           borderColor="black"
           w={breakpointsButton}
           fontSize={breakpointsFontSize}
+          onClick={() => SaveTables()}
         >
           ZAPISZ POŁOŻENIE STOLIKÓW
         </Button>

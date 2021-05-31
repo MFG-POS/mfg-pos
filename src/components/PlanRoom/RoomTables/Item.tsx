@@ -4,10 +4,13 @@ import update from 'immutability-helper';
 import { useDrop, XYCoord, useDrag } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 import { TypeItem, TableType } from './Types';
+import SaveBoard from '../SaveRoomTables/SaveBoard';
 
 let changeValueTable: Function;
 let changeValueTableBorderRadius: Function;
 let newTable: Function;
+let save: Function;
+const backgroundColor: string = '#211F1F';
 
 const Items = () => {
   const [tables, setTables] = useState<{
@@ -88,10 +91,14 @@ const Items = () => {
     [moveTable],
   );
 
+  save = () => {
+    console.log(tables);
+    return tables;
+  };
+
   return (
     <Box ref={drop} w="100%" h="100%" position="relative">
       {Object.keys(tables).map((id) => {
-        console.log(tables);
         const { left, top, text, height, width, borderRadius } = tables[id];
         return (
           <Table
@@ -139,7 +146,7 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType) 
       top={top}
       width={width}
       height={height}
-      backgroundColor="#211F1F"
+      backgroundColor={backgroundColor}
       color="white"
       maxLength={2}
       focusBorderColor="none"
@@ -167,6 +174,10 @@ let numberTable: number = 1;
 export const NewTable = () => {
   newTable(numberTable);
   numberTable += 1;
+};
+
+export const SaveTables = () => {
+  SaveBoard(save());
 };
 
 export default Items;
