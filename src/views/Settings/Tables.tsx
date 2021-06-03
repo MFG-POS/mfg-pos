@@ -1,7 +1,7 @@
 import { VStack, Box, Flex } from '@chakra-ui/react';
-import RoomTitle from '../../components/PlanRoom/RoomTitle';
-import SaveBoard from '../../components/PlanRoom/SaveBoard';
-import Board from '../../components/PlanRoom/Board';
+import RoomTitle from '../../components/molecules/PlanRoom/Tittle';
+import SaveBoard from '../../components/molecules/PlanRoom/Battons';
+import Board from '../../components/molecules/PlanRoom/Board';
 
 const Tables = () => (
   <Box w="100%" minWidth="30em" h="36em">
