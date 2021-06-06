@@ -3,7 +3,7 @@ import breakpointsButton from 'components/molecules/PlanRoom/styled/breakpointsB
 import breakpointsFontSize from 'components/molecules/PlanRoom/styled/breakpointsFontSize';
 import { newTable, saveTables } from 'components/molecules/PlanRoom/RoomTables/Table';
 
-const saveBoard = () => (
+const Buttons = () => (
   <Box h="4em" border="1px solid black">
     <ButtonGroup variant="outline" spacing="6" px="2em" py="0.8em">
       <Box minWidth="10%">
@@ -40,4 +40,4 @@ const saveBoard = () => (
   </Box>
 );
 
-export default saveBoard;
+export default Buttons;

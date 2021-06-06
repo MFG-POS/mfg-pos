@@ -11,10 +11,10 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import AddSupplierButtons from '../AddSupplierButtons/index';
-import breakpoints from '../styled/AddSupplierData/breakpoints';
-import breakpointsFontSize from '../styled/AddSupplierData/breakpointsFontSize';
-import breakpointsMargin from '../styled/AddSupplierData/breakpointsMargin';
+import AddSupplierButtons from 'components/molecules/Supplier/AddSupplierButtons/index';
+import breakpoints from 'components/molecules/Supplier/styled/AddSupplierData/breakpoints';
+import breakpointsFontSize from 'components/molecules/Supplier/styled/AddSupplierData/breakpointsFontSize';
+import breakpointsMargin from 'components/molecules/Supplier/styled/AddSupplierData/breakpointsMargin';
 
 const AddSupplierData = () => {
   const {

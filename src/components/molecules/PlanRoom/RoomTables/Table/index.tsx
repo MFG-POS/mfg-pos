@@ -2,7 +2,7 @@ import { useCallback, useState, SetStateAction } from 'react';
 import { Box, Textarea } from '@chakra-ui/react';
 import update from 'immutability-helper';
 import { useDrop, XYCoord, useDrag } from 'react-dnd';
-import ItemTypes from 'components/molecules/PlanRoom/RoomTables/TableDNDTypes';
+import TableDNDTypes from 'components/molecules/PlanRoom/RoomTables/TableDNDTypes';
 import { TypeItem, TableType, TablesType } from 'components/molecules/PlanRoom/RoomTables/TableComponentsType';
 import SaveBoard from 'components/molecules/PlanRoom/SaveRoomTables/SaveBoard';
 import { theme } from 'others/theme';
@@ -12,7 +12,7 @@ let changeValueTableBorderRadius: Function;
 let addNewTable: Function;
 let save: Function;
 
-const Items = () => {
+const TableList = () => {
   const [tables, setTables] = useState<TablesType>({
     0: { top: 0, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 },
   });
@@ -67,7 +67,7 @@ const Items = () => {
 
   const [, drop] = useDrop(
     () => ({
-      accept: ItemTypes.TABLE,
+      accept: TableDNDTypes.TABLE,
       drop(item: TypeItem, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
         let left = item.left + delta.x;
@@ -83,7 +83,6 @@ const Items = () => {
           left = 0;
         }
         moveTable(item.id, left, top);
-        return undefined;
       },
     }),
     [moveTable],
@@ -120,7 +119,7 @@ const Items = () => {
 const Table = ({ id, left, top, height, width, borderRadius, text }: TableType) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
-      type: ItemTypes.TABLE,
+      type: TableDNDTypes.TABLE,
       item: { id, left, top },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
@@ -179,4 +178,4 @@ export const saveTables = () => {
   SaveBoard(save());
 };
 
-export default Items;
+export default TableList;

@@ -1,5 +1,5 @@
-const ItemTypes = {
+const TableDNDTypes = {
   TABLE: 'table',
 };
 
-export default ItemTypes;
+export default TableDNDTypes;

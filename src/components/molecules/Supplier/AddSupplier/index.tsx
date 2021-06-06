@@ -1,8 +1,8 @@
 import { VStack, Box, Flex } from '@chakra-ui/react';
-import AddSupplierTitle from '../AddSupplierTitle/index';
-import AddSupplierData from '../AddSupplierData/index';
+import AddSupplierTitle from 'components/molecules/Supplier/AddSupplierTitle/index';
+import AddSupplierData from 'components/molecules/Supplier/AddSupplierData/index';
 
-const Form = () => (
+const AddSupplier = () => (
   <Box w="100%" minWidth="30em">
     <Flex w="100%" p="1em">
       <VStack w="100%" spacing={3} align="stretch">
@@ -17,4 +17,4 @@ const Form = () => (
   </Box>
 );
 
-export default Form;
+export default AddSupplier;
