@@ -38,7 +38,7 @@ function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
       .catch((error) => {
         throw new Error(`Could not fetch ${props.collection} collection!. Error: ${error.message}`);
       });
-  }, [props.collection]);
+  }, [props.collection, props.references]);
 
   const onSearch = (value: string): void => {
     if (isEmpty(value) || isEmpty(filterColumns)) setDisplayedData(data);

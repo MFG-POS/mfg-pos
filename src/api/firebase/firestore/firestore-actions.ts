@@ -11,7 +11,7 @@ export const getAll = async <T extends MenuDocument>(
   const snapshot: Snapshot = await reference.get();
 
   let fetchedReferences: DocumentReferenceHolder[];
-  if (references !== undefined && !isEmpty(references)) fetchedReferences = await getAllReferences(references);
+  if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
 
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
 };
@@ -22,12 +22,12 @@ const mapDocumentWithReferences = <T extends MenuDocument>(data: Documents, refe
     ...data.data(),
   } as T;
 
-  if (references !== undefined && !isEmpty(references))
-    references.forEach((reference) => {
+  if (!isEmpty(references))
+    references!.forEach((reference) => {
       const nestedDocument = result[reference.fieldName] as MenuDocument;
-      if (!isNullOrUndefined(nestedDocument) && reference.documents !== undefined && !isEmpty(reference.documents)) {
-        const foundDocument = reference.documents.find((document) => document.id === nestedDocument.id);
-        if (foundDocument !== undefined) (result[reference.fieldName] as MenuDocument) = foundDocument;
+      if (!isNullOrUndefined(nestedDocument) && !isEmpty(reference.documents)) {
+        const foundDocument = reference.documents!.find((document) => document.id === nestedDocument.id);
+        if (!isNullOrUndefined(foundDocument)) (result[reference.fieldName] as MenuDocument) = foundDocument!;
       }
     });
 
