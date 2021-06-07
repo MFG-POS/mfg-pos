@@ -1,23 +1,25 @@
 import { useCallback, useState, SetStateAction } from 'react';
-import { Box, Textarea } from '@chakra-ui/react';
+import { Box, Textarea, Text } from '@chakra-ui/react';
 import update from 'immutability-helper';
 import { useDrop, XYCoord, useDrag } from 'react-dnd';
-import TableDNDTypes from 'components/molecules/PlanRoom/RoomTables/TableDNDTypes';
-import { TypeItem, TableType, TablesType } from 'components/molecules/PlanRoom/RoomTables/TableComponentsType';
+import TableDND from 'model/tableDND/tablednd-type';
+import { TablesType, RowType } from 'model/tableDND/row-type';
+import { TypeItem } from 'model/tableDND/item-type';
+import { TableType } from 'model/tableDND/table-types';
 import SaveBoard from 'components/molecules/PlanRoom/SaveRoomTables/SaveBoard';
 import { theme } from 'others/theme';
 
-let changeValueTable: Function;
-let changeValueTableBorderRadius: Function;
-let addNewTable: Function;
-let save: Function;
+let ChangeValueTable: Function;
+let ChangeValueTableBorderRadius: Function;
+let AddNewTable: Function;
+let Save: Function;
 
 const TableList = () => {
   const [tables, setTables] = useState<TablesType>({
     0: { top: 0, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 },
   });
 
-  const moveTable = useCallback(
+  const MoveTable = useCallback(
     (id: string, left: number, top: number) => {
       setTables(
         update(tables, {
@@ -30,7 +32,7 @@ const TableList = () => {
     [tables, setTables],
   );
 
-  changeValueTable = useCallback(
+  ChangeValueTable = useCallback(
     (id: string, text: string) => {
       setTables(
         update(tables, {
@@ -43,7 +45,7 @@ const TableList = () => {
     [tables, setTables],
   );
 
-  changeValueTableBorderRadius = useCallback(
+  ChangeValueTableBorderRadius = useCallback(
     (id: string, borderRadius: number) => {
       setTables(
         update(tables, {
@@ -56,19 +58,19 @@ const TableList = () => {
     [tables, setTables],
   );
 
-  addNewTable = (id: number) => {
+  AddNewTable = (id: number) => {
     tables[id] = { top: 0, left: 0, text: id.toString(), width: 100, height: 50, borderRadius: 0 };
     let top = Math.floor(Math.random() * 100) + 40;
     if (top > 80) {
       top = 80;
     }
-    moveTable((id - 1).toString(), Math.floor(Math.random() * 800) + 50, top);
+    MoveTable(id.toString(), Math.floor(Math.random() * 800) + 50, top);
   };
 
   const [, drop] = useDrop(
     () => ({
-      accept: TableDNDTypes.TABLE,
-      drop(item: TypeItem, monitor) {
+      accept: TableDND.TABLE,
+      drop(item: TypeItem & RowType, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
         let left = item.left + delta.x;
         let top = item.top + delta.y;
@@ -82,13 +84,13 @@ const TableList = () => {
         if (left < 0) {
           left = 0;
         }
-        moveTable(item.id, left, top);
+        MoveTable(item.id, left, top);
       },
     }),
-    [moveTable],
+    [MoveTable],
   );
 
-  save = () => {
+  Save = () => {
     console.log(tables);
     return tables;
   };
@@ -116,10 +118,10 @@ const TableList = () => {
   );
 };
 
-const Table = ({ id, left, top, height, width, borderRadius, text }: TableType) => {
+const Table = ({ id, left, top, height, width, borderRadius, text }: TableType & RowType) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
-      type: TableDNDTypes.TABLE,
+      type: TableDND.TABLE,
       item: { id, left, top },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
@@ -129,7 +131,7 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType) 
   );
 
   if (isDragging) {
-    return <Box ref={drag} />;
+    return <Text ref={drag} />;
   }
   return (
     <Textarea
@@ -151,31 +153,26 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType) 
       maxH="80px"
       defaultValue={text}
       onDoubleClick={() => {
-        changeValueTableBorderRadius(id.toString(), tableRadius(borderRadius));
+        ChangeValueTableBorderRadius(id.toString(), ShouldProvideRadius(borderRadius));
       }}
       onChange={(event) => {
-        changeValueTable(id.toString(), event.target.value.toString());
+        ChangeValueTable(id.toString(), event.target.value.toString());
       }}
     />
   );
 };
 
-const tableRadius = (radius: number) => {
-  if (radius == 40) {
-    return 0;
-  }
-  return 40;
-};
+const ShouldProvideRadius = (hasRadius: number) => (hasRadius == 0 ? 40 : 0);
 
 let numberTable: number = 1;
 
-export const newTable = () => {
-  addNewTable(numberTable);
+export const NewTable = () => {
+  AddNewTable(numberTable);
   numberTable += 1;
 };
 
-export const saveTables = () => {
-  SaveBoard(save());
+export const SaveTables = () => {
+  SaveBoard(Save());
 };
 
 export default TableList;
