@@ -4,6 +4,8 @@ import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import React, { useMemo } from 'react';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
 import { ROUTE_MENU_FORMS } from 'routing';
+import { categories } from 'others/references';
+import { unitOfMeasure } from 'others/table-formats';
 
 const Ingredients = () => {
   const onRowDelete = (row: Row<TableIngredient>): void => console.log(`Should delete row with id ${row.id}`);
@@ -26,14 +28,21 @@ const Ingredients = () => {
         canFilter: true,
       },
       {
-        Header: 'Zapasy',
-        accessor: 'supplies',
+        Header: 'Kategoria',
+        accessor: 'category.name',
         minWidth: 200,
         canFilter: true,
       },
       {
         Header: 'Jednostka miary',
         accessor: 'unitOfMeasure',
+        minWidth: 200,
+        canFilter: true,
+        Cell: unitOfMeasure,
+      },
+      {
+        Header: 'Zapasy',
+        accessor: 'supplies',
         minWidth: 200,
         canFilter: true,
       },
@@ -50,6 +59,7 @@ const Ingredients = () => {
     name: 'Składniki',
     collection: 'ingredients',
     columns,
+    references: [categories],
     buttonRoutePath: ROUTE_MENU_FORMS.INGREDIENT.path,
   };
 

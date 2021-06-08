@@ -1,5 +1,6 @@
 import { BaseObject } from 'model/base-object';
 import { isNullOrUndefined } from 'others/helper-functions';
+import { get } from 'lodash';
 
 export type FilterFunctionDefinition = {
   displayValue: string;
@@ -72,9 +73,15 @@ export class FilterFunctions {
       (total, filter) =>
         isNullOrUndefined(filter.operator) || filter.operator === '&&'
           ? total &&
-            FilterFunctions.getFilterFunction(filter.function.functionName)(row[filter.columnAccessor], filter.value)
+            FilterFunctions.getFilterFunction(filter.function.functionName)(
+              get(row, filter.columnAccessor),
+              filter.value,
+            )
           : total ||
-            FilterFunctions.getFilterFunction(filter.function.functionName)(row[filter.columnAccessor], filter.value),
+            FilterFunctions.getFilterFunction(filter.function.functionName)(
+              get(row, filter.columnAccessor),
+              filter.value,
+            ),
       true,
     );
 
@@ -94,10 +101,10 @@ export const filterOperators: FilterOperatorDefinition[] = [
 ];
 
 export const filterFunctions: FilterFunctionDefinition[] = [
-  { displayValue: 'jest równy/a', functionName: 'equal' },
-  { displayValue: 'nie jest równy/a', functionName: 'notEqual' },
   { displayValue: 'zawiera', functionName: 'contains' },
   { displayValue: 'nie zawiera', functionName: 'doesNotContain' },
+  { displayValue: 'jest równy/a', functionName: 'equal' },
+  { displayValue: 'nie jest równy/a', functionName: 'notEqual' },
   { displayValue: 'zaczyna się od', functionName: 'startsWith' },
   { displayValue: 'kończy się na', functionName: 'endsWith' },
   { displayValue: 'jest pusta', functionName: 'isEmpty', isIndependent: true },

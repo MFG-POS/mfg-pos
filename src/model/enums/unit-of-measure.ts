@@ -1,6 +1,6 @@
 export enum UnitOfMeasure {
-  GRAMS,
-  KILOGRAMS,
-  LITERS,
-  PIECES,
+  GRAMS = 'g',
+  KILOGRAMS = 'kg',
+  LITERS = 'l',
+  PIECES = 'szt.',
 }
