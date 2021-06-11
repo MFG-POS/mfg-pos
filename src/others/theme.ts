@@ -19,4 +19,9 @@ export const theme = extendTheme({
       },
     },
   },
+  colors: {
+    table: {
+      100: '#211F1F',
+    },
+  },
 });
