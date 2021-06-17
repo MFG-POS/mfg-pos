@@ -18,8 +18,9 @@ import Supplies from 'views/Warehouse/Supplies';
 import Products from 'views/Menu/Products';
 import Categories from 'views/Menu/Categories';
 import Ingredients from 'views/Menu/Ingredients';
+import Order from 'views/Order/Order';
 
-export type RouteCategories = 'Statystyki' | 'Menu' | 'Magazyn' | 'Dostęp' | 'Ustawienia';
+export type RouteCategories = 'Zamówienia' | 'Statystyki' | 'Menu' | 'Magazyn' | 'Dostęp' | 'Ustawienia';
 
 export interface IRouteData {
   path: string;
@@ -34,6 +35,10 @@ export type Route<T> = {
 
 export const ROUTE: Route<IRouteData> = {
   HOME: { path: '/', name: 'Strona główna', component: <Dashboard />, isExact: true },
+};
+
+export const ROUTE_ORDERS: Route<IRouteData> = {
+  TERMINAL: { path: '/orders/terminal/', name: 'Terminal', component: <Order /> },
 };
 
 export const ROUTE_STATS: Route<IRouteData> = {
@@ -75,6 +80,7 @@ export const ROUTE_SETTINGS: Route<IRouteData> = {
 
 export default Object.values({
   ...ROUTE,
+  ...ROUTE_ORDERS,
   ...ROUTE_STATS,
   ...ROUTE_MENU,
   ...ROUTE_MENU_FORMS,

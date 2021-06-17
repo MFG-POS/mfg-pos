@@ -3,6 +3,23 @@ import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import { CollectionReference, DocumentReferenceHolder, Documents, Snapshot } from '../firebase.types';
 import { firestore } from '../firebase.api';
 
+export const getCollectionReference = (collection: string) => firestore.collection(collection);
+
+export const getAllByParent = async <T extends MenuDocument>(
+  collection: string,
+  parentCollection: string,
+  parentFieldPath: string,
+  parentId?: string,
+): Promise<T[]> => {
+  const reference: CollectionReference = getCollectionReference(collection);
+  const snapshot: Snapshot = await (parentId !== undefined
+    ? reference.where(parentFieldPath, '==', getCollectionReference(parentCollection).doc(parentId))
+    : reference.where(parentFieldPath, '==', null)
+  ).get();
+
+  return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, []));
+};
+
 export const getAll = async <T extends MenuDocument>(
   collection: string,
   references?: DocumentReferenceHolder[],

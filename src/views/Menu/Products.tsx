@@ -23,7 +23,7 @@ const Products = () => {
     () => [
       {
         Header: 'Zdjęcie',
-        accessor: 'imagePath',
+        accessor: 'image',
         minWidth: 200,
         isImageColumn: true,
       },

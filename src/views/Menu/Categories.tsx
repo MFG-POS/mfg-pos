@@ -21,7 +21,7 @@ const Categories = () => {
     () => [
       {
         Header: 'Zdjęcie',
-        accessor: 'imagePath',
+        accessor: 'image',
         minWidth: 300,
         isImageColumn: true,
       },
