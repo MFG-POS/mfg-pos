@@ -1,7 +1,7 @@
 import React from 'react';
 import { isEmpty } from 'others/helper-functions';
 import { Divider, Grid } from '@chakra-ui/react';
-import OrderDocumentTile from 'components/atoms/OrderTile';
+import OrderDocumentTile from 'components/atoms/OrderDocumentTile';
 import { OrderDocument } from 'model/order/order-types';
 
 type OrderTilesGroupProps = {
