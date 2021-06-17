@@ -1,6 +1,12 @@
 import { MenuDocument } from 'model/menu/menu';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
-import { CollectionReference, DocumentReferenceHolder, Documents, Snapshot } from '../firebase.types';
+import {
+  CollectionReference,
+  DocumentReference,
+  DocumentReferenceHolder,
+  Documents,
+  Snapshot,
+} from '../firebase.types';
 import { firestore } from '../firebase.api';
 
 export const getAll = async <T extends MenuDocument>(
@@ -14,6 +20,11 @@ export const getAll = async <T extends MenuDocument>(
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
 
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
+};
+
+export const saveAll = async <T extends MenuDocument>(collection: string, data: T): Promise<DocumentReference> => {
+  const reference: CollectionReference = firestore.collection(collection);
+  return reference.add(data);
 };
 
 const mapDocumentWithReferences = <T extends MenuDocument>(data: Documents, references?: DocumentReferenceHolder[]) => {
