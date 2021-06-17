@@ -4,5 +4,5 @@ export type Tax = BaseModel & {
   name: string;
   value: number;
   isFiscal: boolean;
-  fiscalRecorderProgram: string;
+  taxType: string;
 };
