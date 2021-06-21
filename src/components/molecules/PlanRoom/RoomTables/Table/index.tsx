@@ -9,7 +9,6 @@ import { TableType } from 'model/tableDND/table-types';
 import SaveBoard from 'components/molecules/PlanRoom/SaveRoomTables/SaveBoard';
 import { theme } from 'others/theme';
 import basket from 'assets/images/basketDeleteTable.png';
-import { table } from 'node:console';
 
 let ChangeValueTable: Function;
 let ChangeValueTableBorderRadius: Function;
