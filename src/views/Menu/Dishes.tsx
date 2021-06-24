@@ -4,6 +4,8 @@ import { TableDish } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
 import { ROUTE_MENU_FORMS } from 'routing';
+import { taxesAndCategories } from 'others/references';
+import { currency, percent } from 'others/table-formats';
 
 const Dishes = () => {
   const onRowDelete = (row: Row<TableDish>): void => console.log(`Should delete row with id ${row.id}`);
@@ -21,7 +23,7 @@ const Dishes = () => {
     () => [
       {
         Header: 'Zdjęcie',
-        accessor: 'imagePath',
+        accessor: 'image',
         minWidth: 200,
         isImageColumn: true,
       },
@@ -32,28 +34,38 @@ const Dishes = () => {
         canFilter: true,
       },
       {
-        Header: 'Koszt brutto',
-        accessor: 'grossPrice',
+        Header: 'Kategoria',
+        accessor: 'category.name',
         minWidth: 200,
         canFilter: true,
+      },
+      {
+        Header: 'Podatek',
+        accessor: 'tax.value',
+        minWidth: 200,
+        canFilter: true,
+        Cell: percent,
       },
       {
         Header: 'Koszt netto',
         accessor: 'netPrice',
         minWidth: 200,
         canFilter: true,
-      },
-      {
-        Header: 'Waga netto',
-        accessor: 'netWeight',
-        minWidth: 200,
-        canFilter: true,
+        Cell: currency,
       },
       {
         Header: 'Narzut',
         accessor: 'overhead',
         minWidth: 200,
         canFilter: true,
+        Cell: percent,
+      },
+      {
+        Header: 'Koszt brutto',
+        accessor: 'grossPrice',
+        minWidth: 200,
+        canFilter: true,
+        Cell: currency,
       },
       {
         Header: 'Akcje',
@@ -68,6 +80,7 @@ const Dishes = () => {
     name: 'Dania',
     collection: 'dishes',
     columns,
+    references: taxesAndCategories,
     buttonRoutePath: ROUTE_MENU_FORMS.DISH.path,
   };
 

@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Row } from 'react-table';
-import { TableCategory } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
 import { ROUTE_MENU_FORMS } from 'routing';
+import { TableCategory } from 'model/table/table-types';
 
 const Categories = () => {
   const onRowDelete = (row: Row<TableCategory>): void => console.log(`Should delete row with id ${row.id}`);
@@ -21,14 +21,14 @@ const Categories = () => {
     () => [
       {
         Header: 'Zdjęcie',
-        accessor: 'imagePath',
-        minWidth: 200,
+        accessor: 'image',
+        minWidth: 300,
         isImageColumn: true,
       },
       {
         Header: 'Nazwa',
         accessor: 'name',
-        minWidth: 200,
+        minWidth: 300,
         canFilter: true,
       },
       {

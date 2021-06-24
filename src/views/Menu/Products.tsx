@@ -4,6 +4,8 @@ import { TableProduct } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
 import { ROUTE_MENU_FORMS } from 'routing';
+import { taxesAndCategories } from 'others/references';
+import { currency, percent } from 'others/table-formats';
 
 const Products = () => {
   const onRowDelete = (row: Row<TableProduct>): void => console.log(`Should delete row with id ${row.id}`);
@@ -21,7 +23,7 @@ const Products = () => {
     () => [
       {
         Header: 'Zdjęcie',
-        accessor: 'imagePath',
+        accessor: 'image',
         minWidth: 200,
         isImageColumn: true,
       },
@@ -32,8 +34,8 @@ const Products = () => {
         canFilter: true,
       },
       {
-        Header: 'Koszt brutto',
-        accessor: 'grossPrice',
+        Header: 'Kategoria',
+        accessor: 'category.name',
         minWidth: 200,
         canFilter: true,
       },
@@ -42,12 +44,28 @@ const Products = () => {
         accessor: 'netPrice',
         minWidth: 200,
         canFilter: true,
+        Cell: currency,
       },
       {
         Header: 'Narzut',
         accessor: 'overhead',
         minWidth: 200,
         canFilter: true,
+        Cell: percent,
+      },
+      {
+        Header: 'Podatek',
+        accessor: 'tax.value',
+        minWidth: 200,
+        canFilter: true,
+        Cell: percent,
+      },
+      {
+        Header: 'Koszt brutto',
+        accessor: 'grossPrice',
+        minWidth: 200,
+        canFilter: true,
+        Cell: currency,
       },
       {
         Header: 'Akcje',
@@ -62,6 +80,7 @@ const Products = () => {
     name: 'Artykuły',
     collection: 'products',
     columns,
+    references: taxesAndCategories,
     buttonRoutePath: ROUTE_MENU_FORMS.PRODUCT.path,
   };
 
