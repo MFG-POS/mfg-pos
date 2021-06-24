@@ -22,7 +22,7 @@ export const getAll = async <T extends MenuDocument>(
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
 };
 
-export const saveAll = async <T extends MenuDocument>(collection: string, data: T): Promise<DocumentReference> => {
+export const save = async <T extends MenuDocument>(collection: string, data: T): Promise<DocumentReference> => {
   const reference: CollectionReference = firestore.collection(collection);
   return reference.add(data);
 };

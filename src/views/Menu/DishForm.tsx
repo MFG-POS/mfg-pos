@@ -88,7 +88,7 @@ const DishForm = () => {
         <FormGroupProductPrice
           id="product"
           name="grossPrice"
-          title="Cena dania"
+          label="Cena dania"
           tax={taxValue}
           register={register}
           errors={errors}

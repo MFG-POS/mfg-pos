@@ -5,7 +5,7 @@ import { Button, useToast } from '@chakra-ui/react';
 
 import { ROUTE_SETTINGS } from 'routing';
 
-import { Tax } from 'model/documents/tax';
+import { Tax, TaxType } from 'model/documents/tax';
 
 import { requiredErrorMessage } from 'others/form-default-errors';
 
@@ -14,7 +14,7 @@ import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormGroupNumber from 'components/molecules/FormGroupNumber';
 import FormGroupCheckbox from 'components/molecules/FormGroupCheckbox';
-import { saveAll } from 'api/firebase/firestore/firestore-actions';
+import { save } from 'api/firebase/firestore/firestore-actions';
 
 const TaxesForm = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -26,7 +26,7 @@ const TaxesForm = () => {
   } = useForm<Tax>();
 
   const onSubmit: SubmitHandler<Tax> = (data: Tax) => {
-    saveAll('taxes', data).then((ref) => {
+    save('taxes', data).then((ref) => {
       setIsSubmitted(true);
       toast({
         title: 'Podatek dodany 🙌',
@@ -38,15 +38,14 @@ const TaxesForm = () => {
     });
   };
 
-  const TAX_OPTIONS = ['Wartość dodana (VAT)', 'Z obrotu'];
-
+  const TAX_OPTIONS = Object.values(TaxType);
   return (
     <>
       <FormTemplate onSubmit={handleSubmit(onSubmit)}>
         {isSubmitted ? <Redirect to={ROUTE_SETTINGS.TAXES.path} /> : null}
         <FormGroupInput
           type="text"
-          label="Podatek"
+          label="Nazwa podatku"
           id="name"
           name="name"
           register={register}
@@ -74,7 +73,7 @@ const TaxesForm = () => {
         <FormGroupSelect
           label="Rodzaj podatku"
           id="taxType"
-          name="taxType"
+          name="type"
           placeholder="Wybierz rodzaj podatku"
           register={register}
           errors={errors}

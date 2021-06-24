@@ -1,15 +1,12 @@
 import { FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
+import { FormGroupProps } from 'others/form-group-type';
 import { InputType } from 'others/input-types';
-import { DeepMap, FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { Path, UseFormRegister } from 'react-hook-form';
 
-type FormGroupInputProps<MenuForm> = {
-  label: string;
+type FormGroupInputProps<MenuForm> = FormGroupProps & {
   type?: InputType;
-  id: string;
   name: Path<MenuForm>;
   register: UseFormRegister<MenuForm>;
-  errors: DeepMap<FieldValues, FieldError>;
-  validation: RegisterOptions;
 };
 
 function FormGroupInput<MenuForm>({

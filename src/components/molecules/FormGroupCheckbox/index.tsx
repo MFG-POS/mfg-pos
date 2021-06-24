@@ -1,13 +1,10 @@
 import { FormControl, FormLabel, Checkbox, FormErrorMessage } from '@chakra-ui/react';
-import { DeepMap, FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FormGroupProps } from 'others/form-group-type';
+import { Path, UseFormRegister } from 'react-hook-form';
 
-type FormGroupCheckboxProps<MenuForm> = {
-  label: string;
-  id: string;
+type FormGroupCheckboxProps<MenuForm> = FormGroupProps & {
   name: Path<MenuForm>;
   register: UseFormRegister<MenuForm>;
-  errors: DeepMap<FieldValues, FieldError>;
-  validation: RegisterOptions;
 };
 
 function FormGroupCheckbox<MenuForm>({

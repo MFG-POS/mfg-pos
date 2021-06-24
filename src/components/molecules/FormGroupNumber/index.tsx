@@ -8,15 +8,12 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { DeepMap, FieldError, Path, FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FormGroupProps } from 'others/form-group-type';
+import { Path, UseFormRegister } from 'react-hook-form';
 
-type FormGroupNumberProps<MenuForm> = {
-  label: string;
-  id: string;
+type FormGroupNumberProps<MenuForm> = FormGroupProps & {
   name: Path<MenuForm>;
   register: UseFormRegister<MenuForm>;
-  errors: DeepMap<FieldValues, FieldError>;
-  validation: RegisterOptions;
 };
 
 function FormGroupNumber<MenuForm>({ label, id, name, register, errors, validation }: FormGroupNumberProps<MenuForm>) {

@@ -11,18 +11,15 @@ import {
   Text,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { DeepMap, FieldError, Path, FieldValues, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { Path, UseFormRegister } from 'react-hook-form';
 
 import { Tax } from 'model/documents/tax';
+import { FormGroupProps } from 'others/form-group-type';
 
-type FormGroupProductPriceProps<MenuForm> = {
-  id: string;
+type FormGroupProductPriceProps<MenuForm> = FormGroupProps & {
   name: Path<MenuForm>;
   tax: Tax;
-  title: string;
   register: UseFormRegister<MenuForm>;
-  errors: DeepMap<FieldValues, FieldError>;
-  validation: RegisterOptions;
 };
 
 function FormGroupProductPrice<MenuForm>({
@@ -32,12 +29,12 @@ function FormGroupProductPrice<MenuForm>({
   errors,
   validation,
   tax,
-  title,
+  label,
 }: FormGroupProductPriceProps<MenuForm>) {
   return (
     <FormControl isInvalid={errors[name]}>
       <Text fontSize="lg" fontWeight="bold" pb="5" textAlign="center" color="gray.700">
-        💰 {title}
+        💰 {label}
       </Text>
       <Stack
         direction={{ base: 'column', lg: 'row' }}
