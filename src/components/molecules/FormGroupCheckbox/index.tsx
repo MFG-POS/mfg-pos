@@ -1,35 +1,20 @@
-import { FormControl, FormLabel, Checkbox, FormErrorMessage } from '@chakra-ui/react';
-import { FormGroupProps } from 'others/form-group-type';
-import { Path, UseFormRegister } from 'react-hook-form';
+import { FormControl, Checkbox, FormErrorMessage } from '@chakra-ui/react';
+import { requiredErrorMessage } from 'others/form-default-errors';
+import { FieldError } from 'react-hook-form';
 
-type FormGroupCheckboxProps<MenuForm> = FormGroupProps & {
-  name: Path<MenuForm>;
-  register: UseFormRegister<MenuForm>;
+type FormGroupCheckboxProps = {
+  label: string;
+  onChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: FieldError;
 };
 
-function FormGroupCheckbox<MenuForm>({
-  label,
-  id,
-  name,
-  register,
-  errors,
-  validation = {},
-}: FormGroupCheckboxProps<MenuForm>) {
+function FormGroupCheckbox({ label, onChange, error }: FormGroupCheckboxProps) {
   return (
-    <FormControl isInvalid={errors[name]}>
-      <FormLabel htmlFor={id} fontSize="sm" fontWeight="md" color="gray.700">
+    <FormControl isInvalid={!!error}>
+      <Checkbox fontSize="sm" fontWeight="md" color="gray.700" onChange={onChange}>
         {label}
-      </FormLabel>
-      <Checkbox
-        isInvalid={errors[name]}
-        value={name}
-        htmlFor={id}
-        {...register(name, validation)}
-        fontSize="sm"
-        fontWeight="md"
-        color="gray.700"
-      />
-      <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
+      </Checkbox>
+      <FormErrorMessage>{error ? requiredErrorMessage : null}</FormErrorMessage>
     </FormControl>
   );
 }

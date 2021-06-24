@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Button, useToast } from '@chakra-ui/react';
 
 import { ROUTE_SETTINGS } from 'routing';
@@ -23,6 +23,7 @@ const TaxesForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<Tax>();
 
   const onSubmit: SubmitHandler<Tax> = (data: Tax) => {
@@ -60,16 +61,12 @@ const TaxesForm = () => {
           errors={errors}
           validation={{ required: requiredErrorMessage }}
         />
-
-        <FormGroupCheckbox
-          label="Czy jest fiskalny?"
-          id="isFiscal"
+        <Controller
+          control={control}
           name="isFiscal"
-          register={register}
-          errors={errors}
-          validation={{}}
+          defaultValue={false}
+          render={({ field: { onChange } }) => <FormGroupCheckbox label="Czy jest fiskalny?" onChange={onChange} />}
         />
-
         <FormGroupSelect
           label="Rodzaj podatku"
           id="taxType"
