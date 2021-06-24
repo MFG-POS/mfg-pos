@@ -86,7 +86,7 @@ const ProductForm = () => {
       <FormGroupProductPrice
         id="product"
         name="grossPrice"
-        title="Cena artykułu"
+        label="Cena artykułu"
         tax={taxValue}
         register={register}
         errors={errors}
