@@ -12,7 +12,9 @@ import ABCAnalysis from 'views/Statistics/ABCAnalysis';
 import Customers from 'views/Statistics/Customers';
 import Payments from 'views/Statistics/Payments';
 import Sales from 'views/Statistics/Sales';
-import Taxes from 'views/Statistics/Taxes';
+import Taxes from 'views/Settings/Taxes';
+import TaxesForm from 'views/Settings/TaxesForm';
+import TaxesStatistics from 'views/Statistics/Taxes';
 import Stocks from 'views/Warehouse/Stocks';
 import Supplies from 'views/Warehouse/Supplies';
 import Products from 'views/Menu/Products';
@@ -46,7 +48,7 @@ export const ROUTE_STATS: Route<IRouteData> = {
   CUSTOMERS: { path: '/statistics/customers/', name: 'Klienci', component: <Customers /> },
   ABCANALYSIS: { path: `/statistics/abc-analysis/`, name: 'ABC Analiza', component: <ABCAnalysis /> },
   PAYMENTS: { path: `/statistics/payments/`, name: 'Rodzaje płatności', component: <Payments /> },
-  TAXES: { path: '/statistics/taxes/', name: 'Podatki', component: <Taxes /> },
+  TAXES: { path: '/statistics/taxes/', name: 'Podatki', component: <TaxesStatistics /> },
 };
 
 export const ROUTE_MENU: Route<IRouteData> = {
@@ -74,8 +76,13 @@ export const ROUTE_ACCESS: Route<IRouteData> = {
 
 export const ROUTE_SETTINGS: Route<IRouteData> = {
   GENERAL: { path: '/settings/general/', name: 'Ogólne', component: <General /> },
+  TAXES: { path: '/settings/taxes/', name: 'Podatki', component: <Taxes /> },
   BILLING: { path: '/settings/billing/', name: 'Subskrypcja', component: <Subscription /> },
   TABLES: { path: '/settings/tables/', name: 'Stoliki', component: <Tables /> },
+};
+
+export const ROUTE_SETTINGS_FORMS: Route<IRouteData> = {
+  TAX: { path: '/settings/tax-form/', name: 'Wprowadź podatek', component: <TaxesForm /> },
 };
 
 export default Object.values({
@@ -87,4 +94,5 @@ export default Object.values({
   ...ROUTE_WAREHOUSE,
   ...ROUTE_ACCESS,
   ...ROUTE_SETTINGS,
+  ...ROUTE_SETTINGS_FORMS,
 }).map(({ path, component, isExact }) => ({ path, component, isExact }));

@@ -1,14 +1,11 @@
 import { Flex, FormControl, FormErrorMessage, FormLabel, Input, Stack, Text, VisuallyHidden } from '@chakra-ui/react';
 import FileUploadIcon from 'components/atoms/FileUploadIcon';
-import { DeepMap, FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FormGroupProps } from 'others/form-group-type';
+import { Path, UseFormRegister } from 'react-hook-form';
 
-type FormGroupFileProps<MenuForm> = {
-  label: string;
-  id: string;
+type FormGroupFileProps<MenuForm> = FormGroupProps & {
   name: Path<MenuForm>;
   register: UseFormRegister<MenuForm>;
-  errors: DeepMap<FieldValues, FieldError>;
-  validation: RegisterOptions;
 };
 
 function FormGroupFile<MenuForm>({ label, id, name, register, errors, validation }: FormGroupFileProps<MenuForm>) {
