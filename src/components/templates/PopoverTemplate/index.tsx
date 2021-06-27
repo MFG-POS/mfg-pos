@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Button,
   Placement,
@@ -10,6 +9,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
 } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 type PopoverProps = {
   header: string;
@@ -17,8 +17,8 @@ type PopoverProps = {
   variant?: string;
   showFooter?: boolean;
   placement?: Placement;
-  readonly body: React.ReactNode;
-  readonly footer: React.ReactNode;
+  readonly body: ReactNode;
+  readonly footer: ReactNode;
 };
 
 const PopoverTemplate = ({ header, triggerText, variant, showFooter, placement, body, footer }: PopoverProps) => (

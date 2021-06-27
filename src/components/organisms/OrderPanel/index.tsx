@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllByParent } from 'api/firebase/firestore/firestore-actions';
 import { Category } from 'model/documents/category';
 import { Dish } from 'model/documents/dish';
@@ -6,7 +6,7 @@ import { Flex } from '@chakra-ui/react';
 import { isEmpty } from 'others/helper-functions';
 import { Product } from 'model/documents/products';
 import { isSummaryDocument, OrderDocument } from 'model/order/order-types';
-import OrderBreadcrumb from 'components/molecules/OrderBreadcrumb';
+import OrderBreadcrumb from 'components/molecules/Order/OrderBreadcrumb';
 import OrderTilesGroup from 'components/atoms/OrderTilesGroup';
 
 type OrderPanelProps = {

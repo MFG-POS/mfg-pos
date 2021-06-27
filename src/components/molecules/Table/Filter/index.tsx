@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FilterColumn, filterFunctions, FilterRuleDefinition } from 'model/table/table-filter-types';
 import { v4 as uuidv4 } from 'uuid';
 import PopoverTemplate from 'components/templates/PopoverTemplate';
