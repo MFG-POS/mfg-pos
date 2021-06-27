@@ -8,7 +8,7 @@ import { TypeItem } from 'model/tableDND/item-type';
 import { TableType } from 'model/tableDND/table-types';
 import SaveBoard from 'components/molecules/PlanRoom/SaveRoomTables/SaveBoard';
 import { theme } from 'others/theme';
-import basket from 'assets/images/basketDeleteTable.png';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 let ChangeValueTable: Function;
 let ChangeValueTableBorderRadius: Function;
@@ -98,18 +98,18 @@ const TableList = () => {
   );
 
   ClearBoard = () => {
-    while (numberTable > -1) {
-      delete tables[numberTable];
-      numberTable -= 1;
+    while (tableNumber > -1) {
+      delete tables[tableNumber];
+      tableNumber -= 1;
     }
-    numberTable = 1;
+    tableNumber = 1;
     tables[0] = { top: 20, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 };
     MoveTable('0', 0, 0);
   };
 
   DeleteTable = (id: number) => {
-    if (numberTable > 1) {
-      for (let scope: number = id; scope < numberTable - 2; scope++) {
+    if (tableNumber > 1) {
+      for (let scope: number = id; scope < tableNumber - 2; scope++) {
         tables[Number(scope)] = {
           top: tables[Number(scope) + 1].top,
           left: tables[Number(scope) + 1].left,
@@ -120,16 +120,16 @@ const TableList = () => {
         };
       }
       const tempTable: RowType = {
-        top: tables[numberTable - 1].top,
-        left: tables[numberTable - 1].left,
-        text: tables[numberTable - 1].text,
+        top: tables[tableNumber - 1].top,
+        left: tables[tableNumber - 1].left,
+        text: tables[tableNumber - 1].text,
         width: 100,
         height: 50,
-        borderRadius: tables[numberTable - 1].borderRadius,
+        borderRadius: tables[tableNumber - 1].borderRadius,
       };
-      delete tables[numberTable - 1];
-      MoveTable((numberTable - 2).toString(), tempTable.left, tempTable.top);
-      numberTable -= 1;
+      delete tables[tableNumber - 1];
+      MoveTable((tableNumber - 2).toString(), tempTable.left, tempTable.top);
+      tableNumber -= 1;
     }
   };
 
@@ -198,8 +198,7 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType &
       left={left}
       top={top}
     >
-      <Image
-        src={basket}
+      <DeleteIcon
         alt=""
         id={id}
         position="absolute"
@@ -207,7 +206,6 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType &
         m="0.1em"
         w="20px"
         h="20px"
-        bgColor="white"
         onClick={() => {
           DeleteTable(id);
         }}
@@ -235,11 +233,11 @@ const Table = ({ id, left, top, height, width, borderRadius, text }: TableType &
 
 const ShouldProvideRadius = (hasRadius: number) => (hasRadius == 0 ? 40 : 0);
 
-let numberTable: number = 1;
+let tableNumber: number = 1;
 
 export const NewTable = () => {
-  AddNewTable(numberTable);
-  numberTable += 1;
+  AddNewTable(tableNumber);
+  tableNumber += 1;
 };
 
 export const SaveTables = () => {
