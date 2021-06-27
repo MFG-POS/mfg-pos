@@ -19,6 +19,7 @@ import Products from 'views/Menu/Products';
 import Categories from 'views/Menu/Categories';
 import Ingredients from 'views/Menu/Ingredients';
 import Order from 'views/Order/Order';
+import Room from 'views/Order/Room';
 
 export type RouteCategories = 'Zamówienia' | 'Statystyki' | 'Menu' | 'Magazyn' | 'Dostęp' | 'Ustawienia';
 
@@ -39,6 +40,7 @@ export const ROUTE: Route<IRouteData> = {
 
 export const ROUTE_ORDERS: Route<IRouteData> = {
   TERMINAL: { path: '/orders/terminal/', name: 'Terminal', component: <Order /> },
+  Room: { path: '/orders/room/', name: 'Room', component: <Room /> },
 };
 
 export const ROUTE_STATS: Route<IRouteData> = {
