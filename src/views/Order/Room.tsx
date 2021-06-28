@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Load from 'components/molecules/Room/LoadPlanRoom/index';
 import Alert from 'components/molecules/Room/Alert/index';
 import { getAll } from 'api/firebase/firestore/firestore-actions';
-import { DocumentReferenceHolder } from 'api/firebase/firebase.types';
 
 const Room = () => {
   console.log(getAll('board'));
