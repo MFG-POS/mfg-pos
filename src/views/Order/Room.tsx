@@ -3,8 +3,12 @@ import { TablesType } from 'model/tableDND/row-type';
 import { useState } from 'react';
 import Load from 'components/molecules/Room/LoadPlanRoom/index';
 import Alert from 'components/molecules/Room/Alert/index';
+import { getAll } from 'api/firebase/firestore/firestore-actions';
+import { DocumentReferenceHolder } from 'api/firebase/firebase.types';
 
 const Room = () => {
+  console.log(getAll('board'));
+
   const [tables, setTables] = useState<TablesType>({
     0: { top: 113, left: 0, text: '0', width: 100, height: 50, borderRadius: 40 },
     1: { top: 180, left: 594, text: '30', width: 100, height: 50, borderRadius: 0 },
