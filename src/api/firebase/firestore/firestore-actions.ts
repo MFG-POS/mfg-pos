@@ -8,6 +8,7 @@ import {
   Snapshot,
 } from '../firebase.types';
 import { firestore } from '../firebase.api';
+import { TablesType } from '../../../model/tableDND/row-type';
 
 export const getCollectionReference = (collection: string) => firestore.collection(collection);
 
@@ -37,6 +38,13 @@ export const getAll = async <T extends MenuDocument>(
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
 
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
+};
+
+export const getTable = async <TablesType>(collection: string): Promise<TablesType[]> => {
+  const reference: CollectionReference = firestore.collection(collection);
+  const snapshot: Snapshot = await reference.get();
+
+  return snapshot.docs.map((data) => mapDocumentWithReferences<TablesType>(data));
 };
 
 export const save = async <T extends MenuDocument>(collection: string, data: T): Promise<DocumentReference> => {
