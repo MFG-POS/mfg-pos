@@ -40,12 +40,7 @@ export const getAll = async <T extends MenuDocument>(
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
 };
 
-export const getTable = async <TablesType>(collection: string): Promise<TablesType[]> => {
-  const reference: CollectionReference = firestore.collection(collection);
-  const snapshot: Snapshot = await reference.get();
-
-  return snapshot.docs.map((data) => mapDocumentWithReferences<TablesType>(data));
-};
+export const getTable = async (collection: string): Promise<TablesType> => firestore.collection(collection);
 
 export const save = async <T extends MenuDocument>(collection: string, data: T): Promise<DocumentReference> => {
   const reference: CollectionReference = firestore.collection(collection);

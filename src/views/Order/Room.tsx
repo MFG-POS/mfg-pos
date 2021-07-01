@@ -6,7 +6,7 @@ import Alert from 'components/molecules/Room/Alert/index';
 import { getTable } from 'api/firebase/firestore/firestore-actions';
 
 const Room = () => {
-  getTable('board').then((boards) => console.log(boards[0]));
+  getTable('board').then((boards) => console.log(boards));
 
   const [tables, setTables] = useState<TablesType>();
 
