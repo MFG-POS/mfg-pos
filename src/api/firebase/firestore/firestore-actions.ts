@@ -1,5 +1,6 @@
 import { MenuDocument } from 'model/menu/menu';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
+import { Board } from 'model/tableDND/table-instance';
 import {
   CollectionReference,
   DocumentReference,
@@ -8,7 +9,6 @@ import {
   Snapshot,
 } from '../firebase.types';
 import { firestore } from '../firebase.api';
-import { TablesType } from '../../../model/tableDND/row-type';
 
 export const getCollectionReference = (collection: string) => firestore.collection(collection);
 
@@ -40,8 +40,6 @@ export const getAll = async <T extends MenuDocument>(
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
 };
 
-export const getTable = async (collection: string): Promise<TablesType> => firestore.collection(collection);
-
 export const save = async <T extends MenuDocument>(collection: string, data: T): Promise<DocumentReference> => {
   const reference: CollectionReference = firestore.collection(collection);
   return reference.add(data);
@@ -69,3 +67,18 @@ const getAllReferences = async (references: DocumentReferenceHolder[]): Promise<
   Promise.all(
     references.map(async (reference) => ({ ...reference, documents: await getAll(reference.collectionName) })),
   );
+
+export const getBoard = async (): Promise<Board> => {
+  const reference: CollectionReference = firestore.collection('board');
+  const snapshot: Snapshot = await reference.get();
+  const board = snapshot.docs[0];
+  return {
+    id: board.id,
+    tables: board.data(),
+  } as Board;
+};
+
+export const updateBoard = async (board: Board): Promise<void> => {
+  const reference: CollectionReference = firestore.collection('board');
+  return reference.doc(board.id).set(board.tables);
+};
