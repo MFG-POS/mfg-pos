@@ -1,14 +1,15 @@
-import { useCallback, useState } from 'react';
-import { Box, Textarea, Text, Image } from '@chakra-ui/react';
+import { useCallback, useEffect, useState } from 'react';
+import { Box, Text, Textarea } from '@chakra-ui/react';
 import update from 'immutability-helper';
-import { useDrop, XYCoord, useDrag } from 'react-dnd';
+import { useDrag, useDrop, XYCoord } from 'react-dnd';
 import TableDND from 'model/tableDND/tablednd-type';
-import { TablesType, RowType } from 'model/tableDND/row-type';
+import { Board, TableInstance } from 'model/tableDND/table-instance';
 import { TypeItem } from 'model/tableDND/item-type';
 import { TableType } from 'model/tableDND/table-types';
-import SaveBoard from 'components/molecules/PlanRoom/SaveRoomTables/SaveBoard';
 import { theme } from 'others/theme';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { getBoard } from 'api/firebase/firestore/firestore-actions';
+import { v4 as uuidv4 } from 'uuid';
 
 let ChangeValueTable: Function;
 let ChangeValueTableBorderRadius: Function;
@@ -18,66 +19,81 @@ let ClearBoard: Function;
 let DeleteTable: Function;
 
 const TableList = () => {
-  const [tables, setTables] = useState<TablesType>({
-    0: { top: 0, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 },
+  const [board, setBoard] = useState<Board>({
+    id: uuidv4(),
+    tables: {
+      0: { top: 0, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 },
+    },
   });
+
+  useEffect(() => {
+    getBoard().then((retrievedBoard) => setBoard(retrievedBoard));
+  }, []);
 
   const MoveTable = useCallback(
     (id: string, left: number, top: number) => {
-      setTables(
-        update(tables, {
-          [id]: {
-            $merge: { left, top },
+      setBoard(
+        update(board, {
+          tables: {
+            [id]: {
+              $merge: { left, top },
+            },
           },
         }),
       );
     },
-    [tables, setTables],
+    [board, setBoard],
   );
 
   const ChangeItem = useCallback(
     (id: string, left: number, top: number, text: string, borderRadius: number) => {
-      setTables(
-        update(tables, {
-          [id]: {
-            $merge: { left, top, text, borderRadius },
+      setBoard(
+        update(board, {
+          tables: {
+            [id]: {
+              $merge: { left, top, text, borderRadius },
+            },
           },
         }),
       );
     },
-    [tables, setTables],
+    [board, setBoard],
   );
 
   ChangeValueTable = useCallback(
     (id: string, text: string) => {
-      setTables(
-        update(tables, {
-          [id]: {
-            $merge: { text },
+      setBoard(
+        update(board, {
+          tables: {
+            [id]: {
+              $merge: { text },
+            },
           },
         }),
       );
     },
-    [tables, setTables],
+    [board, setBoard],
   );
 
   ChangeValueTableBorderRadius = useCallback(
     (id: string, borderRadius: number) => {
-      setTables(
-        update(tables, {
-          [id]: {
-            $merge: { borderRadius },
+      setBoard(
+        update(board, {
+          tables: {
+            [id]: {
+              $merge: { borderRadius },
+            },
           },
         }),
       );
     },
-    [tables, setTables],
+    [board, setBoard],
   );
 
   const [, drop] = useDrop(
     () => ({
       accept: TableDND.TABLE,
-      drop(item: TypeItem & RowType, monitor) {
+      drop(item: TypeItem & TableInstance, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
         let left = item.left + delta.x;
         let top = item.top + delta.y;
@@ -99,42 +115,42 @@ const TableList = () => {
 
   ClearBoard = () => {
     while (tableNumber > -1) {
-      delete tables[tableNumber];
+      delete board.tables[tableNumber];
       tableNumber -= 1;
     }
     tableNumber = 1;
-    tables[0] = { top: 20, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 };
+    board.tables[0] = { top: 20, left: 0, text: '0', width: 100, height: 50, borderRadius: 0 };
     MoveTable('0', 0, 0);
   };
 
   DeleteTable = (id: number) => {
     if (tableNumber > 1) {
       for (let scope: number = id; scope < tableNumber - 2; scope++) {
-        tables[Number(scope)] = {
-          top: tables[Number(scope) + 1].top,
-          left: tables[Number(scope) + 1].left,
-          text: tables[Number(scope)].text,
+        board.tables[Number(scope)] = {
+          top: board.tables[Number(scope) + 1].top,
+          left: board.tables[Number(scope) + 1].left,
+          text: board.tables[Number(scope)].text,
           width: 100,
           height: 50,
-          borderRadius: tables[Number(scope)].borderRadius,
+          borderRadius: board.tables[Number(scope)].borderRadius,
         };
       }
-      const tempTable: RowType = {
-        top: tables[tableNumber - 1].top,
-        left: tables[tableNumber - 1].left,
-        text: tables[tableNumber - 1].text,
+      const tempTable: TableInstance = {
+        top: board.tables[tableNumber - 1].top,
+        left: board.tables[tableNumber - 1].left,
+        text: board.tables[tableNumber - 1].text,
         width: 100,
         height: 50,
-        borderRadius: tables[tableNumber - 1].borderRadius,
+        borderRadius: board.tables[tableNumber - 1].borderRadius,
       };
-      delete tables[tableNumber - 1];
+      delete board.tables[tableNumber - 1];
       MoveTable((tableNumber - 2).toString(), tempTable.left, tempTable.top);
       tableNumber -= 1;
     }
   };
 
   AddNewTable = (id: number) => {
-    tables[id] = { top: 0, left: 0, text: id.toString(), width: 100, height: 50, borderRadius: 0 };
+    board.tables[id] = { top: 0, left: 0, text: id.toString(), width: 100, height: 50, borderRadius: 0 };
     let top = Math.floor(Math.random() * 100) + 30;
     if (top > 80) {
       top = 80;
@@ -142,15 +158,10 @@ const TableList = () => {
     MoveTable(id.toString(), Math.floor(Math.random() * 800) + 50, top);
   };
 
-  Save = () => {
-    console.log(tables);
-    return tables;
-  };
-
   return (
     <Box ref={drop} w="100%" h="100%" position="relative">
-      {Object.keys(tables).map((id) => {
-        const { left, top, text, height, width, borderRadius } = tables[id];
+      {Object.keys(board.tables).map((id) => {
+        const { left, top, text, height, width, borderRadius } = board.tables[id];
         return (
           <Table
             key={id}
@@ -170,7 +181,7 @@ const TableList = () => {
   );
 };
 
-const Table = ({ id, left, top, height, width, borderRadius, text }: TableType & RowType) => {
+const Table = ({ id, left, top, height, width, borderRadius, text }: TableType & TableInstance) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: TableDND.TABLE,
@@ -240,8 +251,10 @@ export const NewTable = () => {
   tableNumber += 1;
 };
 
-export const SaveTables = () => {
-  SaveBoard(Save());
+export const SaveTables = (board: Board) => {
+  // Save();
+  console.log(board);
+  // updateBoard(board.id, board);
 };
 
 export const DeleteTables = () => {
