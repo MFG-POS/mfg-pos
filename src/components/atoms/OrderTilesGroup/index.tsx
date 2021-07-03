@@ -1,4 +1,3 @@
-import React from 'react';
 import { isEmpty } from 'others/helper-functions';
 import { Divider, Grid } from '@chakra-ui/react';
 import OrderDocumentTile from 'components/atoms/OrderDocumentTile';

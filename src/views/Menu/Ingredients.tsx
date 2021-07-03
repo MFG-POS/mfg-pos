@@ -1,7 +1,7 @@
 import { Row } from 'react-table';
 import { TableIngredient } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
 import { ROUTE_MENU_FORMS } from 'routing';
 import { categories } from 'others/references';
