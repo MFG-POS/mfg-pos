@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Row } from 'react-table';
 import { TableDish } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
