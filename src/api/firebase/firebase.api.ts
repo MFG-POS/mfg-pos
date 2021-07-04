@@ -12,4 +12,7 @@ export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 export const storage = firebase.storage();
 
+export const storageTaskState = firebase.storage.TaskState;
+export const storageEventState = firebase.storage.TaskEvent;
+
 export default firebase;

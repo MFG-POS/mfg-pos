@@ -11,3 +11,6 @@ export type DocumentReferenceHolder = {
   collectionName: string;
   documents?: MenuDocument[];
 };
+
+export type UploadTask = firebase.storage.UploadTask;
+export type StoragePath = 'categories/' | 'dishes/' | 'products/';
