@@ -43,7 +43,9 @@ const BoardModal = ({ id, updateSeats, isOpen, onClose }: BoardModalProps) => {
           >
             POTWIERDŹ
           </Button>
-          <Button variant="outline">ANULUJ</Button>
+          <Button variant="outline" onClick={onClose}>
+            ANULUJ
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
