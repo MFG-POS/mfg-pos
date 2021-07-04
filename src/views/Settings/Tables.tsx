@@ -1,5 +1,5 @@
 import BoardHolder from 'components/molecules/Board/BoardHolder';
 
-const Tables = () => <BoardHolder preview={false} />;
+const Tables = () => <BoardHolder />;
 
 export default Tables;
