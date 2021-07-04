@@ -1,4 +1,4 @@
-import BoardHolder from 'components/molecules/Board/BoardHolder';
+import BoardHolder from 'components/organisms/BoardHolder';
 
 const Tables = () => <BoardHolder />;
 
