@@ -35,8 +35,8 @@ const CategoryForm = () => {
     store('categories/', image, async (url) => {
       await save('categories', {
         ...data,
-        parent: firestore.doc(`categories/${data.parent}`),
-        tax: firestore.doc(`taxes/${data.tax}`),
+        parent: data.parent ? firestore.doc(`categories/${data.parent}`) : null,
+        tax: data.tax ? firestore.doc(`taxes/${data.tax}`) : null,
         image: url,
       });
       setIsSubmitted(true);
