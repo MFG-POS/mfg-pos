@@ -12,6 +12,8 @@ import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupNumber from 'components/molecules/FormGroupNumber';
+import { save } from 'api/firebase/firestore/firestore-actions';
+import { UnitOfMeasure } from 'model/enums/unit-of-measure';
 
 const IngredientForm = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -22,29 +24,21 @@ const IngredientForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<Ingredient>();
 
-  /*
-   * TODO: Placeholder function, will be replaced with real API request later
-   */
-  const onSubmit: SubmitHandler<Ingredient> = (data) =>
-    new Promise<void>((resolve) => {
-      setTimeout(() => {
-        setIsSubmitted(true);
-        toast({
-          title: 'Składnik dodany 🙌',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'bottom-right',
-        });
-        resolve();
-        console.log(`Zapisany składnik: ${data}`);
-      }, 2000);
+  const onSubmit: SubmitHandler<Ingredient> = (data) => {
+    save('ingredients', {
+      ...data,
+      supplies: Number(data.supplies),
+    }).then(() => {
+      setIsSubmitted(true);
+      toast({
+        title: 'Składnik dodany 🙌',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
     });
-
-  /*
-   * TODO: To be replaced with DB data
-   */
-  const MOCK_UNITS_OPTIONS = ['kg', 'g', 'l', 'ml'];
+  };
 
   return (
     <>
@@ -67,7 +61,7 @@ const IngredientForm = () => {
           register={register}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
-          options={MOCK_UNITS_OPTIONS}
+          options={UnitOfMeasure}
         />
         <FormGroupNumber
           label="Aktualne zapasy"
