@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Box, Text } from '@chakra-ui/react';
 import breakpointsFontSize from 'components/molecules/PlanRoom/styled/breakpointsFontSize';
-import { NewTable, SaveTables } from 'components/molecules/PlanRoom/RoomTables/Table';
+import { NewTable, SaveTables, DeleteTables } from 'components/molecules/PlanRoom/RoomTables/Table';
 
 const Buttons = () => (
   <Box h="4em" border="1px solid black">
@@ -35,8 +35,22 @@ const Buttons = () => (
           DODAJ STOLIK
         </Button>
       </Text>
+      <Text minWidth="10%">
+        <Button
+          type="submit"
+          bg="#33D268"
+          h="2em"
+          color="white"
+          colorScheme="#33D268"
+          borderColor="black"
+          w="100%"
+          fontSize={breakpointsFontSize}
+          onClick={() => DeleteTables()}
+        >
+          Wyczyść planszę
+        </Button>
+      </Text>
     </ButtonGroup>
   </Box>
 );
-
 export default Buttons;

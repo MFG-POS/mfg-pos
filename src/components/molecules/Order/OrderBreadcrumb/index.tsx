@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import { CategoryRead as Category } from 'model/documents/category';

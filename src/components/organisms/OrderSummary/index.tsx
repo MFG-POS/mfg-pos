@@ -1,16 +1,19 @@
-import React from 'react';
-import { Button, Flex, Table, TableCaption, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
+import { Table, TableCaption, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 import { isEmpty } from 'others/helper-functions';
-import { AddIcon, CheckCircleIcon, DeleteIcon, MinusIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, MinusIcon } from '@chakra-ui/icons';
 import { OrderSummaryItem } from 'model/order/order-types';
+import { FaBan, FaCheckCircle } from 'react-icons/all';
+import OrderButtonGroup from 'components/molecules/Order/OrderButtonGroup';
+import { OrderState } from 'model/order/order-state';
+import { OrderStateProps } from 'views/Order/Order';
 
 type OrderSummaryProps = {
   items: OrderSummaryItem[];
   onDelete: (item: OrderSummaryItem) => void;
   onChange: (item: OrderSummaryItem, reduce: boolean) => void;
-};
+} & OrderStateProps;
 
-const OrderSummary = ({ items, onDelete, onChange }: OrderSummaryProps) => (
+const OrderSummary = ({ items, onDelete, onChange, setOrderState }: OrderSummaryProps) => (
   <Table variant="simple">
     <Thead>
       <Tr>
@@ -48,14 +51,15 @@ const OrderSummary = ({ items, onDelete, onChange }: OrderSummaryProps) => (
       </Tfoot>
     )}
     <TableCaption>
-      <Flex direction="row" justifyContent="space-around">
-        <Button type="submit" colorScheme="red">
-          <DeleteIcon /> <Text ml="2">ANULUJ</Text>
-        </Button>
-        <Button type="submit" colorScheme="green">
-          <CheckCircleIcon /> <Text ml="2">ZAMKNIJ</Text>
-        </Button>
-      </Flex>
+      {!isEmpty(items) && (
+        <OrderButtonGroup
+          submitIcon={FaCheckCircle}
+          cancelIcon={FaBan}
+          submitText="ZAKOŃCZ"
+          cancelText="ANULUJ"
+          onSubmitClick={() => setOrderState(OrderState.FINALIZATION)}
+        />
+      )}
     </TableCaption>
   </Table>
 );
