@@ -1,9 +1,24 @@
 import { BaseModel } from 'model/base-model';
 import { Tax } from './tax';
 
-export type Category = BaseModel & {
+type Category = {
   name: string;
-  // parent?: Category; TODO: Fix circularly referenced type error
-  tax?: Tax;
   image: string | FileList;
+};
+
+// Workaround for circularly references type error
+type ParentCategory = BaseModel &
+  Category & {
+    tax?: Tax;
+  };
+
+export type CategoryRead = BaseModel &
+  Category & {
+    parent?: ParentCategory;
+    tax?: Tax;
+  };
+
+export type CategoryWrite = Category & {
+  parent?: string;
+  tax?: string;
 };

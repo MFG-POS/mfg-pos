@@ -1,5 +1,5 @@
 import { BaseModel } from 'model/base-model';
-import { Category } from './category';
+import { CategoryRead as Category } from './category';
 import { Tax } from './tax';
 
 export type Dish = BaseModel & {
