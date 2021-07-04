@@ -1,12 +1,15 @@
 import { MenuDocument } from 'model/menu/menu';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
-import { Board } from 'model/tableDND/table-instance';
+import { BoardTableInstance } from 'model/board/board-table-instance';
+import { Order } from 'model/order/order';
 import {
   CollectionReference,
   DocumentReference,
   DocumentReferenceHolder,
   Documents,
+  DocumentSnapshot,
   Snapshot,
+  WriteBatch,
 } from '../firebase.types';
 import { firestore } from '../firebase.api';
 
@@ -68,17 +71,50 @@ const getAllReferences = async (references: DocumentReferenceHolder[]): Promise<
     references.map(async (reference) => ({ ...reference, documents: await getAll(reference.collectionName) })),
   );
 
-export const getBoard = async (): Promise<Board> => {
-  const reference: CollectionReference = firestore.collection('board');
-  const snapshot: Snapshot = await reference.get();
-  const board = snapshot.docs[0];
+export const getOrder = async (id: string): Promise<Order> => {
+  const reference: CollectionReference = firestore.collection('orders');
+  const document: DocumentSnapshot = await reference.doc(id).get();
   return {
-    id: board.id,
-    tables: board.data(),
-  } as Board;
+    id: document.id,
+    ...document.data(),
+  } as Order;
 };
 
-export const updateBoard = async (board: Board): Promise<void> => {
-  const reference: CollectionReference = firestore.collection('board');
-  return reference.doc(board.id).set(board.tables);
+export const saveOrder = async (order: Partial<Order>): Promise<DocumentReference> => {
+  const reference: CollectionReference = firestore.collection('orders');
+  return reference.add(order);
+};
+
+export const updateOrder = async (id: string, order: Partial<Order>): Promise<void> => {
+  const reference: CollectionReference = firestore.collection('orders');
+  return reference.doc(id).update(order);
+};
+
+export const removeOrder = async (id: string): Promise<void> => {
+  const reference: CollectionReference = firestore.collection('orders');
+  return reference.doc(id).delete();
+};
+
+export const getTables = async (): Promise<BoardTableInstance[]> => {
+  const reference: CollectionReference = firestore.collection('tables');
+  const snapshot: Snapshot = await reference.get();
+  return snapshot.docs.map(
+    (document) =>
+      ({
+        id: document.id,
+        ...document.data(),
+      } as BoardTableInstance),
+  );
+};
+
+export const updateTable = async (id: string, table: Partial<BoardTableInstance>): Promise<void> => {
+  const reference: CollectionReference = firestore.collection('tables');
+  return reference.doc(id).update(table);
+};
+
+export const updateTables = async (tables: BoardTableInstance[]): Promise<void> => {
+  const reference: CollectionReference = firestore.collection('tables');
+  const batch: WriteBatch = firestore.batch();
+  tables.forEach((table) => batch.set(reference.doc(table.id), table));
+  return batch.commit();
 };
