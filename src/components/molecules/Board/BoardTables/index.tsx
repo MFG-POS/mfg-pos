@@ -1,24 +1,21 @@
 import React from 'react';
-import { TableInstance, TablesHolder } from 'model/tableDND/table-instance';
+import { BoardTableInstance, TableDND } from 'model/board/board-table-instance';
 import { Box } from '@chakra-ui/react';
 import { useDrop, XYCoord } from 'react-dnd';
 import BoardTable from 'components/molecules/Board/BoardTable';
-import TableDND from 'model/tableDND/tablednd-type';
-import { TypeItem } from 'model/tableDND/item-type';
 
 type BoardTablesProps = {
-  tables: TablesHolder;
+  tables: BoardTableInstance[];
   moveTable: (id: string, left: number, top: number) => void;
   deleteTable: (id: string) => void;
   updateSeats: (id: string, value: string) => void;
-  preview: boolean;
 };
 
-const BoardTables = ({ tables, moveTable, deleteTable, updateSeats, preview }: BoardTablesProps) => {
+const BoardTables = ({ tables, moveTable, deleteTable, updateSeats }: BoardTablesProps) => {
   const [, drop] = useDrop(
     () => ({
       accept: TableDND.TABLE,
-      drop(item: TypeItem & TableInstance, monitor) {
+      drop(item: BoardTableInstance, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
         let left = item.left + delta.x;
         let top = item.top + delta.y;
@@ -39,10 +36,10 @@ const BoardTables = ({ tables, moveTable, deleteTable, updateSeats, preview }: B
   );
 
   return (
-    <Box ref={preview ? null : drop} w="100%" h="100%" position="relative">
+    <Box ref={drop} w="100%" h="100%" position="relative">
       {tables &&
-        Object.keys(tables).map((id) => {
-          const { left, top, text, height, width, borderRadius } = tables[id];
+        tables.map((table) => {
+          const { id, left, top, seats, height, width, borderRadius } = table;
           return (
             <BoardTable
               key={id}
@@ -52,13 +49,10 @@ const BoardTables = ({ tables, moveTable, deleteTable, updateSeats, preview }: B
               height={height}
               width={width}
               borderRadius={borderRadius}
-              text={text}
+              seats={seats}
               deleteTable={deleteTable}
               updateSeats={updateSeats}
-              preview={preview}
-            >
-              {text}
-            </BoardTable>
+            />
           );
         })}
     </Box>
