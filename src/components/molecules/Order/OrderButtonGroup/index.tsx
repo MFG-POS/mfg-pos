@@ -6,6 +6,7 @@ type OrderButtonGroupProps = {
   submitText: string;
   cancelIcon: IconType;
   cancelText: string;
+  hideSubmit?: boolean;
   onSubmitClick?: () => void;
   onCancelClick?: () => void;
 };
@@ -15,6 +16,7 @@ const OrderButtonGroup = ({
   submitText,
   cancelIcon,
   cancelText,
+  hideSubmit,
   onSubmitClick,
   onCancelClick,
 }: OrderButtonGroupProps) => (
@@ -29,9 +31,11 @@ const OrderButtonGroup = ({
     py="3"
     my="2"
   >
-    <Button type="submit" colorScheme="green" onClick={onSubmitClick}>
-      <Icon as={submitIcon} /> <Text ml="2">{submitText}</Text>
-    </Button>
+    {!hideSubmit && (
+      <Button type="submit" colorScheme="green" onClick={onSubmitClick}>
+        <Icon as={submitIcon} /> <Text ml="2">{submitText}</Text>
+      </Button>
+    )}
     <Button onClick={onCancelClick}>
       <Icon as={cancelIcon} /> <Text ml="2">{cancelText}</Text>
     </Button>
