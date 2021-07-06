@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { storage, storageEventState, storageTaskState } from '../firebase.api';
 import { StoragePath, UploadTask } from '../firebase.types';
 
-const monitorBatchUpload = <T>(task: UploadTask, cb: (url: string) => Promise<T>) => {
+const monitorBatchUpload = <T>(task: UploadTask, callback: (url: string) => Promise<T>) => {
   task.on(
     storageEventState.STATE_CHANGED,
     (snapshot) => {
@@ -11,10 +11,10 @@ const monitorBatchUpload = <T>(task: UploadTask, cb: (url: string) => Promise<T>
       console.log(`Upload is ${progress}% done`);
 
       switch (snapshot.state) {
-        case storageTaskState.PAUSED: // or 'paused'
+        case storageTaskState.PAUSED:
           console.log('Upload is paused');
           break;
-        case storageTaskState.RUNNING: // or 'running'
+        case storageTaskState.RUNNING:
           console.log('Upload is running');
           break;
       }
@@ -32,13 +32,11 @@ const monitorBatchUpload = <T>(task: UploadTask, cb: (url: string) => Promise<T>
           break;
       }
     },
-    () => {
-      task.snapshot.ref.getDownloadURL().then((downloadURL: string) => cb(downloadURL));
-    },
+    () => task.snapshot.ref.getDownloadURL().then((downloadURL: string) => callback(downloadURL)),
   );
 };
 
-export const store = <T>(path: StoragePath, file: File, cb: (url: string) => Promise<T>) => {
+export const store = <T>(path: StoragePath, file: File, callback: (url: string) => Promise<T>) => {
   const uploadTask = storage.ref(`${path}${uuidv4()}`).put(file);
-  monitorBatchUpload(uploadTask, cb);
+  monitorBatchUpload(uploadTask, callback);
 };
