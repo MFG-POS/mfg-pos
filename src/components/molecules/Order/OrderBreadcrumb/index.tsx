@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { Category } from 'model/documents/category';
+import { CategoryRead as Category } from 'model/documents/category';
 
 type OrderBreadcrumbProps = {
   categories: Category[];

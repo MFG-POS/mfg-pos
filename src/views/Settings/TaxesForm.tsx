@@ -27,7 +27,8 @@ const TaxesForm = () => {
   } = useForm<Tax>();
 
   const onSubmit: SubmitHandler<Tax> = (data: Tax) => {
-    save('taxes', data).then((ref) => {
+    const tax = { ...data, value: Number(data.value) };
+    save('taxes', tax).then((ref) => {
       setIsSubmitted(true);
       toast({
         title: 'Podatek dodany 🙌',

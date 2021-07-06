@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, useToast } from '@chakra-ui/react';
 
 import { ROUTE_MENU } from 'routing';
 
-import { Category } from 'model/documents/category';
+import { CategoryWrite } from 'model/documents/category';
 
 import { requiredErrorMessage } from 'others/form-default-errors';
 
@@ -13,40 +13,56 @@ import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormGroupFile from 'components/molecules/FormGroupFileUpload';
+import { getAll, save } from 'api/firebase/firestore/firestore-actions';
+import { store } from 'api/firebase/storage/storage-actions';
+import { firestore } from 'api/firebase/firebase.api';
 
 const CategoryForm = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
+  const [taxesMap, setTaxesMap] = useState<Record<string, string>>({});
+  const [categoriesMap, setCategoriesMap] = useState<Record<string, string>>({});
+
   const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<Category>();
+  } = useForm<CategoryWrite>();
 
-  /*
-   * TODO: Placeholder function, will be replaced with real API request later
-   */
-  const onSubmit: SubmitHandler<Category> = (data) =>
-    new Promise<void>((resolve) => {
-      setTimeout(() => {
-        setIsSubmitted(true);
-        toast({
-          title: 'Kategoria dodana 🙌',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'bottom-right',
-        });
-        console.log(`Zapisana kategoria: ${data}`);
-        resolve();
-      }, 2000);
+  const onSubmit: SubmitHandler<CategoryWrite> = (data) => {
+    const image: File = data.image[0] as File;
+    store('categories/', image, async (url) => {
+      await save('categories', {
+        ...data,
+        parent: data.parent ? firestore.doc(`categories/${data.parent}`) : null,
+        tax: data.tax ? firestore.doc(`taxes/${data.tax}`) : null,
+        image: url,
+      });
+      setIsSubmitted(true);
+      toast({
+        title: 'Podatek dodany 🙌',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
     });
+  };
 
-  /*
-   * TODO: To be replaced with DB data
-   */
-  const MOCK_TAX_OPTIONS = ['PTU 8%', 'PTU 22%', 'PTU 23%'];
-  const MOCK_CATEGORY_OPTIONS = ['Śniadania', 'Obiady', 'Pizza', 'Makarony'];
+  useEffect(() => {
+    getAll('taxes').then((data) =>
+      setTaxesMap(
+        data.reduce((acc, tax) => ({ ...acc, [tax.id!]: `${tax.name}, ${tax.value}%` }), {}) as Record<string, string>,
+      ),
+    );
+
+    getAll('categories').then((data) => {
+      setCategoriesMap(
+        data.reduce((acc, category) => ({ ...acc, [category.id!]: category.name }), {}) as Record<string, string>,
+      );
+    });
+  }, []);
 
   return (
     <>
@@ -64,12 +80,12 @@ const CategoryForm = () => {
         <FormGroupSelect
           label="Kategoria nadrzędna (opcjonalne)"
           id="parent-category"
-          name="name" // TODO: Change to "parent" after fixing circularly referenced type error
+          name="parent"
           placeholder="Wybierz kategorię nadrzędną"
           register={register}
           errors={errors}
           validation={{}}
-          options={MOCK_CATEGORY_OPTIONS}
+          options={categoriesMap}
         />
         <FormGroupSelect
           label="Podatek kategorii (opcjonalne)"
@@ -79,7 +95,7 @@ const CategoryForm = () => {
           register={register}
           errors={errors}
           validation={{}}
-          options={MOCK_TAX_OPTIONS}
+          options={taxesMap}
         />
         <FormGroupFile
           label="Zdjęcie kategorii"
