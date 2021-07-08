@@ -1,6 +1,6 @@
 import { Product } from 'model/documents/products';
 import { Dish } from 'model/documents/dish';
-import { Category } from 'model/documents/category';
+import { CategoryRead as Category } from 'model/documents/category';
 import { Ingredient } from 'model/documents/ingredient';
 import { Tax } from 'model/documents/tax';
 import { BaseObject } from 'model/base-object';

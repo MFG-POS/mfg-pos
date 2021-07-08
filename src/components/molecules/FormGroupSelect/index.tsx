@@ -7,7 +7,7 @@ type FormGroupSelectProps<MenuForm> = {
   id: string;
   name: FieldPath<MenuForm>;
   placeholder?: string;
-  options: string[];
+  options: string[] | Record<string, string>;
   register: UseFormRegister<MenuForm>;
   errors: DeepMap<FieldValues, FieldError>;
   validation: RegisterOptions;
@@ -39,11 +39,17 @@ function FormGroupSelect<MenuForm>({
         w="full"
         rounded="md"
       >
-        {options.map((o) => (
-          <option key={uuidv4()} value={o}>
-            {o}
-          </option>
-        ))}
+        {Array.isArray(options)
+          ? options.map((o) => (
+              <option key={uuidv4()} value={o}>
+                {o}
+              </option>
+            ))
+          : Object.entries(options).map(([key, value]) => (
+              <option key={uuidv4()} value={key}>
+                {value}
+              </option>
+            ))}
       </Select>
       <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
     </FormControl>
