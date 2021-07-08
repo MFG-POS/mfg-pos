@@ -1,4 +1,5 @@
 import { OrderSummaryItem } from 'model/order/order-types';
+import { Timestamp } from 'api/firebase/firebase.types';
 
 export type Order = {
   id: string;
@@ -9,7 +10,7 @@ export type Order = {
   total: number;
   cash: number;
   card: number;
-  startDate: Date;
-  closureDate: Date;
+  startDate: Date | Timestamp;
+  closureDate: Date | Timestamp;
   items: OrderSummaryItem[];
 };

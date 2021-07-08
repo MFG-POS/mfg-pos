@@ -9,6 +9,7 @@ export type DocumentReference = firebase.firestore.DocumentReference<firebase.fi
 export type DocumentData = firebase.firestore.DocumentData;
 export type WriteBatch = firebase.firestore.WriteBatch;
 export type FieldValue = firebase.firestore.FieldValue;
+export type Timestamp = firebase.firestore.Timestamp;
 
 export type DocumentReferenceHolder = {
   fieldName: keyof MenuDocument;

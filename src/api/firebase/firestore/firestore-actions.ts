@@ -75,6 +75,21 @@ const getAllReferences = async (references: DocumentReferenceHolder[]): Promise<
     references.map(async (reference) => ({ ...reference, documents: await getAll(reference.collectionName) })),
   );
 
+export const getAllOrders = async (): Promise<Order[]> => {
+  const reference: CollectionReference = firestore.collection('orders');
+  const snapshot: Snapshot = await reference.get();
+
+  return snapshot.docs.map((document: Documents) => {
+    const documentData = document.data();
+    return {
+      id: document.id,
+      ...document.data(),
+      ...(documentData.startDate && { startDate: documentData.startDate.toDate() }),
+      ...(documentData.closureDate && { closureDate: documentData.closureDate.toDate() }),
+    } as Order;
+  });
+};
+
 export const getOrder = async (id: string): Promise<Order> => {
   const reference: CollectionReference = firestore.collection('orders');
   const document: DocumentSnapshot = await reference.doc(id).get();
