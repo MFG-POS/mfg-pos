@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { getAll } from 'api/firebase/firestore/firestore-actions';
 import { isEmpty } from 'others/helper-functions';
 import { TableInstance, useFlexLayout, usePagination, useTable } from 'react-table';
@@ -11,6 +11,8 @@ import Paginator from 'components/molecules/Table/Paginator';
 import Toolbar, { ToolbarProps } from 'components/molecules/Table/Toolbar';
 import { MenuDocument } from 'model/menu/menu';
 import { DocumentReferenceHolder } from 'api/firebase/firebase.types';
+
+export const Route = createContext({ path: '' });
 
 export interface AdvancedTableProps<T extends MenuDocument> extends Omit<ToolbarProps, 'filterColumns'> {
   name: string;
@@ -61,17 +63,19 @@ function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
   );
 
   return (
-    <Box m="2rem" minW="90%">
-      <TopBar name={props.name} length={data.length} />
-      <Toolbar
-        filterColumns={filterColumns}
-        buttonRoutePath={props.buttonRoutePath}
-        onSearch={onSearch}
-        onFilter={onFilter}
-      />
-      <Content {...tableInstance} />
-      <Paginator {...tableInstance} />
-    </Box>
+    <Route.Provider value={{ path: props.buttonRoutePath! }}>
+      <Box m="2rem" minW="90%">
+        <TopBar name={props.name} length={data.length} />
+        <Toolbar
+          filterColumns={filterColumns}
+          buttonRoutePath={props.buttonRoutePath}
+          onSearch={onSearch}
+          onFilter={onFilter}
+        />
+        <Content {...tableInstance} />
+        <Paginator {...tableInstance} />
+      </Box>
+    </Route.Provider>
   );
 }
 
