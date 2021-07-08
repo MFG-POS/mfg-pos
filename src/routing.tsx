@@ -21,6 +21,9 @@ import Products from 'views/Menu/Products';
 import Categories from 'views/Menu/Categories';
 import Ingredients from 'views/Menu/Ingredients';
 import Order from 'views/Order/Order';
+import Board from 'views/Order/Board';
+
+export const orderBoardPath = '/orders/board/';
 
 export type RouteCategories = 'Zamówienia' | 'Statystyki' | 'Menu' | 'Magazyn' | 'Dostęp' | 'Ustawienia';
 
@@ -39,8 +42,13 @@ export const ROUTE: Route<IRouteData> = {
   HOME: { path: '/', name: 'Strona główna', component: <Dashboard />, isExact: true },
 };
 
+export const ROUTE_BOARD: Route<IRouteData> = {
+  BOARD: { path: orderBoardPath, name: 'Stoliki', component: <Board /> },
+};
+
 export const ROUTE_ORDERS: Route<IRouteData> = {
-  TERMINAL: { path: '/orders/terminal/', name: 'Terminal', component: <Order /> },
+  ...ROUTE_BOARD,
+  TERMINAL: { path: '/orders/:id/', name: 'Terminal', component: <Order /> },
 };
 
 export const ROUTE_STATS: Route<IRouteData> = {

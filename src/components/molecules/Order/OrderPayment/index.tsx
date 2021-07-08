@@ -9,8 +9,10 @@ type OrderPaymentProps = {
   sum: string;
   cashValue: string;
   cardValue: string;
+  withoutPayment: boolean;
   setCashValue: Dispatch<SetStateAction<string>>;
   setCardValue: Dispatch<SetStateAction<string>>;
+  setWithoutPayment: Dispatch<SetStateAction<boolean>>;
   setActiveInputType: Dispatch<SetStateAction<ActiveInputType | null>>;
 };
 
@@ -18,9 +20,11 @@ const OrderPayment = ({
   sum,
   cashValue,
   cardValue,
+  withoutPayment,
   setCashValue,
   setCardValue,
   setActiveInputType,
+  setWithoutPayment,
 }: OrderPaymentProps) => (
   <VStack py="4" spacing="8" borderColor="gray.100" borderRadius="12px" borderWidth="1px">
     <OrderPaymentGroup
@@ -61,7 +65,16 @@ const OrderPayment = ({
     </VStack>
     <VStack spacing="5" w="100%">
       <OrderPaymentGroup text="DRUKUJ PARAGON" component={<Checkbox colorScheme="green" defaultIsChecked />} />
-      <OrderPaymentGroup text="ZAMKNIJ BEZ OPŁATY" component={<Checkbox colorScheme="green" />} />
+      <OrderPaymentGroup
+        text="ZAMKNIJ BEZ OPŁATY"
+        component={
+          <Checkbox
+            colorScheme="green"
+            isChecked={withoutPayment}
+            onChange={(event) => setWithoutPayment(event.target.checked)}
+          />
+        }
+      />
     </VStack>
   </VStack>
 );
