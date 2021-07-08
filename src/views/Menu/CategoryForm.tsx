@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, useToast } from '@chakra-ui/react';
 
@@ -13,25 +13,61 @@ import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormGroupFile from 'components/molecules/FormGroupFileUpload';
-import { getAll, save } from 'api/firebase/firestore/firestore-actions';
+import { getAll, getSingle, save, update } from 'api/firebase/firestore/firestore-actions';
 import { store } from 'api/firebase/storage/storage-actions';
 import { firestore } from 'api/firebase/firebase.api';
 
 const CategoryForm = () => {
+  const location = useLocation<{ isEdit: boolean; id: string }>();
+
+  const isEdit = location?.state?.isEdit || false;
+  const doc = location?.state?.id || null;
+
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const [taxesMap, setTaxesMap] = useState<Record<string, string>>({});
   const [categoriesMap, setCategoriesMap] = useState<Record<string, string>>({});
 
+  const [imagePreview, setImagePreview] = useState<string>();
+
   const toast = useToast();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     control,
+    reset,
+    watch,
   } = useForm<CategoryWrite>();
 
+  const img = watch('image');
+
+  useEffect(() => {
+    if (img && img[0]) {
+      setImagePreview(URL.createObjectURL(img[0]));
+    }
+  }, [img]);
+
   const onSubmit: SubmitHandler<CategoryWrite> = (data) => {
+    if (doc) {
+      update('categories', doc, {
+        ...data,
+        parent: data.parent ? firestore.doc(`categories/${data.parent}`) : null,
+        tax: data.tax ? firestore.doc(`taxes/${data.tax}`) : null,
+      }).then(() => {
+        setIsSubmitted(true);
+        toast({
+          title: 'Kategoria zmodyfikowana 🙌',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-right',
+        });
+      });
+      return;
+    }
+
     const image: File = data.image[0] as File;
     store('categories/', image, async (url) => {
       await save('categories', {
@@ -63,6 +99,18 @@ const CategoryForm = () => {
         data.reduce((acc, category) => ({ ...acc, [category.id!]: category.name }), {}) as Record<string, string>,
       );
     });
+    if (doc) {
+      getSingle('categories', doc).then((data) => {
+        reset({
+          ...data,
+          image: '',
+          parent: data?.parent?.id || '',
+          tax: data?.tax?.id || '',
+        });
+
+        setImagePreview(data.image as string);
+      });
+    }
   }, []);
 
   return (
@@ -105,6 +153,7 @@ const CategoryForm = () => {
           register={register}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
+          imagePreview={imagePreview as string}
         />
         <Button isLoading={isSubmitting} type="submit" colorScheme="green" variant="solid" alignSelf="flex-start">
           Zapisz
