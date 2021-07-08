@@ -17,6 +17,8 @@ export interface AdvancedTableProps<T extends MenuDocument> extends Omit<Toolbar
   collection: string;
   columns: ColumnDefinition<T>[];
   references?: DocumentReferenceHolder[];
+  // TODO: To be refactored with global state
+  fetchRefresher?: boolean;
 }
 
 function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
@@ -38,7 +40,7 @@ function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
       .catch((error) => {
         throw new Error(`Could not fetch ${props.collection} collection!. Error: ${error.message}`);
       });
-  }, [props.collection, props.references]);
+  }, [props.collection, props.references, props.fetchRefresher]);
 
   const onSearch = (value: string): void => {
     if (isEmpty(value) || isEmpty(filterColumns)) setDisplayedData(data);
