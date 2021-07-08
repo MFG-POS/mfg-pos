@@ -28,6 +28,7 @@ const CategoryForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<CategoryWrite>();
 
   const onSubmit: SubmitHandler<CategoryWrite> = (data) => {
@@ -82,7 +83,7 @@ const CategoryForm = () => {
           id="parent-category"
           name="parent"
           placeholder="Wybierz kategorię nadrzędną"
-          register={register}
+          control={control}
           errors={errors}
           validation={{}}
           options={categoriesMap}
@@ -92,7 +93,7 @@ const CategoryForm = () => {
           id="tax"
           name="tax"
           placeholder="Wybierz podatek dla produktów w kategorii"
-          register={register}
+          control={control}
           errors={errors}
           validation={{}}
           options={taxesMap}
