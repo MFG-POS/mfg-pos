@@ -73,7 +73,7 @@ const TaxesForm = () => {
           id="taxType"
           name="type"
           placeholder="Wybierz rodzaj podatku"
-          register={register}
+          control={control}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
           options={TAX_OPTIONS}

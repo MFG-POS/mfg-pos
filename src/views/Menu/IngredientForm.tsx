@@ -22,6 +22,7 @@ const IngredientForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<Ingredient>();
 
   const onSubmit: SubmitHandler<Ingredient> = (data) => {
@@ -58,7 +59,7 @@ const IngredientForm = () => {
           id="unit-of-measure"
           name="unitOfMeasure"
           placeholder="Wybierz jednostkę"
-          register={register}
+          control={control}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
           options={UnitOfMeasure}

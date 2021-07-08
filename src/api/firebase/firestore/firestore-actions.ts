@@ -4,6 +4,7 @@ import { BoardTableInstance } from 'model/board/board-table-instance';
 import { Order } from 'model/order/order';
 import {
   CollectionReference,
+  DocumentData,
   DocumentReference,
   DocumentReferenceHolder,
   Documents,
@@ -32,6 +33,12 @@ export const getAllByParent = async <T extends MenuDocument>(
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
 
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
+};
+
+export const getSingle = async <T extends MenuDocument>(collection: string, document: string): Promise<T> => {
+  const reference: DocumentReference = firestore.collection(collection).doc(document);
+  const snapshot: DocumentData = await reference.get();
+  return snapshot.data();
 };
 
 export const getAll = async <T extends MenuDocument>(
