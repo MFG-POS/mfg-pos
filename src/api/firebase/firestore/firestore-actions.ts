@@ -2,6 +2,7 @@ import { MenuDocument } from 'model/menu/menu';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import {
   CollectionReference,
+  DocumentData,
   DocumentReference,
   DocumentReferenceHolder,
   Documents,
@@ -24,6 +25,12 @@ export const getAllByParent = async <T extends MenuDocument>(
   ).get();
 
   return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, []));
+};
+
+export const getSingle = async <T extends MenuDocument>(collection: string, document: string): Promise<T> => {
+  const reference: DocumentReference = firestore.collection(collection).doc(document);
+  const snapshot: DocumentData = await reference.get();
+  return snapshot.data();
 };
 
 export const getAll = async <T extends MenuDocument>(
