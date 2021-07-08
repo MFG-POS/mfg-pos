@@ -20,6 +20,7 @@ export const getAllByParent = async <T extends MenuDocument>(
   parentCollection: string,
   parentFieldPath: string,
   parentId?: string,
+  references?: DocumentReferenceHolder[],
 ): Promise<T[]> => {
   const reference: CollectionReference = getCollectionReference(collection);
   const snapshot: Snapshot = await (parentId !== undefined
@@ -27,7 +28,10 @@ export const getAllByParent = async <T extends MenuDocument>(
     : reference.where(parentFieldPath, '==', null)
   ).get();
 
-  return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, []));
+  let fetchedReferences: DocumentReferenceHolder[];
+  if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
+
+  return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
 };
 
 export const getAll = async <T extends MenuDocument>(
