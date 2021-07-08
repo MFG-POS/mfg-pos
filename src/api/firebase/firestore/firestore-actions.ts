@@ -82,6 +82,11 @@ const getAllReferences = async (references: DocumentReferenceHolder[]): Promise<
     references.map(async (reference) => ({ ...reference, documents: await getAll(reference.collectionName) })),
   );
 
+export const deleteDoc = async (collection: string, document: string): Promise<void> => {
+  const reference: DocumentReference = firestore.collection(collection).doc(document);
+  await reference.delete();
+};
+
 export const getAllOrders = async (): Promise<Order[]> => {
   const reference: CollectionReference = firestore.collection('orders');
   const snapshot: Snapshot = await reference.get();

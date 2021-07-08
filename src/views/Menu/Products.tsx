@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 import { TableProduct } from 'model/table/table-types';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
@@ -6,9 +6,20 @@ import AdvancedTable, { AdvancedTableProps } from 'components/organisms/Advanced
 import { ROUTE_MENU_FORMS } from 'routing';
 import { taxesAndCategories } from 'others/references';
 import { currency, percent } from 'others/table-formats';
+import { deleteDoc } from 'api/firebase/firestore/firestore-actions';
 
 const Products = () => {
-  const onRowDelete = (row: Row<TableProduct>): void => console.log(`Should delete row with id ${row.id}`);
+  // TODO: Dummy state for view refresh after item gets deleted. To be refactored with Redux.
+  const [state, stateRefresher] = useState(false);
+
+  const onRowDelete = (row: Row<TableProduct>): void => {
+    // TODO: Use Chakra UI Alert Dialog in the future
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Czy na pewno chcesz usunąć tą kategorię?')) {
+      deleteDoc('products', row.original.id);
+      stateRefresher(!state);
+    }
+  };
   const onRowEdit = (row: Row<TableProduct>): void => console.log(`Should edit row with id ${row.id}`);
 
   const actions: TableAction<TableProduct>[] = useMemo(
@@ -82,6 +93,7 @@ const Products = () => {
     columns,
     references: taxesAndCategories,
     buttonRoutePath: ROUTE_MENU_FORMS.PRODUCT.path,
+    fetchRefresher: state,
   };
 
   return <AdvancedTable<TableProduct> {...tableProps} />;
