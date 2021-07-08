@@ -7,11 +7,12 @@ import OrderPanel from 'components/organisms/OrderPanel';
 import { OrderStateProps } from 'views/Order/Order';
 
 type OrderTerminalProps = {
+  cancelOrder: () => void;
   summaryItems: OrderSummaryItem[];
   setSummaryItems: Dispatch<SetStateAction<OrderSummaryItem[]>>;
 } & OrderStateProps;
 
-const OrderTerminal = ({ summaryItems, setSummaryItems, setOrderState }: OrderTerminalProps) => {
+const OrderTerminal = ({ order, summaryItems, setSummaryItems, setOrderState, cancelOrder }: OrderTerminalProps) => {
   const addSummaryItem = (document: OrderDocument) => {
     const itIsSummaryDocument = isSummaryDocument(document);
     const itemIndex = summaryItems.findIndex((item) => item.document.id === document.id);
@@ -59,10 +60,12 @@ const OrderTerminal = ({ summaryItems, setSummaryItems, setOrderState }: OrderTe
       </Box>
       <Box minW="60vh">
         <OrderSummary
+          order={order}
           items={summaryItems}
           onChange={updateSummaryItem}
           onDelete={deleteSummaryItem}
           setOrderState={setOrderState}
+          cancelOrder={cancelOrder}
         />
       </Box>
     </Flex>

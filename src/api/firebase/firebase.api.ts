@@ -11,6 +11,7 @@ firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 export const storage = firebase.storage();
+export const deleteFieldValue = firebase.firestore.FieldValue.delete();
 
 export const storageTaskState = firebase.storage.TaskState;
 export const storageEventState = firebase.storage.TaskEvent;

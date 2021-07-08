@@ -1,5 +1,5 @@
-import { Heading } from '@chakra-ui/react';
+import SalesStatistics from 'components/organisms/SalesStatistics';
 
-const Sales = () => <Heading>MOCK: Sprzedaż</Heading>;
+const Sales = () => <SalesStatistics />;
 
 export default Sales;
