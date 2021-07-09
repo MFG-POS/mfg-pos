@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react';
 import { BoardTableInstance, TableDND } from 'model/board/board-table-instance';
 import { Box } from '@chakra-ui/react';
@@ -17,11 +19,14 @@ const BoardTables = ({ tables, moveTable, deleteTable, updateSeats }: BoardTable
       accept: TableDND.TABLE,
       drop(item: BoardTableInstance, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
-        let left = item.left + delta.x;
-        let top = item.top + delta.y;
-        if (top > 455) {
-          const difference: number = top - 340;
-          top -= difference;
+        let left = item.left + delta.x + 98;
+        let top = item.top + delta.y + 48;
+
+        if (left > document.getElementById('board')?.clientWidth) {
+          left = document.getElementById('board')?.clientWidth;
+        }
+        if (top > document.getElementById('board')?.clientHeight) {
+          top = document.getElementById('board')?.clientHeight;
         }
         if (top < 0) {
           top = 0;
@@ -29,6 +34,8 @@ const BoardTables = ({ tables, moveTable, deleteTable, updateSeats }: BoardTable
         if (left < 0) {
           left = 0;
         }
+        left -= 98;
+        top -= 50;
         moveTable(item.id, left, top);
       },
     }),
@@ -36,7 +43,7 @@ const BoardTables = ({ tables, moveTable, deleteTable, updateSeats }: BoardTable
   );
 
   return (
-    <Box ref={drop} w="100%" h="100%" position="relative">
+    <Box id="board" ref={drop} width="100%" h="100%" position="relative" style={{ width: '100%' }}>
       {tables &&
         tables.map((table) => {
           const { id, left, top, seats, height, width, borderRadius } = table;

@@ -1,6 +1,6 @@
 import { VStack, Box, Flex } from '@chakra-ui/react';
-import AddSupplierTitle from 'components/molecules/Supplier/AddSupplierTitle/index';
-import AddSupplierData from 'components/molecules/Supplier/AddSupplierData/index';
+import AddSupplierTitle from 'components/molecules/Employees/Supplier/AddSupplierTitle/index';
+import AddSupplierData from 'components/molecules/Employees/Supplier/AddSupplierData/index';
 
 const Supplier = () => (
   <Box w="100%" minWidth="30em">

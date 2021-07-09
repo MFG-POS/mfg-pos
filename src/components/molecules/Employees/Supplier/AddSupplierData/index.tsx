@@ -11,10 +11,10 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import AddSupplierButtons from 'components/molecules/Supplier/AddSupplierButtons/index';
-import breakpoints from 'components/molecules/Supplier/styled/AddSupplierData/breakpoints';
-import breakpointsFontSize from 'components/molecules/Supplier/styled/AddSupplierData/breakpointsFontSize';
-import breakpointsMargin from 'components/molecules/Supplier/styled/AddSupplierData/breakpointsMargin';
+import AddSupplierButtons from 'components/molecules/Employees/Supplier/AddSupplierButtons/index';
+import breakpoints from 'components/molecules/Employees/styled/breakpoints';
+import breakpointsFontSize from 'components/molecules/Employees/styled/breakpointsFontSize';
+import breakpointsMargin from 'components/molecules/Employees/styled/breakpointsMargin';
 
 const AddSupplierData = () => {
   const {
@@ -53,7 +53,7 @@ const AddSupplierData = () => {
                   border="1px"
                   borderRadius="2em"
                   borderColor="gray.300"
-                  {...register('nameSupplier', { required: 'Brak numeru telefonu' })}
+                  {...register('nameSupplier', { required: 'Brak nazwy' })}
                 />
                 {errors.nameSupplier && (
                   <Box fontSize={breakpointsFontSize} color="red">

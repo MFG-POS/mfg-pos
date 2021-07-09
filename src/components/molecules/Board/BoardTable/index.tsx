@@ -29,7 +29,6 @@ const BoardTable = ({ id, left, top, height, width, seats, deleteTable, updateSe
   return (
     <Box
       bg="gray.300"
-      ref={drag}
       fontWeight="bold"
       position="absolute"
       cursor="pointer"
@@ -63,7 +62,7 @@ const BoardTable = ({ id, left, top, height, width, seats, deleteTable, updateSe
           <MenuItem onClick={onOpen}>Wskaż ilość miejsc</MenuItem>
         </MenuList>
       </Menu>
-      <Flex justifyContent="center" alignItems="center" h="100%">
+      <Flex justifyContent="center" alignItems="center" h="100%" ref={drag}>
         {seats}
       </Flex>
     </Box>
