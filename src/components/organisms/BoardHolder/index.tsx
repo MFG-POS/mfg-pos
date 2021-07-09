@@ -43,13 +43,9 @@ const BoardHolder = () => {
     setTables(() => [...filterTables(id), table]);
   };
 
-  const clearBoard = () => {
-    setTables(() => [createTable(uuidv4())]);
-  };
+  const clearBoard = () => setTables(() => [createTable(uuidv4())]);
 
-  const deleteTable = (id: string) => {
-    setTables(() => [...filterTables(id)]);
-  };
+  const deleteTable = (id: string) => setTables(() => [...filterTables(id)]);
 
   const addNewTable = () => {
     const left = Math.floor(Math.random() * 800) + 50;

@@ -15,7 +15,7 @@ const Logo = ({ isLink }: LogoProps) => (
     w="100%"
     textAlign="center"
   >
-    {isLink ? <Link to="/">mfg.pos</Link> : 'mfg.pos'}
+    {isLink ? <Link to="/dashboard">mfg.pos</Link> : 'mfg.pos'}
   </Heading>
 );
 

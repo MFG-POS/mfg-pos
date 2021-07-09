@@ -1,4 +1,4 @@
-import { Category } from 'model/documents/category';
+import { CategoryRead as Category } from 'model/documents/category';
 import { Dish } from 'model/documents/dish';
 import { Product } from 'model/documents/products';
 

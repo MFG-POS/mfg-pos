@@ -1,4 +1,14 @@
-import { Flex, FormControl, FormErrorMessage, FormLabel, Input, Stack, Text, VisuallyHidden } from '@chakra-ui/react';
+import {
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  VStack,
+  Text,
+  VisuallyHidden,
+  Image,
+} from '@chakra-ui/react';
 import FileUploadIcon from 'components/atoms/FileUploadIcon';
 import { FormGroupProps } from 'others/form-group-type';
 import { Path, UseFormRegister } from 'react-hook-form';
@@ -6,9 +16,18 @@ import { Path, UseFormRegister } from 'react-hook-form';
 type FormGroupFileProps<MenuForm> = FormGroupProps & {
   name: Path<MenuForm>;
   register: UseFormRegister<MenuForm>;
+  imagePreview: string;
 };
 
-function FormGroupFile<MenuForm>({ label, id, name, register, errors, validation }: FormGroupFileProps<MenuForm>) {
+function FormGroupFile<MenuForm>({
+  label,
+  id,
+  name,
+  register,
+  errors,
+  validation,
+  imagePreview,
+}: FormGroupFileProps<MenuForm>) {
   return (
     <FormControl isInvalid={errors[name]}>
       <FormLabel htmlFor={id} fontSize="sm" fontWeight="md" color="gray.700">
@@ -25,8 +44,8 @@ function FormGroupFile<MenuForm>({ label, id, name, register, errors, validation
         borderStyle="dashed"
         rounded="md"
       >
-        <Stack spacing="1" textAlign="center">
-          <FileUploadIcon />
+        <VStack spacing="1" textAlign="center">
+          {!imagePreview && <FileUploadIcon />}
           <Flex fontSize="sm" color="gray.600" alignItems="baseline">
             <FormLabel
               htmlFor={id}
@@ -46,10 +65,13 @@ function FormGroupFile<MenuForm>({ label, id, name, register, errors, validation
             </FormLabel>
             <Text>lub przeciągnij i upuść</Text>
           </Flex>
-          <Text fontSize="xs" color="gray.500">
-            PNG, JPG, GIF, maksymalna wielkość: 1MB
-          </Text>
-        </Stack>
+          {imagePreview && <Image boxSize="150px" objectFit="contain" src={imagePreview} alt="" textAlign="center" />}
+          {!imagePreview && (
+            <Text fontSize="xs" color="gray.500">
+              PNG, JPG, GIF, maksymalna wielkość: 1MB
+            </Text>
+          )}
+        </VStack>
       </Flex>
       <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
     </FormControl>

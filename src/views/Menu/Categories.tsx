@@ -1,12 +1,24 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
 import { ROUTE_MENU_FORMS } from 'routing';
 import { TableCategory } from 'model/table/table-types';
+import { deleteDoc } from 'api/firebase/firestore/firestore-actions';
 
 const Categories = () => {
-  const onRowDelete = (row: Row<TableCategory>): void => console.log(`Should delete row with id ${row.id}`);
+  // TODO: Dummy state for view refresh after item gets deleted. To be refactored with Redux.
+  const [state, stateRefresher] = useState(false);
+
+  const onRowDelete = (row: Row<TableCategory>): void => {
+    // TODO: Use Chakra UI Alert Dialog in the future
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Czy na pewno chcesz usunąć tą kategorię?')) {
+      deleteDoc('categories', row.original.id).then(() => {
+        stateRefresher(!state);
+      });
+    }
+  };
   const onRowEdit = (row: Row<TableCategory>): void => console.log(`Should edit row with id ${row.id}`);
 
   const actions: TableAction<TableCategory>[] = useMemo(
@@ -45,6 +57,7 @@ const Categories = () => {
     collection: 'categories',
     columns,
     buttonRoutePath: ROUTE_MENU_FORMS.CATEGORY.path,
+    fetchRefresher: state,
   };
 
   return <AdvancedTable<TableCategory> {...tableProps} />;

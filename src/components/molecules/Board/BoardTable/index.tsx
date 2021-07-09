@@ -24,10 +24,11 @@ const BoardTable = ({ id, left, top, height, width, seats, deleteTable, updateSe
     [id, left, top],
   );
 
-  if (isDragging) return <Box ref={drag} />;
+  if (isDragging) return <Box id={id} ref={drag} width={width} height={height} left={left} top={top} />;
 
   return (
     <Box
+      id={id}
       bg="gray.300"
       fontWeight="bold"
       position="absolute"

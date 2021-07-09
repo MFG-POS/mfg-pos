@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllByParent } from 'api/firebase/firestore/firestore-actions';
-import { Category } from 'model/documents/category';
+import { CategoryRead as Category } from 'model/documents/category';
 import { Dish } from 'model/documents/dish';
 import { Flex } from '@chakra-ui/react';
 import { isEmpty } from 'others/helper-functions';
@@ -8,6 +8,7 @@ import { Product } from 'model/documents/products';
 import { isSummaryDocument, OrderDocument } from 'model/order/order-types';
 import OrderBreadcrumb from 'components/molecules/Order/OrderBreadcrumb';
 import OrderTilesGroup from 'components/atoms/OrderTilesGroup';
+import { taxesAndCategories } from 'others/references';
 
 type OrderPanelProps = {
   addSummaryItem: (document: OrderDocument) => void;
@@ -40,7 +41,13 @@ const OrderPanel = ({ addSummaryItem }: OrderPanelProps) => {
 
   const getDishes = (): void => {
     if (!isEmpty(breadcrumbState))
-      getAllByParent<Dish>('dishes', 'categories', 'category', breadcrumbState[breadcrumbState.length - 1].id)
+      getAllByParent<Dish>(
+        'dishes',
+        'categories',
+        'category',
+        breadcrumbState[breadcrumbState.length - 1].id,
+        taxesAndCategories,
+      )
         .then((documents) => setDishes(documents))
         .catch((error) => {
           throw new Error(`Could not fetch dishes!. Error: ${error.message}`);
@@ -49,7 +56,13 @@ const OrderPanel = ({ addSummaryItem }: OrderPanelProps) => {
 
   const getProducts = (): void => {
     if (!isEmpty(breadcrumbState))
-      getAllByParent<Product>('products', 'categories', 'category', breadcrumbState[breadcrumbState.length - 1].id)
+      getAllByParent<Product>(
+        'products',
+        'categories',
+        'category',
+        breadcrumbState[breadcrumbState.length - 1].id,
+        taxesAndCategories,
+      )
         .then((documents) => setProducts(documents))
         .catch((error) => {
           throw new Error(`Could not fetch products!. Error: ${error.message}`);
