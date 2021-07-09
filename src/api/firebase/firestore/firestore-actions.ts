@@ -59,6 +59,11 @@ export const save = async <T>(collection: string, data: T): Promise<DocumentRefe
   return reference.add(data);
 };
 
+export const update = async <T>(collection: string, document: string, data: T): Promise<void> => {
+  const reference: DocumentReference = firestore.collection(collection).doc(document);
+  return reference.set(data);
+};
+
 const mapDocumentWithReferences = <T extends MenuDocument>(data: Documents, references?: DocumentReferenceHolder[]) => {
   const result = {
     id: data.id,

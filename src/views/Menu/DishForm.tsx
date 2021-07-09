@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, FormLabel, NumberInput, NumberInputField, Stack, useToast, VStack, Text } from '@chakra-ui/react';
 
@@ -13,24 +13,41 @@ import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormGroupFile from 'components/molecules/FormGroupFileUpload';
-import { getAll, getSingle, save } from 'api/firebase/firestore/firestore-actions';
+import { getAll, getSingle, save, update } from 'api/firebase/firestore/firestore-actions';
 import FormGroupNumber from 'components/molecules/FormGroupNumber';
 import { store } from 'api/firebase/storage/storage-actions';
 import { firestore } from 'api/firebase/firebase.api';
+import { Tax } from 'model/documents/tax';
+import { CategoryRead } from 'model/documents/category';
 
 const DishForm = () => {
+  const location = useLocation<{ isEdit: boolean; id: string }>();
+
+  const doc = location?.state?.id || null;
+
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const [taxesMap, setTaxesMap] = useState<Record<string, string>>({});
   const [categoriesMap, setCategoriesMap] = useState<Record<string, string>>({});
 
+  const [imagePreview, setImagePreview] = useState<string>();
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting },
     control,
+    reset,
+    watch,
   } = useForm<Dish>();
+
+  const img = watch('image');
+
+  useEffect(() => {
+    if (img && img[0]) {
+      setImagePreview(URL.createObjectURL(img[0]));
+    }
+  }, [img]);
 
   const toast = useToast();
 
@@ -50,6 +67,7 @@ const DishForm = () => {
   useEffect(() => {
     setGrossPrice(getGrossPrice(Number(netValue), Number(overheadValue), Number(taxValue)));
   }, [taxValue, netValue, overheadValue]);
+
   useEffect(() => {
     if (!taxDoc) {
       setTaxValue(0);
@@ -59,6 +77,27 @@ const DishForm = () => {
   }, [taxDoc]);
 
   const onSubmit: SubmitHandler<Dish> = (data) => {
+    if (doc) {
+      update('dishes', doc, {
+        ...data,
+        category: firestore.doc(`categories/${data.category}`),
+        tax: data.tax ? firestore.doc(`taxes/${data.tax}`) : null,
+        grossPrice,
+        netPrice: Number(data.netPrice),
+        overhead: Number(data.overhead),
+      }).then(() => {
+        setIsSubmitted(true);
+        toast({
+          title: 'Danie zmodyfikowane 🙌',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom-right',
+        });
+      });
+      return;
+    }
+
     const image: File = data.image[0] as File;
     store('dishes/', image, async (url) => {
       await save('dishes', {
@@ -66,6 +105,8 @@ const DishForm = () => {
         category: firestore.doc(`categories/${data.category}`),
         tax: firestore.doc(`taxes/${taxDoc}`),
         grossPrice,
+        netPrice: Number(data.netPrice),
+        overhead: Number(data.overhead),
         image: url,
       });
       setIsSubmitted(true);
@@ -90,6 +131,18 @@ const DishForm = () => {
         data.reduce((acc, category) => ({ ...acc, [category.id!]: category.name }), {}) as Record<string, string>,
       );
     });
+
+    if (doc) {
+      getSingle('dishes', doc).then((data) => {
+        reset({
+          ...data,
+          image: '',
+          category: ((data?.category?.id || '') as unknown) as CategoryRead,
+          tax: ((data?.tax?.id || '') as unknown) as Tax,
+        });
+        setImagePreview(data.image as string);
+      });
+    }
   }, []);
 
   return (
@@ -180,6 +233,7 @@ const DishForm = () => {
           register={register}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
+          imagePreview={imagePreview as string}
         />
         <Button isLoading={isSubmitting} type="submit" colorScheme="green" variant="solid" alignSelf="flex-start">
           Zapisz

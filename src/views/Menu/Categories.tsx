@@ -14,8 +14,9 @@ const Categories = () => {
     // TODO: Use Chakra UI Alert Dialog in the future
     // eslint-disable-next-line no-alert
     if (window.confirm('Czy na pewno chcesz usunąć tą kategorię?')) {
-      deleteDoc('categories', row.original.id);
-      stateRefresher(!state);
+      deleteDoc('categories', row.original.id).then(() => {
+        stateRefresher(!state);
+      });
     }
   };
   const onRowEdit = (row: Row<TableCategory>): void => console.log(`Should edit row with id ${row.id}`);
