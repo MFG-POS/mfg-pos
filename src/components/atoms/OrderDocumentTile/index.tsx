@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Text, Tooltip } from '@chakra-ui/react';
 import { isSummaryDocument, OrderDocument } from 'model/order/order-types';
+import loading from 'assets/images/loading.gif';
 
 type OrderDocumentTileProps = {
   document: OrderDocument;
@@ -17,7 +18,14 @@ const OrderDocumentTile = ({ document, onClick }: OrderDocumentTileProps) => (
     _hover={{ boxShadow: '2xl', cursor: 'pointer' }}
     onClick={() => onClick(document)}
   >
-    <Image src={document.image as string} alt="Document image" width="100%" height="100px" objectFit="cover" />
+    <Image
+      src={document.image as string}
+      fallbackSrc={loading}
+      alt="Document image"
+      width="100%"
+      height="100px"
+      objectFit="cover"
+    />
     <Flex direction="row" justifyContent="space-between" maxHeight="40px" textOverflow="ellipsis" px="1" py="2" ml="2">
       <Tooltip label={document.name} aria-label="Name tooltip">
         <Text overflow="hidden" whiteSpace="nowrap" textOverflow="ellipsis">

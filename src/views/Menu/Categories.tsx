@@ -5,26 +5,28 @@ import AdvancedTable, { AdvancedTableProps } from 'components/organisms/Advanced
 import { ROUTE_MENU_FORMS } from 'routing';
 import { TableCategory } from 'model/table/table-types';
 import { deleteDoc } from 'api/firebase/firestore/firestore-actions';
+import { deleteCategoryContent, deleteCategoryHeader, deleteCategoryToast } from 'others/modal-messages';
 
 const Categories = () => {
   // TODO: Dummy state for view refresh after item gets deleted. To be refactored with Redux.
   const [state, stateRefresher] = useState(false);
 
   const onRowDelete = (row: Row<TableCategory>): void => {
-    // TODO: Use Chakra UI Alert Dialog in the future
-    // eslint-disable-next-line no-alert
-    if (window.confirm('Czy na pewno chcesz usunąć tą kategorię?')) {
-      deleteDoc('categories', row.original.id).then(() => {
-        stateRefresher(!state);
-      });
-    }
+    deleteDoc('categories', row.original.id).then(() => stateRefresher(!state));
   };
+
   const onRowEdit = (row: Row<TableCategory>): void => console.log(`Should edit row with id ${row.id}`);
 
   const actions: TableAction<TableCategory>[] = useMemo(
     () => [
       { name: 'Edytuj', callback: onRowEdit },
-      { name: 'Usuń', callback: onRowDelete },
+      {
+        name: 'Usuń',
+        callback: onRowDelete,
+        modalHeader: deleteCategoryHeader,
+        modalContent: deleteCategoryContent,
+        modalToast: deleteCategoryToast,
+      },
     ],
     [],
   );

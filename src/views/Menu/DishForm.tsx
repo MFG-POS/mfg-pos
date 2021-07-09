@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button, FormLabel, NumberInput, NumberInputField, Stack, useToast, VStack, Text } from '@chakra-ui/react';
+import { Button, FormLabel, NumberInput, NumberInputField, Stack, Text, useToast, VStack } from '@chakra-ui/react';
 
 import { ROUTE_MENU } from 'routing';
 
@@ -61,7 +61,7 @@ const DishForm = () => {
 
   const getGrossPrice = (net: number, overhead: number, tax: number) => {
     const gross = net + (net * tax) / 100 + (net * overhead) / 100;
-    return gross || 0;
+    return parseFloat(gross.toFixed(2)) || 0;
   };
 
   useEffect(() => {
@@ -92,7 +92,6 @@ const DishForm = () => {
           status: 'success',
           duration: 5000,
           isClosable: true,
-          position: 'bottom-right',
         });
       });
       return;
@@ -115,7 +114,6 @@ const DishForm = () => {
         status: 'success',
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right',
       });
     });
   };
