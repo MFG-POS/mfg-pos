@@ -7,26 +7,28 @@ import { ROUTE_MENU_FORMS } from 'routing';
 import { taxesAndCategories } from 'others/references';
 import { currency, percent } from 'others/table-formats';
 import { deleteDoc } from 'api/firebase/firestore/firestore-actions';
+import { deleteDishContent, deleteDishHeader, deleteDishToast } from 'others/modal-messages';
 
 const Dishes = () => {
   // TODO: Dummy state for view refresh after item gets deleted. To be refactored with Redux.
   const [state, stateRefresher] = useState(false);
 
   const onRowDelete = (row: Row<TableDish>): void => {
-    // TODO: Use Chakra UI Alert Dialog in the future
-    // eslint-disable-next-line no-alert
-    if (window.confirm('Czy na pewno chcesz usunąć tą kategorię?')) {
-      deleteDoc('dishes', row.original.id).then(() => {
-        stateRefresher(!state);
-      });
-    }
+    deleteDoc('dishes', row.original.id).then(() => stateRefresher(!state));
   };
+
   const onRowEdit = (row: Row<TableDish>): void => console.log(`Should edit row with id ${row.id}`);
 
   const actions: TableAction<TableDish>[] = useMemo(
     () => [
       { name: 'Edytuj', callback: onRowEdit },
-      { name: 'Usuń', callback: onRowDelete },
+      {
+        name: 'Usuń',
+        callback: onRowDelete,
+        modalHeader: deleteDishHeader,
+        modalContent: deleteDishContent,
+        modalToast: deleteDishToast,
+      },
     ],
     [],
   );

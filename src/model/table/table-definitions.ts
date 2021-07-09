@@ -7,6 +7,9 @@ export type ColumnInstanceDefinition<T extends MenuDocument> = ColumnInstance<T>
 
 export interface TableAction<T extends MenuDocument> {
   name: string;
+  modalHeader?: string;
+  modalContent?: string;
+  modalToast?: string;
   callback: (row: Row<T>) => void;
 }
 

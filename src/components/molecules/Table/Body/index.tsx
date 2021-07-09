@@ -3,6 +3,7 @@ import { Cell, Row, TableBodyProps } from 'react-table';
 import { ColumnInstanceDefinition } from 'model/table/table-definitions';
 import ActionCell from 'components/molecules/Table/ActionCell';
 import { MenuDocument } from 'model/menu/menu';
+import loading from 'assets/images/loading.gif';
 
 type BodyProps<T extends MenuDocument> = {
   bodyProps: TableBodyProps;
@@ -23,7 +24,7 @@ function Body<T extends MenuDocument>({ bodyProps, page, prepareRow }: BodyProps
               return (
                 <Td alignSelf="center" border="none" {...cell.getCellProps()} key={cell.column.id}>
                   {column.isImageColumn ? (
-                    <Image src={cell.value} alt="" width="100px" />
+                    <Image src={cell.value} alt="" width="100px" fallbackSrc={loading} />
                   ) : column.actions ? (
                     <ActionCell name="Akcje" actions={column.actions} row={row} />
                   ) : (

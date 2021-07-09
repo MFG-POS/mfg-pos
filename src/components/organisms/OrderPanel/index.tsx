@@ -102,7 +102,7 @@ const OrderPanel = ({ addSummaryItem }: OrderPanelProps) => {
           onDocumentClick={onDocumentClick}
         />
         <OrderTilesGroup
-          showDivider={!isEmpty(products) && !isEmpty(dishes)}
+          showDivider={!isEmpty(products) && (!isEmpty(dishes) || !isEmpty(categories))}
           documents={products}
           onDocumentClick={onDocumentClick}
         />

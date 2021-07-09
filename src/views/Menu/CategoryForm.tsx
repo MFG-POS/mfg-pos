@@ -62,7 +62,6 @@ const CategoryForm = () => {
           status: 'success',
           duration: 5000,
           isClosable: true,
-          position: 'bottom-right',
         });
       });
       return;
@@ -78,11 +77,10 @@ const CategoryForm = () => {
       });
       setIsSubmitted(true);
       toast({
-        title: 'Podatek dodany 🙌',
+        title: 'Kategoria dodana 🙌',
         status: 'success',
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right',
       });
     });
   };

@@ -10,3 +10,6 @@ export const percent = ({ value }: CellProps<MenuDocument>): JSX.Element => <Tex
 export const unitOfMeasure = ({ value }: CellProps<MenuDocument>): JSX.Element => (
   <Text> {`${UnitOfMeasure[value as UnitOfMeasureKey]}`} </Text>
 );
+export const booleanDisplay = ({ value }: CellProps<MenuDocument>): JSX.Element => (
+  <Text> {`${value ? 'Tak' : 'Nie'}`} </Text>
+);

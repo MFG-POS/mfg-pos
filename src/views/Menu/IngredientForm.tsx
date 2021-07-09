@@ -12,7 +12,7 @@ import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupNumber from 'components/molecules/FormGroupNumber';
-import { save, getSingle, update } from 'api/firebase/firestore/firestore-actions';
+import { getSingle, save, update } from 'api/firebase/firestore/firestore-actions';
 import { UnitOfMeasure } from 'model/enums/unit-of-measure';
 import { omit } from 'lodash';
 
@@ -43,7 +43,6 @@ const IngredientForm = () => {
           status: 'success',
           duration: 5000,
           isClosable: true,
-          position: 'bottom-right',
         });
       });
       return;
@@ -59,7 +58,6 @@ const IngredientForm = () => {
         status: 'success',
         duration: 5000,
         isClosable: true,
-        position: 'bottom-right',
       });
     });
   };
