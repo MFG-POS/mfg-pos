@@ -22,6 +22,7 @@ import Categories from 'views/Menu/Categories';
 import Ingredients from 'views/Menu/Ingredients';
 import Order from 'views/Order/Order';
 import Board from 'views/Order/Board';
+import Home from 'views/Home';
 
 export const orderBoardPath = '/orders/board/';
 
@@ -37,9 +38,10 @@ export interface IRouteData {
 export type Route<T> = {
   [P: string]: T;
 };
-
+console.log('dupa');
 export const ROUTE: Route<IRouteData> = {
-  HOME: { path: '/', name: 'Strona główna', component: <Dashboard />, isExact: true },
+  HOME: { path: '/', name: 'Strona domowa', component: <Home />, isExact: true },
+  DASHBOARD: { path: '/dashboard', name: 'Panel administracyjny', component: <Dashboard /> },
 };
 
 export const ROUTE_BOARD: Route<IRouteData> = {
@@ -53,10 +55,11 @@ export const ROUTE_ORDERS: Route<IRouteData> = {
 
 export const ROUTE_STATS: Route<IRouteData> = {
   SALES: { path: '/statistics/sales/', name: 'Sprzedaż', component: <Sales /> },
-  CUSTOMERS: { path: '/statistics/customers/', name: 'Klienci', component: <Customers /> },
-  ABCANALYSIS: { path: `/statistics/abc-analysis/`, name: 'ABC Analiza', component: <ABCAnalysis /> },
-  PAYMENTS: { path: `/statistics/payments/`, name: 'Rodzaje płatności', component: <Payments /> },
-  TAXES: { path: '/statistics/taxes/', name: 'Podatki', component: <TaxesStatistics /> },
+  // TODO: Restore route after project submission
+  // CUSTOMERS: { path: '/statistics/customers/', name: 'Klienci', component: <Customers /> },
+  // ABCANALYSIS: { path: `/statistics/abc-analysis/`, name: 'ABC Analiza', component: <ABCAnalysis /> },
+  // PAYMENTS: { path: `/statistics/payments/`, name: 'Rodzaje płatności', component: <Payments /> },
+  // TAXES: { path: '/statistics/taxes/', name: 'Podatki', component: <TaxesStatistics /> },
 };
 
 export const ROUTE_MENU: Route<IRouteData> = {
@@ -83,9 +86,11 @@ export const ROUTE_ACCESS: Route<IRouteData> = {
 };
 
 export const ROUTE_SETTINGS: Route<IRouteData> = {
-  GENERAL: { path: '/settings/general/', name: 'Ogólne', component: <General /> },
+  // TODO: Restore route after project submission
+  // GENERAL: { path: '/settings/general/', name: 'Ogólne', component: <General /> },
   TAXES: { path: '/settings/taxes/', name: 'Podatki', component: <Taxes /> },
-  BILLING: { path: '/settings/billing/', name: 'Subskrypcja', component: <Subscription /> },
+  // TODO: Restore route after project submission
+  // BILLING: { path: '/settings/billing/', name: 'Subskrypcja', component: <Subscription /> },
   TABLES: { path: '/settings/tables/', name: 'Stoliki', component: <Tables /> },
 };
 
