@@ -1,4 +1,4 @@
-import Employees from 'views/Access/Employees';
+import Chef from 'views/Access/Chef';
 import Dashboard from 'views/Dashboard';
 import CategoryForm from 'views/Menu/CategoryForm';
 import Dishes from 'views/Menu/Dishes';
@@ -38,7 +38,7 @@ export interface IRouteData {
 export type Route<T> = {
   [P: string]: T;
 };
-console.log('dupa');
+
 export const ROUTE: Route<IRouteData> = {
   HOME: { path: '/', name: 'Strona domowa', component: <Home />, isExact: true },
   DASHBOARD: { path: '/dashboard', name: 'Panel administracyjny', component: <Dashboard /> },
@@ -82,7 +82,7 @@ export const ROUTE_WAREHOUSE: Route<IRouteData> = {
 };
 
 export const ROUTE_ACCESS: Route<IRouteData> = {
-  EMPLOYEES: { path: '/access/employees/', name: 'Pracownicy', component: <Employees /> },
+  EMPLOYEES: { path: '/access/', name: 'Pracownicy', component: <Chef /> },
 };
 
 export const ROUTE_SETTINGS: Route<IRouteData> = {

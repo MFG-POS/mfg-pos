@@ -2,6 +2,7 @@ import { MenuDocument } from 'model/menu/menu';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import { BoardTableInstance } from 'model/board/board-table-instance';
 import { Order } from 'model/order/order';
+import { Access } from 'model/access/access';
 import {
   CollectionReference,
   DocumentData,
@@ -153,4 +154,9 @@ export const updateTables = async (tables: BoardTableInstance[]): Promise<void> 
   const batch: WriteBatch = firestore.batch();
   tables.forEach((table) => batch.set(reference.doc(table.id), table));
   return batch.commit();
+};
+
+export const saveAccess = async (access: Partial<Access>): Promise<DocumentReference> => {
+  const reference: CollectionReference = firestore.collection('access');
+  return reference.add(access);
 };
