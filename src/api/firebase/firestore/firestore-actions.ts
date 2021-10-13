@@ -160,3 +160,12 @@ export const saveAccess = async (access: Partial<Access>): Promise<DocumentRefer
   const reference: CollectionReference = firestore.collection('access');
   return reference.add(access);
 };
+
+export const getAccess = async (id: string): Promise<Access> => {
+  const reference: CollectionReference = firestore.collection('access');
+  const document: DocumentSnapshot = await reference.doc(id).get();
+  return {
+    name: document.id,
+    ...document.data(),
+  } as Access;
+};
