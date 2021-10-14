@@ -9,12 +9,12 @@ import Content from 'components/molecules/Table/Content';
 import { Box } from '@chakra-ui/react';
 import Paginator from 'components/molecules/Table/Paginator';
 import Toolbar, { ToolbarProps } from 'components/molecules/Table/Toolbar';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 import { DocumentReferenceHolder } from 'api/firebase/firebase.types';
 
 export const Route = createContext({ path: '' });
 
-export interface AdvancedTableProps<T extends MenuDocument> extends Omit<ToolbarProps, 'filterColumns'> {
+export interface AdvancedTableProps<T extends CommonDocument> extends Omit<ToolbarProps, 'filterColumns'> {
   name: string;
   collection: string;
   columns: ColumnDefinition<T>[];
@@ -23,7 +23,7 @@ export interface AdvancedTableProps<T extends MenuDocument> extends Omit<Toolbar
   fetchRefresher?: boolean;
 }
 
-function AdvancedTable<T extends MenuDocument>(props: AdvancedTableProps<T>) {
+function AdvancedTable<T extends CommonDocument>(props: AdvancedTableProps<T>) {
   const [data, setData] = useState<T[]>([]);
   const [displayedData, setDisplayedData] = useState<T[]>([]);
 

@@ -12,7 +12,6 @@ import { requiredErrorMessage } from 'others/form-default-errors';
 import EmployeesTemplate from 'components/templates/EmployeesTemplate';
 import FormInput from 'components/molecules/Access';
 import { Access } from 'model/access/access';
-import { saveAccess, getAccess } from 'api/firebase/firestore/firestore-actions';
 
 const Chef = () => {
   const [isSubmitted] = useState<boolean>(false);
@@ -26,7 +25,7 @@ const Chef = () => {
   const toast = useToast();
 
   const onSubmit = (data: Access) => {
-    saveAccess(getAccess);
+    // saveAccess(getAccess);
 
     toast({
       title: 'Kelner został dodany 🙌',

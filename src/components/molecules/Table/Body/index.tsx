@@ -2,16 +2,16 @@ import { Image, Tbody, Td, Tr } from '@chakra-ui/react';
 import { Cell, Row, TableBodyProps } from 'react-table';
 import { ColumnInstanceDefinition } from 'model/table/table-definitions';
 import ActionCell from 'components/molecules/Table/ActionCell';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 import loading from 'assets/images/loading.gif';
 
-type BodyProps<T extends MenuDocument> = {
+type BodyProps<T extends CommonDocument> = {
   bodyProps: TableBodyProps;
   page: Array<Row<T>>;
   prepareRow: (row: Row<T>) => void;
 };
 
-function Body<T extends MenuDocument>({ bodyProps, page, prepareRow }: BodyProps<T>) {
+function Body<T extends CommonDocument>({ bodyProps, page, prepareRow }: BodyProps<T>) {
   return (
     <Tbody {...bodyProps}>
       {page.map((row) => {

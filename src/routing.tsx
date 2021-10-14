@@ -1,20 +1,13 @@
-import Chef from 'views/Access/Chef';
 import Dashboard from 'views/Dashboard';
 import CategoryForm from 'views/Menu/CategoryForm';
 import Dishes from 'views/Menu/Dishes';
 import DishForm from 'views/Menu/DishForm';
 import IngredientForm from 'views/Menu/IngredientForm';
 import ProductForm from 'views/Menu/ProductForm';
-import General from 'views/Settings/General';
-import Subscription from 'views/Settings/Subscription';
 import Tables from 'views/Settings/Tables';
-import ABCAnalysis from 'views/Statistics/ABCAnalysis';
-import Customers from 'views/Statistics/Customers';
-import Payments from 'views/Statistics/Payments';
 import Sales from 'views/Statistics/Sales';
 import Taxes from 'views/Settings/Taxes';
 import TaxesForm from 'views/Settings/TaxesForm';
-import TaxesStatistics from 'views/Statistics/Taxes';
 import Stocks from 'views/Warehouse/Stocks';
 import Supplies from 'views/Warehouse/Supplies';
 import Products from 'views/Menu/Products';
@@ -23,6 +16,7 @@ import Ingredients from 'views/Menu/Ingredients';
 import Order from 'views/Order/Order';
 import Board from 'views/Order/Board';
 import Home from 'views/Home';
+import Accesses from 'views/Menu/Accesses';
 
 export const orderBoardPath = '/orders/board/';
 
@@ -82,7 +76,7 @@ export const ROUTE_WAREHOUSE: Route<IRouteData> = {
 };
 
 export const ROUTE_ACCESS: Route<IRouteData> = {
-  EMPLOYEES: { path: '/access/', name: 'Pracownicy', component: <Chef /> },
+  EMPLOYEES: { path: '/access/', name: 'Pracownicy', component: <Accesses /> },
 };
 
 export const ROUTE_SETTINGS: Route<IRouteData> = {

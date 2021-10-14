@@ -1,19 +1,19 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList, Text, useDisclosure, useToast } from '@chakra-ui/react';
 import { Row } from 'react-table';
 import { TableAction } from 'model/table/table-definitions';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 import { Link as RouterLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { Route } from 'components/organisms/AdvancedTable';
 import SimpleModal from 'components/atoms/SimpleModal';
 
-type ActionCellProps<T extends MenuDocument> = {
+type ActionCellProps<T extends CommonDocument> = {
   name: string;
   row: Row<T>;
   actions: TableAction<T>[];
 };
 
-function ActionCell<T extends MenuDocument>({ name, row, actions }: ActionCellProps<T>) {
+function ActionCell<T extends CommonDocument>({ name, row, actions }: ActionCellProps<T>) {
   const toast = useToast();
   const { path } = useContext(Route);
   const { isOpen, onOpen, onClose } = useDisclosure();

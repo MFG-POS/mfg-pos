@@ -1,5 +1,5 @@
 import firebase from 'api/firebase/firebase.api';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 
 export type DocumentData = firebase.firestore.DocumentData;
 export type Snapshot = firebase.firestore.QuerySnapshot<DocumentData>;
@@ -12,9 +12,9 @@ export type FieldValue = firebase.firestore.FieldValue;
 export type Timestamp = firebase.firestore.Timestamp;
 
 export type DocumentReferenceHolder = {
-  fieldName: keyof MenuDocument;
+  fieldName: keyof CommonDocument;
   collectionName: string;
-  documents?: MenuDocument[];
+  documents?: CommonDocument[];
 };
 
 export type UploadTask = firebase.storage.UploadTask;

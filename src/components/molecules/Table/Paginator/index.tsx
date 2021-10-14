@@ -12,9 +12,9 @@ import {
 } from '@chakra-ui/react';
 import { ArrowLeftIcon, ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { TableInstance } from 'react-table';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 
-function Paginator<T extends MenuDocument>({
+function Paginator<T extends CommonDocument>({
   gotoPage,
   canPreviousPage,
   previousPage,
