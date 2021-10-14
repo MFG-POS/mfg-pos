@@ -5,10 +5,12 @@ import { Order } from 'model/order/order';
 import {
   CollectionReference,
   DocumentData,
+  DocumentFilter,
   DocumentReference,
   DocumentReferenceHolder,
   Documents,
   DocumentSnapshot,
+  Query,
   Snapshot,
   WriteBatch,
 } from '../firebase.types';
@@ -44,9 +46,14 @@ export const getSingle = async <T extends MenuDocument>(collection: string, docu
 export const getAll = async <T extends MenuDocument>(
   collection: string,
   references?: DocumentReferenceHolder[],
+  filters?: DocumentFilter[],
 ): Promise<T[]> => {
-  const reference: CollectionReference = firestore.collection(collection);
-  const snapshot: Snapshot = await reference.get();
+  const reference: CollectionReference = getCollectionReference(collection);
+
+  const snapshot: Snapshot = await (!isEmpty(filters)
+    ? filters!.reduce<Query>((acc, val) => acc.where(val.fieldPath, val.opStr, val.value), reference)
+    : reference
+  ).get();
 
   let fetchedReferences: DocumentReferenceHolder[];
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
