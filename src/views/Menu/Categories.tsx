@@ -6,6 +6,7 @@ import { ROUTE_MENU_FORMS } from 'routing';
 import { TableCategory } from 'model/table/table-types';
 import { deleteDoc } from 'api/firebase/firestore/firestore-actions';
 import { deleteCategoryContent, deleteCategoryHeader, deleteCategoryToast } from 'others/modal-messages';
+import { categoryKind } from 'others/table-formats';
 
 const Categories = () => {
   // TODO: Dummy state for view refresh after item gets deleted. To be refactored with Redux.
@@ -44,6 +45,13 @@ const Categories = () => {
         accessor: 'name',
         minWidth: 300,
         canFilter: true,
+      },
+      {
+        Header: 'Rodzaj',
+        accessor: 'kind',
+        minWidth: 300,
+        canFilter: true,
+        Cell: categoryKind,
       },
       {
         Header: 'Akcje',
