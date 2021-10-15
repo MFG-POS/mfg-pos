@@ -51,7 +51,7 @@ export const getAll = async <T extends MenuDocument>(
   const reference: CollectionReference = getCollectionReference(collection);
 
   const snapshot: Snapshot = await (!isEmpty(filters)
-    ? filters!.reduce<Query>((acc, val) => acc.where(val.fieldPath, val.opStr, val.value), reference)
+    ? filters!.reduce<Query>((query, filter) => query.where(filter.fieldPath, filter.opStr, filter.value), reference)
     : reference
   ).get();
 

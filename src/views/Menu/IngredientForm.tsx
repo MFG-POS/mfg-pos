@@ -99,13 +99,13 @@ const IngredientForm = () => {
           validation={{ required: requiredErrorMessage }}
         />
         <FormGroupSelect
-          label="Kategoria nadrzędna (opcjonalne)"
+          label="Kategoria"
           id="category"
           name="category"
-          placeholder="Wybierz kategorię nadrzędną"
+          placeholder="Wybierz kategorię"
           control={control}
           errors={errors}
-          validation={{}}
+          validation={{ required: requiredErrorMessage }}
           options={categoriesMap}
         />
         <FormGroupSelect
