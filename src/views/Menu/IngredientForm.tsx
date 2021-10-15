@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, useToast } from '@chakra-ui/react';
 
 import { ROUTE_MENU } from 'routing';
-import { Ingredient } from 'model/documents/ingredient';
+import { IngredientWrite } from 'model/documents/ingredient';
 
 import { requiredErrorMessage } from 'others/form-default-errors';
 
@@ -16,6 +16,7 @@ import { getAll, getSingle, save, update } from 'api/firebase/firestore/firestor
 import { UnitOfMeasure } from 'model/enums/unit-of-measure';
 import { omit } from 'lodash';
 import { firestore } from 'api/firebase/firebase.api';
+import { categoriesOfIngredients } from 'api/firebase/firestore/firestore-filters';
 
 const IngredientForm = () => {
   const location = useLocation<{ isEdit: boolean; id: string }>();
@@ -32,13 +33,14 @@ const IngredientForm = () => {
     formState: { errors, isSubmitting },
     control,
     reset,
-  } = useForm<Ingredient>();
+  } = useForm<IngredientWrite>();
 
-  const onSubmit: SubmitHandler<Ingredient> = (data) => {
+  const onSubmit: SubmitHandler<IngredientWrite> = (data) => {
     if (doc) {
       update('ingredients', doc, {
         ...data,
         supplies: Number(data.supplies),
+        category: data.category ? firestore.doc(`categories/${data.category}`) : null,
       }).then(() => {
         setIsSubmitted(true);
         toast({
@@ -67,7 +69,7 @@ const IngredientForm = () => {
   };
 
   useEffect(() => {
-    getAll('categories', [], [{ fieldPath: 'kind', opStr: '==', value: 'INGREDIENTS' }]).then((data) => {
+    getAll('categories', [], categoriesOfIngredients).then((data) => {
       setCategoriesMap(
         data.reduce((acc, category) => ({ ...acc, [category.id!]: category.name }), {}) as Record<string, string>,
       );
@@ -75,7 +77,10 @@ const IngredientForm = () => {
 
     if (doc) {
       getSingle('ingredients', doc).then((data) => {
-        reset(omit(data, 'supplies'));
+        reset({
+          ...omit(data, 'supplies'),
+          category: data?.category?.id || '',
+        });
       });
     }
   }, []);
@@ -95,8 +100,8 @@ const IngredientForm = () => {
         />
         <FormGroupSelect
           label="Kategoria nadrzędna (opcjonalne)"
-          id="parent-category"
-          name="parent"
+          id="category"
+          name="category"
           placeholder="Wybierz kategorię nadrzędną"
           control={control}
           errors={errors}
