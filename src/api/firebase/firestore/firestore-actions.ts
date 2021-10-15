@@ -18,25 +18,6 @@ import { firestore } from '../firebase.api';
 
 export const getCollectionReference = (collection: string) => firestore.collection(collection);
 
-export const getAllByParent = async <T extends MenuDocument>(
-  collection: string,
-  parentCollection: string,
-  parentFieldPath: string,
-  parentId?: string,
-  references?: DocumentReferenceHolder[],
-): Promise<T[]> => {
-  const reference: CollectionReference = getCollectionReference(collection);
-  const snapshot: Snapshot = await (parentId !== undefined
-    ? reference.where(parentFieldPath, '==', getCollectionReference(parentCollection).doc(parentId))
-    : reference.where(parentFieldPath, '==', null)
-  ).get();
-
-  let fetchedReferences: DocumentReferenceHolder[];
-  if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
-
-  return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
-};
-
 export const getSingle = async <T extends MenuDocument>(collection: string, document: string): Promise<T> => {
   const reference: DocumentReference = firestore.collection(collection).doc(document);
   const snapshot: DocumentData = await reference.get();
