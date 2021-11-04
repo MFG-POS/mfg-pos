@@ -10,11 +10,20 @@ export type DocumentReference = firebase.firestore.DocumentReference<DocumentDat
 export type WriteBatch = firebase.firestore.WriteBatch;
 export type FieldValue = firebase.firestore.FieldValue;
 export type Timestamp = firebase.firestore.Timestamp;
+export type FieldPath = firebase.firestore.FieldPath;
+export type WhereFilterOp = firebase.firestore.WhereFilterOp;
+export type Query = firebase.firestore.Query<DocumentData>;
 
 export type DocumentReferenceHolder = {
   fieldName: keyof MenuDocument;
   collectionName: string;
   documents?: MenuDocument[];
+};
+
+export type DocumentFilter = {
+  fieldPath: string | FieldPath;
+  opStr: WhereFilterOp;
+  value: unknown;
 };
 
 export type UploadTask = firebase.storage.UploadTask;

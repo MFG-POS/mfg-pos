@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button, useToast } from '@chakra-ui/react';
 
 import { ROUTE_MENU } from 'routing';
-import { Ingredient } from 'model/documents/ingredient';
+import { IngredientWrite } from 'model/documents/ingredient';
 
 import { requiredErrorMessage } from 'others/form-default-errors';
 
@@ -12,14 +12,18 @@ import FormGroupInput from 'components/molecules/FormGroupInput';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
 import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupNumber from 'components/molecules/FormGroupNumber';
-import { getSingle, save, update } from 'api/firebase/firestore/firestore-actions';
+import { getAll, getSingle, save, update } from 'api/firebase/firestore/firestore-actions';
 import { UnitOfMeasure } from 'model/enums/unit-of-measure';
 import { omit } from 'lodash';
+import { firestore } from 'api/firebase/firebase.api';
+import { categoriesOfIngredients } from 'api/firebase/firestore/firestore-filters';
 
 const IngredientForm = () => {
   const location = useLocation<{ isEdit: boolean; id: string }>();
 
   const doc = location?.state?.id || null;
+
+  const [categoriesMap, setCategoriesMap] = useState<Record<string, string>>({});
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const toast = useToast();
@@ -29,13 +33,14 @@ const IngredientForm = () => {
     formState: { errors, isSubmitting },
     control,
     reset,
-  } = useForm<Ingredient>();
+  } = useForm<IngredientWrite>();
 
-  const onSubmit: SubmitHandler<Ingredient> = (data) => {
+  const onSubmit: SubmitHandler<IngredientWrite> = (data) => {
     if (doc) {
       update('ingredients', doc, {
         ...data,
         supplies: Number(data.supplies),
+        category: data.category ? firestore.doc(`categories/${data.category}`) : null,
       }).then(() => {
         setIsSubmitted(true);
         toast({
@@ -51,6 +56,7 @@ const IngredientForm = () => {
     save('ingredients', {
       ...data,
       supplies: Number(data.supplies),
+      category: data.category ? firestore.doc(`categories/${data.category}`) : null,
     }).then(() => {
       setIsSubmitted(true);
       toast({
@@ -63,9 +69,18 @@ const IngredientForm = () => {
   };
 
   useEffect(() => {
+    getAll('categories', [], categoriesOfIngredients).then((data) => {
+      setCategoriesMap(
+        data.reduce((acc, category) => ({ ...acc, [category.id!]: category.name }), {}) as Record<string, string>,
+      );
+    });
+
     if (doc) {
       getSingle('ingredients', doc).then((data) => {
-        reset(omit(data, 'supplies'));
+        reset({
+          ...omit(data, 'supplies'),
+          category: data?.category?.id || '',
+        });
       });
     }
   }, []);
@@ -82,6 +97,16 @@ const IngredientForm = () => {
           register={register}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
+        />
+        <FormGroupSelect
+          label="Kategoria"
+          id="category"
+          name="category"
+          placeholder="Wybierz kategorię"
+          control={control}
+          errors={errors}
+          validation={{ required: requiredErrorMessage }}
+          options={categoriesMap}
         />
         <FormGroupSelect
           label="Jednostka"

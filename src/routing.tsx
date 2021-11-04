@@ -5,16 +5,10 @@ import Dishes from 'views/Menu/Dishes';
 import DishForm from 'views/Menu/DishForm';
 import IngredientForm from 'views/Menu/IngredientForm';
 import ProductForm from 'views/Menu/ProductForm';
-import General from 'views/Settings/General';
-import Subscription from 'views/Settings/Subscription';
 import Tables from 'views/Settings/Tables';
-import ABCAnalysis from 'views/Statistics/ABCAnalysis';
-import Customers from 'views/Statistics/Customers';
-import Payments from 'views/Statistics/Payments';
 import Sales from 'views/Statistics/Sales';
 import Taxes from 'views/Settings/Taxes';
 import TaxesForm from 'views/Settings/TaxesForm';
-import TaxesStatistics from 'views/Statistics/Taxes';
 import Stocks from 'views/Warehouse/Stocks';
 import Supplies from 'views/Warehouse/Supplies';
 import Products from 'views/Menu/Products';
@@ -38,7 +32,7 @@ export interface IRouteData {
 export type Route<T> = {
   [P: string]: T;
 };
-console.log('dupa');
+
 export const ROUTE: Route<IRouteData> = {
   HOME: { path: '/', name: 'Strona domowa', component: <Home />, isExact: true },
   DASHBOARD: { path: '/dashboard', name: 'Panel administracyjny', component: <Dashboard /> },
