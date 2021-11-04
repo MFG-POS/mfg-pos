@@ -1,8 +1,8 @@
 import { Button, Icon, Text } from '@chakra-ui/react';
 import { ChartType } from 'model/enums/chart-type';
 import ButtonGroupTemplate from 'components/templates/ButtonGroupTemplate';
-import { typeElements } from 'model/chart/chart-types';
 import { v4 as uuidv4 } from 'uuid';
+import { typeElements } from 'others/chart-constants';
 
 type SalesChartButtonsProps = {
   changeChartType: (type: ChartType) => void;
