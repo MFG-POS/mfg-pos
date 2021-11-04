@@ -24,17 +24,21 @@ export const getSingle = async <T extends MenuDocument>(collection: string, docu
   return snapshot.data();
 };
 
+export const getSnapshot = async (collection: string, filters?: DocumentFilter[]) => {
+  const reference: CollectionReference = getCollectionReference(collection);
+
+  return (!isEmpty(filters)
+    ? filters!.reduce<Query>((query, filter) => query.where(filter.fieldPath, filter.opStr, filter.value), reference)
+    : reference
+  ).get();
+};
+
 export const getAll = async <T extends MenuDocument>(
   collection: string,
   references?: DocumentReferenceHolder[],
   filters?: DocumentFilter[],
 ): Promise<T[]> => {
-  const reference: CollectionReference = getCollectionReference(collection);
-
-  const snapshot: Snapshot = await (!isEmpty(filters)
-    ? filters!.reduce<Query>((query, filter) => query.where(filter.fieldPath, filter.opStr, filter.value), reference)
-    : reference
-  ).get();
+  const snapshot: Snapshot = await getSnapshot(collection, filters);
 
   let fetchedReferences: DocumentReferenceHolder[];
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
@@ -80,9 +84,8 @@ export const deleteDoc = async (collection: string, document: string): Promise<v
   await reference.delete();
 };
 
-export const getAllOrders = async (): Promise<Order[]> => {
-  const reference: CollectionReference = firestore.collection('orders');
-  const snapshot: Snapshot = await reference.get();
+export const getAllOrders = async (filters?: DocumentFilter[]): Promise<Order[]> => {
+  const snapshot: Snapshot = await getSnapshot('orders', filters);
 
   return snapshot.docs.map((document: Documents) => {
     const documentData = document.data();
