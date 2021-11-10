@@ -9,7 +9,7 @@ type MainTemplateProps = {
 
 const MainTemplate = ({ children }: MainTemplateProps) => {
   const location = useLocation();
-  return location.pathname === '/' ? (
+  return location.pathname === '/' || location.pathname === '/login' ? (
     <>{children}</>
   ) : (
     <Grid templateColumns="250px 1fr">

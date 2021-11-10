@@ -16,7 +16,9 @@ import Ingredients from 'views/Menu/Ingredients';
 import Order from 'views/Order/Order';
 import Board from 'views/Order/Board';
 import Home from 'views/Home';
+import CheckAccess from 'views/CheckAccess';
 import Accesses from 'views/Menu/Accesses';
+import AccessForm from 'views/Menu/AccessForm';
 
 export const orderBoardPath = '/orders/board/';
 
@@ -35,6 +37,7 @@ export type Route<T> = {
 
 export const ROUTE: Route<IRouteData> = {
   HOME: { path: '/', name: 'Strona domowa', component: <Home />, isExact: true },
+  LOGIN: { path: '/login', name: 'Logowanie', component: <CheckAccess />, isExact: true },
   DASHBOARD: { path: '/dashboard', name: 'Panel administracyjny', component: <Dashboard /> },
 };
 
@@ -76,7 +79,11 @@ export const ROUTE_WAREHOUSE: Route<IRouteData> = {
 };
 
 export const ROUTE_ACCESS: Route<IRouteData> = {
-  EMPLOYEES: { path: '/access/', name: 'Pracownicy', component: <Accesses /> },
+  EMPLOYEES: { path: '/menu/accesses/', name: 'Pracownicy', component: <Accesses /> },
+};
+
+export const ROUTE_ACCESS_FORMS: Route<IRouteData> = {
+  EMPLOYEES_FORM: { path: '/menu/accessform/', name: 'Accesses', component: <AccessForm /> },
 };
 
 export const ROUTE_SETTINGS: Route<IRouteData> = {
@@ -100,6 +107,7 @@ export default Object.values({
   ...ROUTE_MENU_FORMS,
   ...ROUTE_WAREHOUSE,
   ...ROUTE_ACCESS,
+  ...ROUTE_ACCESS_FORMS,
   ...ROUTE_SETTINGS,
   ...ROUTE_SETTINGS_FORMS,
 }).map(({ path, component, isExact }) => ({ path, component, isExact }));

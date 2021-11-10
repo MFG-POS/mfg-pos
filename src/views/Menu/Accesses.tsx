@@ -2,17 +2,17 @@ import { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 import { ColumnDefinition, TableAction } from 'model/table/table-definitions';
 import AdvancedTable, { AdvancedTableProps } from 'components/organisms/AdvancedTable';
-import { ROUTE_ACCESS } from 'routing';
+import { ROUTE_ACCESS_FORMS } from 'routing';
 import { TableAccess } from 'model/table/table-types';
 import { deleteDoc } from 'api/firebase/firestore/firestore-actions';
-import { deleteCategoryContent, deleteCategoryHeader, deleteCategoryToast } from 'others/modal-messages';
+import { deleteEmployeeContent, deleteEmployeeHeader, deleteEmployeeToast } from 'others/modal-messages';
 
 const Accesses = () => {
   // TODO: Dummy state for view refresh after item gets deleted. To be refactored with Redux.
   const [state, stateRefresher] = useState(false);
 
   const onRowDelete = (row: Row<TableAccess>): void => {
-    deleteDoc('access', row.original.id).then(() => stateRefresher(!state));
+    deleteDoc('accesses', row.original.id).then(() => stateRefresher(!state));
   };
 
   const onRowEdit = (row: Row<TableAccess>): void => console.log(`Should edit row with id ${row.id}`);
@@ -23,9 +23,9 @@ const Accesses = () => {
       {
         name: 'Usuń',
         callback: onRowDelete,
-        modalHeader: deleteCategoryHeader,
-        modalContent: deleteCategoryContent,
-        modalToast: deleteCategoryToast,
+        modalHeader: deleteEmployeeHeader,
+        modalContent: deleteEmployeeContent,
+        modalToast: deleteEmployeeToast,
       },
     ],
     [],
@@ -41,13 +41,13 @@ const Accesses = () => {
       },
       {
         Header: 'Nazwisko',
-        accessor: 'surname',
+        accessor: 'parent',
         minWidth: 300,
         canFilter: true,
       },
       {
         Header: 'PIN',
-        accessor: 'pin',
+        accessor: 'tax',
         minWidth: 300,
         canFilter: true,
       },
@@ -62,9 +62,9 @@ const Accesses = () => {
 
   const tableProps: AdvancedTableProps<TableAccess> = {
     name: 'Dostępy',
-    collection: 'access',
+    collection: 'accesses',
     columns,
-    buttonRoutePath: ROUTE_ACCESS.EMPLOYEES.path,
+    buttonRoutePath: ROUTE_ACCESS_FORMS.EMPLOYEES_FORM.path,
     fetchRefresher: state,
   };
 

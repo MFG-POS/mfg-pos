@@ -42,7 +42,7 @@ const KuttyHero = () => (
       >
         <Button
           as={RouterLink}
-          to="/dashboard"
+          to="/login"
           variant="solid"
           colorScheme="purple"
           display="inline-flex"

@@ -43,15 +43,37 @@ const BoardHolder = () => {
     setTables(() => [...filterTables(id), table]);
   };
 
-  const clearBoard = () => setTables(() => [createTable(uuidv4())]);
+  const clearBoard = () => {
+    setTables(() => [createTable(uuidv4())]);
+    toast({
+      title: 'Plansza została wyczyszczona 🙌',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
 
-  const deleteTable = (id: string) => setTables(() => [...filterTables(id)]);
+  const deleteTable = (id: string) => {
+    setTables(() => [...filterTables(id)]);
+    toast({
+      title: 'Stolik został usunięty 🙌',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  };
 
   const addNewTable = () => {
     const left = Math.floor(Math.random() * 800) + 50;
     let top = Math.floor(Math.random() * 100) + 30;
     if (top > 80) top = 80;
     setTables((previousState) => [...previousState, { ...createTable(uuidv4()), top, left }]);
+    toast({
+      title: 'Stolik został dodany 🙌',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const saveTables = () => {
