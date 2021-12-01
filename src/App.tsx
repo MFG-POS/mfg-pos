@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import routes from 'routing';
 import { theme } from 'others/theme';
 import MainTemplate from 'components/templates/MainTemplate';
+import Home from 'views/Home';
 
 const App = () => (
   <Router>
@@ -17,6 +18,7 @@ const App = () => (
                 {component}
               </Route>
             ))}
+            <Route key={uuidv4()} path="*" component={() => <Home />} />
           </Switch>
         </Flex>
       </MainTemplate>

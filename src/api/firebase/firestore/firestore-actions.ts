@@ -2,7 +2,7 @@ import { CommonDocument } from 'model/documents/common';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import { BoardTableInstance } from 'model/board/board-table-instance';
 import { Order } from 'model/order/order';
-import { Access } from 'model/access/access';
+import { Employee } from 'model/documents/accesses';
 import {
   CollectionReference,
   DocumentData,
@@ -159,16 +159,21 @@ export const updateTables = async (tables: BoardTableInstance[]): Promise<void> 
   return batch.commit();
 };
 
-export const saveAccess = async (access: Partial<Access>): Promise<DocumentReference> => {
-  const reference: CollectionReference = firestore.collection('access');
+export const saveAccess = async (access: Partial<Employee>): Promise<DocumentReference> => {
+  const reference: CollectionReference = firestore.collection('accesses');
   return reference.add(access);
 };
 
-export const getAccess = async (id: string): Promise<Access> => {
-  const reference: CollectionReference = firestore.collection('access');
+export const updateAccess = async <T>(collection: string, document: string, data: T): Promise<void> => {
+  const reference: DocumentReference = firestore.collection(collection).doc(document);
+  return reference.set(data);
+};
+
+export const getAccess = async (id: string): Promise<Employee> => {
+  const reference: CollectionReference = firestore.collection('accesses');
   const document: DocumentSnapshot = await reference.doc(id).get();
   return {
     name: document.id,
     ...document.data(),
-  } as Access;
+  } as Employee;
 };

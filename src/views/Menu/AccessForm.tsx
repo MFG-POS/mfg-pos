@@ -13,6 +13,9 @@ import EmployeesTemplate from 'components/templates/EmployeesTemplate';
 import FormInput from 'components/molecules/Access';
 import { Employee } from 'model/documents/accesses';
 import { getAll, saveAccess, updateAccess, getSingle } from 'api/firebase/firestore/firestore-actions';
+import { Tax } from 'model/documents/tax';
+
+const CryptoJS = require('crypto-js');
 
 const AccessForm = () => {
   const [isSubmitted] = useState<boolean>(false);
@@ -28,10 +31,16 @@ const AccessForm = () => {
   const [surname, setSurname] = useState<Record<string, string>>({});
   const [pin, setPin] = useState<Record<string, string>>({});
 
+  const [pinCheck, setPinCheck] = useState<String[]>([]);
+
   const location = useLocation<{ isEdit: boolean; id: string }>();
   const doc = location?.state?.id;
 
   const toast = useToast();
+
+  useEffect(() => {
+    getAll('accesses').then((data) => setPinCheck(data.map((tax) => String(tax.tax))));
+  }, []);
 
   const onSubmit = (data: Employee) => {
     if (doc) {
@@ -46,14 +55,37 @@ const AccessForm = () => {
       return;
     }
 
-    saveAccess(data);
+    let check: boolean = false;
 
-    toast({
-      title: 'Pracownik został dodany 🙌',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
+    for (let position: number = 0; position < pinCheck.length; position++) {
+      if (String(data.name) == 'Admin' || String(data.name) == 'Administrator') {
+        check = true;
+        break;
+      } else {
+        check = false;
+      }
+    }
+
+    if (check == true) {
+      toast({
+        title: `${String(data.name)} już istnieje 🚫`,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      const password: Tax = data.tax;
+      const encryptPassword = CryptoJS.AES.encrypt(password, 'Password').toString();
+      data.tax = encryptPassword;
+      saveAccess(data);
+
+      toast({
+        title: 'Pracownik został dodany 🙌',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   useEffect(() => {

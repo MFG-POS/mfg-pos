@@ -1,11 +1,14 @@
-import { Box, useColorModeValue, Button, Stack, Image, Text, Icon, Heading } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Box, useColorModeValue, Button, Stack, useToast, Text, Icon, Heading } from '@chakra-ui/react';
 import FormInputCheckAccess from 'components/molecules/CheckAccess/CheckAccess';
 import { useForm } from 'react-hook-form';
 import { CategoryWrite } from 'model/documents/category';
 import { requiredErrorMessage } from 'others/form-default-errors';
 import { getAll } from 'api/firebase/firestore/firestore-actions';
 import { useEffect, useState } from 'react';
+import { Employee } from 'model/documents/accesses';
+import { useLocation } from 'react-router-dom';
+
+const CryptoJS = require('crypto-js');
 
 const CheckAccess = () => {
   const {
@@ -14,18 +17,51 @@ const CheckAccess = () => {
     formState: { errors, isSubmitting },
   } = useForm<CategoryWrite>();
 
-  const [pin, setPin] = useState<Record<string, string>>({});
+  const [pin, setPin] = useState<String[]>([]);
+  const [name, setName] = useState<String[]>([]);
 
   useEffect(() => {
-    getAll('accesses').then((data) =>
-      setPin(data.reduce((acc, tax) => ({ ...acc, [tax.id!]: `${tax.tax}` }), {}) as Record<string, string>),
-    );
+    getAll('accesses').then((data) => setPin(data.map((tax) => String(tax.tax))));
+    getAll('accesses').then((data) => setName(data.map((tax) => String(tax.name))));
   }, []);
 
-  const onSubmit = (data: String) => {
-    console.log(Object.keys(pin).length);
-    console.log(pin);
-    console.log(data);
+  const toast = useToast();
+  const location = useLocation<{ isEdit: boolean; id: string }>();
+
+  const onSubmit = (data: Employee) => {
+    let check: boolean = true;
+    let nameUsers: String = 'kelnera';
+    for (let position: number = 0; position < pin.length; position++) {
+      const bytes = CryptoJS.AES.decrypt(pin[position], 'Password');
+      const decryptdPassword = bytes.toString(CryptoJS.enc.Utf8);
+
+      if (decryptdPassword == data.tax) {
+        check = true;
+        if (String(name[position]) == 'Admin' || String(name[position]) == 'Administratora') {
+          nameUsers = 'managera';
+        }
+        break;
+      } else {
+        check = false;
+      }
+    }
+
+    if (check == true) {
+      toast({
+        title: `Zalogowano ${nameUsers} do platformy🙌`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      window.location.href = '/dashboard';
+    } else {
+      toast({
+        title: 'Nie poprawny PIN',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -54,8 +90,8 @@ const CheckAccess = () => {
         <FormInputCheckAccess
           type="text"
           label=""
-          id="name"
-          name="name"
+          id="tax"
+          name="tax"
           register={register}
           errors={errors}
           validation={{ required: requiredErrorMessage }}

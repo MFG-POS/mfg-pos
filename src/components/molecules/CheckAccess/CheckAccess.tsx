@@ -19,13 +19,13 @@ function FormInputCheckAccess<MenuForm>({
   validation = {},
 }: FormInputCheckAccessProps<MenuForm>) {
   return (
-    <FormControl isInvalid={errors[name]}>
+    <FormControl isInvalid={errors[name]} w="20em" margin="0 auto">
       <FormLabel htmlFor={id} fontSize="sm" fontWeight="md" color="gray.700" textAlign="center" padding="2em">
         {label}
       </FormLabel>
       <Input
         w="20em"
-        maxLength={5}
+        maxLength={25}
         textAlign="center"
         type={type}
         id={id}
@@ -33,7 +33,9 @@ function FormInputCheckAccess<MenuForm>({
         border="2px solid black"
         rounded="md"
       />
-      <FormErrorMessage>{errors[name] ? errors[name].message : null}</FormErrorMessage>
+      <FormErrorMessage w="20em" textAlign="center">
+        {errors[name] ? errors[name].message : null}
+      </FormErrorMessage>
     </FormControl>
   );
 }
