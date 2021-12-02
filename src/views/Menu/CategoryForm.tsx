@@ -16,12 +16,18 @@ import FormGroupFile from 'components/molecules/FormGroupFileUpload';
 import { getAll, getSingle, save, update } from 'api/firebase/firestore/firestore-actions';
 import { store } from 'api/firebase/storage/storage-actions';
 import { firestore } from 'api/firebase/firebase.api';
+import { CategoryKind } from 'model/enums/category-kind';
 
 const CategoryForm = () => {
   const location = useLocation<{ isEdit: boolean; id: string }>();
 
   const isEdit = location?.state?.isEdit || false;
   const doc = location?.state?.id || null;
+
+  const kinds: Record<string, string> = Object.entries(CategoryKind).reduce(
+    (acc, kind) => ({ ...acc, [kind[0]]: `${kind[1]}` }),
+    {},
+  );
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
@@ -123,6 +129,16 @@ const CategoryForm = () => {
           register={register}
           errors={errors}
           validation={{ required: requiredErrorMessage }}
+        />
+        <FormGroupSelect
+          label="Rodzaj kategorii"
+          id="kind"
+          name="kind"
+          placeholder="Wybierz rodzaj kategorii"
+          control={control}
+          errors={errors}
+          validation={{ required: requiredErrorMessage }}
+          options={kinds}
         />
         <FormGroupSelect
           label="Kategoria nadrzędna (opcjonalne)"

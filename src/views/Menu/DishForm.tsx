@@ -19,6 +19,7 @@ import { store } from 'api/firebase/storage/storage-actions';
 import { firestore } from 'api/firebase/firebase.api';
 import { Tax } from 'model/documents/tax';
 import { CategoryRead } from 'model/documents/category';
+import { categoriesOfProductsAndDishes } from 'api/firebase/firestore/firestore-filters';
 
 const DishForm = () => {
   const location = useLocation<{ isEdit: boolean; id: string }>();
@@ -124,7 +125,7 @@ const DishForm = () => {
         data.reduce((acc, tax) => ({ ...acc, [tax.id!]: `${tax.name}, ${tax.value}%` }), {}) as Record<string, string>,
       ),
     );
-    getAll('categories').then((data) => {
+    getAll('categories', [], categoriesOfProductsAndDishes).then((data) => {
       setCategoriesMap(
         data.reduce((acc, category) => ({ ...acc, [category.id!]: category.name }), {}) as Record<string, string>,
       );
