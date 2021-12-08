@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllByParent } from 'api/firebase/firestore/firestore-actions';
+import { getAll } from 'api/firebase/firestore/firestore-actions';
 import { CategoryRead as Category } from 'model/documents/category';
 import { Dish } from 'model/documents/dish';
 import { Flex } from '@chakra-ui/react';
@@ -9,6 +9,8 @@ import { isSummaryDocument, OrderDocument } from 'model/order/order-types';
 import OrderBreadcrumb from 'components/molecules/Order/OrderBreadcrumb';
 import OrderTilesGroup from 'components/atoms/OrderTilesGroup';
 import { taxesAndCategories } from 'others/references';
+import { categoriesOfProductsAndDishes, parentFilters } from 'api/firebase/firestore/firestore-filters';
+import { DocumentFilter } from 'api/firebase/firebase.types';
 
 type OrderPanelProps = {
   addSummaryItem: (document: OrderDocument) => void;
@@ -27,12 +29,16 @@ const OrderPanel = ({ addSummaryItem }: OrderPanelProps) => {
   }, [breadcrumbState]);
 
   const getCategories = (): void => {
-    getAllByParent<Category>(
-      'categories',
-      'categories',
-      'parent',
-      isEmpty(breadcrumbState) ? undefined : breadcrumbState[breadcrumbState.length - 1].id,
-    )
+    const filters: DocumentFilter[] = [
+      ...categoriesOfProductsAndDishes,
+      ...parentFilters(
+        'parent',
+        'categories',
+        isEmpty(breadcrumbState) ? null : breadcrumbState[breadcrumbState.length - 1].id,
+      ),
+    ];
+
+    getAll<Category>('categories', [], filters)
       .then((documents) => setCategories(documents))
       .catch((error) => {
         throw new Error(`Could not fetch categories!. Error: ${error.message}`);
@@ -41,12 +47,10 @@ const OrderPanel = ({ addSummaryItem }: OrderPanelProps) => {
 
   const getDishes = (): void => {
     if (!isEmpty(breadcrumbState))
-      getAllByParent<Dish>(
+      getAll<Dish>(
         'dishes',
-        'categories',
-        'category',
-        breadcrumbState[breadcrumbState.length - 1].id,
         taxesAndCategories,
+        parentFilters('category', 'categories', breadcrumbState[breadcrumbState.length - 1].id),
       )
         .then((documents) => setDishes(documents))
         .catch((error) => {
@@ -56,12 +60,10 @@ const OrderPanel = ({ addSummaryItem }: OrderPanelProps) => {
 
   const getProducts = (): void => {
     if (!isEmpty(breadcrumbState))
-      getAllByParent<Product>(
+      getAll<Product>(
         'products',
-        'categories',
-        'category',
-        breadcrumbState[breadcrumbState.length - 1].id,
         taxesAndCategories,
+        parentFilters('category', 'categories', breadcrumbState[breadcrumbState.length - 1].id),
       )
         .then((documents) => setProducts(documents))
         .catch((error) => {
