@@ -3,9 +3,11 @@ import { CommonDocument } from 'model/documents/common';
 import { UnitOfMeasure } from 'model/enums/unit-of-measure';
 import { Text } from '@chakra-ui/react';
 import { CategoryKind } from 'model/enums/category-kind';
+import { UserRole } from 'model/enums/user-role';
 
 type UnitOfMeasureKey = keyof typeof UnitOfMeasure;
 type CategoryKindKey = keyof typeof CategoryKind;
+type UserRoleKey = keyof typeof UserRole;
 
 export const currency = ({ value }: CellProps<CommonDocument>): JSX.Element => <Text> {`${value} zł`} </Text>;
 export const percent = ({ value }: CellProps<CommonDocument>): JSX.Element => <Text> {`${value} %`} </Text>;
@@ -17,4 +19,7 @@ export const categoryKind = ({ value }: CellProps<CommonDocument>): JSX.Element 
 );
 export const booleanDisplay = ({ value }: CellProps<CommonDocument>): JSX.Element => (
   <Text> {`${value ? 'Tak' : 'Nie'}`} </Text>
+);
+export const role = ({ value }: CellProps<CommonDocument>): JSX.Element => (
+  <Text> {`${UserRole[value as UserRoleKey]}`} </Text>
 );

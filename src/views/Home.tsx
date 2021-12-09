@@ -1,4 +1,4 @@
-import { Box, useColorModeValue, Button, Stack, Image, Text, Icon, Heading } from '@chakra-ui/react';
+import { Box, Button, Heading, Icon, Image, Stack, Text, useColorModeValue } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import hero from 'assets/images/hero.jpg';
 
@@ -42,7 +42,7 @@ const KuttyHero = () => (
       >
         <Button
           as={RouterLink}
-          to="/login"
+          to="/"
           variant="solid"
           colorScheme="purple"
           display="inline-flex"
