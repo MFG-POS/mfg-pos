@@ -3,6 +3,6 @@ import { Dish } from 'model/documents/dish';
 import { Ingredient } from 'model/documents/ingredient';
 import { Product } from 'model/documents/products';
 import { Tax } from 'model/documents/tax';
-import { Employee } from 'model/documents/accesses';
+import { UserDetails } from 'model/auth/user-details';
 
-export type CommonDocument = Partial<Category & Dish & Ingredient & Product & Tax & Employee>;
+export type CommonDocument = Partial<Category & Dish & Ingredient & Product & Tax & UserDetails>;
