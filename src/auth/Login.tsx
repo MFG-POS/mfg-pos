@@ -1,7 +1,12 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Box, Button, Heading, Icon, Stack, Text, useColorModeValue, useToast } from '@chakra-ui/react';
-import { requiredErrorMessage } from 'others/form-default-errors';
+import { Link as RouterLink } from 'react-router-dom';
+import { Button, Flex, Heading, Icon, Link, Stack, Text, useToast } from '@chakra-ui/react';
+import {
+  emailPattern,
+  invalidEmailErrorMessage,
+  minLengthErrorMessage,
+  requiredErrorMessage,
+} from 'others/form-default-errors';
 import { useAuth } from 'auth/AuthContext';
 import { useForm } from 'react-hook-form';
 import FormInput from 'components/molecules/Access';
@@ -15,8 +20,7 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<UserData>();
 
-  const auth = useAuth();
-  const history = useHistory();
+  const { login } = useAuth();
   const toast = useToast();
 
   const openToast = (message: string) => {
@@ -28,29 +32,35 @@ const Login = () => {
     });
   };
 
-  const onSubmit = (data: UserData) => {
-    auth
-      .login(data.email, data.password)
-      .then(() => history.push('/'))
+  const onSubmit = (data: UserData) =>
+    login(data.email, data.password)
+      .then()
       .catch((error) => {
-        if (error.code === 'auth/wrong-password') openToast('Wskazano błędne hasło');
+        if (error.code === 'auth/invalid-email') openToast('Wprowadzony adres e-mail jest błędny');
+        if (error.code === 'auth/user-not-found') openToast('Nie znaleziono użytkownika o wskazanym adresie e-mail');
+        if (error.code === 'auth/wrong-password') openToast('Wprowadzono błędne hasło');
       });
-  };
 
   return (
-    <Box px="4" py="24" mx="auto" w="40%">
-      <Box w={{ base: 'full' }} mx="auto" textAlign={{ base: 'left', md: 'center' }}>
+    <Stack px="4" py="32" mx="auto" w={{ base: '100%', md: '40%' }} as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Flex
+        w={{ base: 'full' }}
+        mx="auto"
+        textAlign={{ base: 'left', md: 'center' }}
+        direction="column"
+        alignItems="center"
+      >
         <Logo fontSize={{ base: '5xl' }} />
         <Heading
           mb="6"
+          textAlign="center"
           fontSize={{ base: '5xl' }}
           fontWeight="bold"
           lineHeight="none"
           letterSpacing={{ base: 'normal', md: 'tight' }}
-          color={useColorModeValue('gray.900', 'gray.100')}
         >
           <Text
-            display={{ base: 'block', lg: 'inline' }}
+            display="inline"
             w="full"
             bgClip="text"
             bgGradient="linear(to-r, green.400,purple.500)"
@@ -66,7 +76,13 @@ const Login = () => {
           name="email"
           register={register}
           errors={errors}
-          validation={{ required: requiredErrorMessage }}
+          validation={{
+            required: requiredErrorMessage,
+            pattern: {
+              value: emailPattern,
+              message: invalidEmailErrorMessage,
+            },
+          }}
         />
         <FormInput
           type="password"
@@ -75,7 +91,13 @@ const Login = () => {
           name="password"
           register={register}
           errors={errors}
-          validation={{ required: requiredErrorMessage }}
+          validation={{
+            required: requiredErrorMessage,
+            minLength: {
+              value: 8,
+              message: minLengthErrorMessage(8),
+            },
+          }}
         />
         <Stack
           paddingTop="3em"
@@ -93,8 +115,8 @@ const Login = () => {
             w={{ base: 'full', sm: 'auto' }}
             mb={{ base: 2, sm: 0 }}
             size="lg"
-            onClick={handleSubmit(onSubmit)}
-            isLoading={isSubmitting}
+            disabled={isSubmitting}
+            type="submit"
           >
             Zaloguj
             <Icon boxSize="4" ml="1" viewBox="0 0 20 20" fill="currentColor">
@@ -106,8 +128,11 @@ const Login = () => {
             </Icon>
           </Button>
         </Stack>
-      </Box>
-    </Box>
+        <Link as={RouterLink} to="/sign-up">
+          Uzyskaj dostęp do systemu
+        </Link>
+      </Flex>
+    </Stack>
   );
 };
 

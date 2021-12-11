@@ -12,12 +12,10 @@ type ContextProps = {
   currentUser: User | null | undefined;
   currentUserDetails: UserDetails | null | undefined;
   isAdmin: boolean;
+  isUnclassified: boolean;
   login: (email: string, password: string) => Promise<UserCredential>;
   signup: (email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
-  updateEmail: (email: string) => Promise<void> | undefined;
-  updatePassword: (password: string) => Promise<void> | undefined;
 };
 
 const AuthContext = createContext<ContextProps>({} as ContextProps);
@@ -28,6 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [currentUserDetails, setCurrentUserDetails] = useState<UserDetails | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isUnclassified, setIsUnclassified] = useState<boolean>(false);
 
   const signup = (email: string, password: string): Promise<UserCredential> =>
     auth.createUserWithEmailAndPassword(email, password);
@@ -37,18 +36,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = (): Promise<void> => auth.signOut();
 
-  const resetPassword = (email: string): Promise<void> => auth.sendPasswordResetEmail(email);
-
-  const updateEmail = (email: string): Promise<void> | undefined => currentUser?.updateEmail(email);
-
-  const updatePassword = (password: string): Promise<void> | undefined => currentUser?.updatePassword(password);
-
   useEffect(
     () =>
       auth.onAuthStateChanged((user) =>
         getSingle<UserDetails>('users', user?.uid!).then((details) => {
           setCurrentUserDetails(details);
-          setIsAdmin(currentUserDetails?.role === 'ADMIN');
+          setIsAdmin(details?.role === 'ADMIN');
+          setIsUnclassified(details?.role === 'UNCLASSIFIED');
           setCurrentUser(user);
           setLoading(false);
         }),
@@ -62,10 +56,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     login,
     signup,
     logout,
-    resetPassword,
-    updateEmail,
-    updatePassword,
     isAdmin,
+    isUnclassified,
   } as ContextProps;
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
