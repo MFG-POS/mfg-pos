@@ -47,7 +47,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setCurrentUserDetails(details);
             setLoading(false);
           });
-        else setLoading(false);
+        else {
+          setCurrentUserDetails(null);
+          setLoading(false);
+        }
       }),
     [],
   );
