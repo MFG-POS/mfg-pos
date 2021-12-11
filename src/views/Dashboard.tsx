@@ -1,9 +1,12 @@
 import { Box, Flex, Heading, Link, Stack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from 'auth/AuthContext';
+import Preview from 'views/Preview';
 
-const Home = () => {
-  const { isAdmin } = useAuth();
+const Dashboard = () => {
+  const { isAdmin, isUnclassified } = useAuth();
+
+  if (isUnclassified) return <Preview />;
 
   return (
     <Flex bg="#F9FAFB" p="50" w="full" alignItems="center" justifyContent="center" height="100%">
@@ -84,4 +87,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

@@ -7,12 +7,12 @@ import NavGroup from 'components/molecules/NavGroup';
 import { useAuth } from 'auth/AuthContext';
 
 const SidebarNav = () => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, isUnclassified } = useAuth();
 
   return (
     <>
       <Accordion allowToggle w="100%" flexGrow={1} as="nav">
-        <NavGroup title="Zamówienia" links={Object.values(ROUTE_BOARD)} icon={FaShoppingCart} />
+        {!isUnclassified && <NavGroup title="Zamówienia" links={Object.values(ROUTE_BOARD)} icon={FaShoppingCart} />}
         {isAdmin && <NavGroup title="Statystyki" links={Object.values(ROUTE_STATS)} icon={FaChartBar} />}
         {isAdmin && <NavGroup title="Menu" links={Object.values(ROUTE_MENU)} icon={FaHamburger} />}
         {isAdmin && <NavGroup title="Dostęp" links={Object.values(ROUTE_ACCESS)} icon={FaLockOpen} />}

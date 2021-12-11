@@ -1,28 +1,20 @@
 import { Divider, Flex, Heading, Icon, Link, useToast } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
 import { useAuth } from 'auth/AuthContext';
 import { FaUsers } from 'react-icons/all';
 
-type LogOutProps = {
-  isLink?: boolean;
-};
-
-const LogOut = ({ isLink }: LogOutProps) => {
+const UserDetails = () => {
   const { logout, currentUserDetails } = useAuth();
-  const history = useHistory();
   const toast = useToast();
 
-  async function handleLogout() {
-    logout().then(() => {
-      history.push('/login');
+  const handleLogout = () =>
+    logout().then(() =>
       toast({
-        title: 'Zostałeś wylogowany z aplikajci',
+        title: 'Zostałeś wylogowany pomyślnie',
         status: 'success',
         duration: 3000,
         isClosable: true,
-      });
-    });
-  }
+      }),
+    );
 
   return (
     <Flex alignItems="center" justifyContent="center" flexDirection="column" w="100%" mb="2">
@@ -50,8 +42,4 @@ const LogOut = ({ isLink }: LogOutProps) => {
   );
 };
 
-LogOut.defaultProps = {
-  isLink: false,
-};
-
-export default LogOut;
+export default UserDetails;

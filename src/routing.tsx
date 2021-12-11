@@ -18,6 +18,7 @@ import Board from 'views/Order/Board';
 import Users from 'views/Menu/Users';
 import Login from 'auth/Login';
 import UserForm from 'views/Menu/UserForm';
+import SignUp from 'auth/SignUp';
 
 export const orderBoardPath = '/orders/board/';
 
@@ -37,7 +38,11 @@ export type Route<T> = {
 
 export const ROUTE: Route<IRouteData> = {
   DASHBOARD: { path: '/', name: 'Strona domowa', component: <Dashboard />, isExact: true },
+};
+
+export const ROUTE_AUTHENTICATION: Route<IRouteData> = {
   LOGIN: { path: '/login', name: 'Logowanie', component: <Login />, isExact: true },
+  SIGN_UP: { path: '/sign-up', name: 'Rejestracja', component: <SignUp />, isExact: true },
 };
 
 export const ROUTE_BOARD: Route<IRouteData> = {
@@ -107,6 +112,10 @@ export const ROUTE_SETTINGS: Route<IRouteData> = {
 export const ROUTE_SETTINGS_FORMS: Route<IRouteData> = {
   TAX: { path: '/settings/tax-form/', name: 'Wprowadź podatek', component: <TaxesForm />, isProtected: true },
 };
+
+export const authenticationRoutes = Object.values(
+  ROUTE_AUTHENTICATION,
+).map(({ path, component, isExact, isProtected }) => ({ path, component, isExact, isProtected }));
 
 export default Object.values({
   ...ROUTE,
