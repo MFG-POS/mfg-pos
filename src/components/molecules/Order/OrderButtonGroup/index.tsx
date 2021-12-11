@@ -32,7 +32,7 @@ const OrderButtonGroup = ({
     my="2"
   >
     {!hideSubmit && (
-      <Button type="submit" colorScheme="green" onClick={onSubmitClick}>
+      <Button type="submit" variant="solid" colorScheme="green" onClick={onSubmitClick}>
         <Icon as={submitIcon} /> <Text ml="2">{submitText}</Text>
       </Button>
     )}
