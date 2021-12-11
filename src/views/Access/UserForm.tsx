@@ -62,12 +62,7 @@ const UserForm = () => {
   const updateUser = (data: UserWrite): Promise<void> =>
     update('users', doc!, data).then(() => {
       setIsSubmitted(true);
-      toast({
-        title: 'Użytkownik zmodyfikowany 🙌',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
+      openToast('Użytkownik zmodyfikowany 🙌', 'success');
     });
 
   const onSubmit = (data: UserWrite): Promise<void> => {
