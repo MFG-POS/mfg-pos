@@ -3,7 +3,6 @@ export const deleteDishHeader = 'Usuwanie dania';
 export const deleteProductHeader = 'Usuwanie artykułu';
 export const deleteIngredientHeader = 'Usuwanie składnika';
 export const deleteTaxHeader = 'Usuwanie podatku';
-export const deleteEmployeeHeader = 'Usuwanie pracownika';
 
 export const tableDeleteContent = (content: string) =>
   `Po wykonaniu tej akcji ${content} z systemu. Czy na pewno chcesz kontynować?`;
@@ -19,4 +18,3 @@ export const deleteDishToast = 'Danie zostało usunięte 🙌';
 export const deleteProductToast = 'Artykuł został usunięty 🙌';
 export const deleteIngredientToast = 'Składnik został usunięty 🙌';
 export const deleteTaxToast = 'Podatek został usunięty 🙌';
-export const deleteEmployeeToast = 'Pracownik został usunięty 🙌';

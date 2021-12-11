@@ -120,7 +120,7 @@ export const ROUTE_SETTINGS_FORMS: Route<IRouteData> = {
 
 export const authenticationRoutes = Object.values(
   ROUTE_AUTHENTICATION,
-).map(({ path, component, isExact, isProtected }) => ({ path, component, isExact, isProtected }));
+).map(({ path, component, isExact, isProtected }) => ({ path, component, isExact }));
 
 export default Object.values({
   ...ROUTE,

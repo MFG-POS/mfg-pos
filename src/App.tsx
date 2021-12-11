@@ -16,7 +16,7 @@ const App = () => (
         <MainTemplate>
           <Flex alignItems="center" flexDir="column" justifyContent="center">
             <Switch>
-              {authenticationRoutes.map(({ component, path, isExact, isProtected }) => (
+              {authenticationRoutes.map(({ component, path, isExact }) => (
                 <AuthenticationRoute key={uuidv4()} path={path} exact={isExact}>
                   {component}
                 </AuthenticationRoute>

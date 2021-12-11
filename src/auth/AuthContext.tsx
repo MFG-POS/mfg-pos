@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(
     () =>
       auth.onAuthStateChanged((user) =>
-        getSingle<UserDetails>('users', user?.uid!).then((details) => {
+        getSingle<UserDetails>('users', user!.uid!).then((details) => {
           setCurrentUserDetails(details);
           setIsAdmin(details?.role === 'ADMIN');
           setIsUnclassified(details?.role === 'UNCLASSIFIED');

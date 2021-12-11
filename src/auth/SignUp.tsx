@@ -30,7 +30,7 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<UserWrite> = (data) =>
     signup(data.email, data.password).then((firebaseUser) =>
-      set<UserDetails>('users', prepareDetails(data), firebaseUser.user?.uid!).then(() => {
+      set<UserDetails>('users', prepareDetails(data), firebaseUser.user!.uid!).then(() => {
         setIsSubmitted(true);
         toast({
           title: 'Konto zostało utworzone, trwa weryfikacja administratora',
