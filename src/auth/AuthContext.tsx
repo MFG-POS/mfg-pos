@@ -3,6 +3,7 @@ import { auth } from 'api/firebase/firebase.api';
 import { User, UserCredential } from 'api/firebase/firebase.types';
 import { getSingle } from 'api/firebase/firestore/firestore-actions';
 import { UserDetails } from 'model/auth/user-details';
+import { isNullOrUndefined } from 'others/helper-functions';
 
 type AuthProviderProps = {
   readonly children: ReactNode;
@@ -34,9 +35,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = (): Promise<void> => auth.signOut();
 
-  const isAdmin: boolean = currentUserDetails?.role === 'ADMIN';
+  const isAdmin: boolean = !isNullOrUndefined(currentUserDetails) && currentUserDetails?.role === 'ADMIN';
 
-  const isUnclassified: boolean = currentUserDetails?.role === 'UNCLASSIFIED';
+  const isUnclassified: boolean = !isNullOrUndefined(currentUserDetails) && currentUserDetails?.role === 'UNCLASSIFIED';
 
   useEffect(
     () =>
