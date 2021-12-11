@@ -9,9 +9,9 @@ import {
 } from 'others/form-default-errors';
 import { useAuth } from 'auth/AuthContext';
 import { useForm } from 'react-hook-form';
-import FormInput from 'components/molecules/Access';
 import Logo from 'components/atoms/Logo';
 import { UserData } from 'model/auth/user-data';
+import FormGroupInput from 'components/molecules/FormGroupInput';
 
 const Login = () => {
   const {
@@ -69,7 +69,7 @@ const Login = () => {
             Logowanie
           </Text>
         </Heading>
-        <FormInput
+        <FormGroupInput
           type="email"
           label="Adres e-mail"
           id="email"
@@ -84,7 +84,7 @@ const Login = () => {
             },
           }}
         />
-        <FormInput
+        <FormGroupInput
           type="password"
           label="Hasło"
           id="password"

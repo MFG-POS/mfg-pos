@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { auth } from 'api/firebase/firebase.api';
 import { User, UserCredential } from 'api/firebase/firebase.types';
 import { getSingle } from 'api/firebase/firestore/firestore-actions';
 import { UserDetails } from 'model/auth/user-details';
 
 type AuthProviderProps = {
-  readonly children: React.ReactNode;
+  readonly children: ReactNode;
 };
 
 type ContextProps = {
@@ -25,8 +25,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User | null>();
   const [currentUserDetails, setCurrentUserDetails] = useState<UserDetails | null>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [isUnclassified, setIsUnclassified] = useState<boolean>(false);
 
   const signup = (email: string, password: string): Promise<UserCredential> =>
     auth.createUserWithEmailAndPassword(email, password);
@@ -36,17 +34,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = (): Promise<void> => auth.signOut();
 
+  const isAdmin: boolean = currentUserDetails?.role === 'ADMIN';
+
+  const isUnclassified: boolean = currentUserDetails?.role === 'UNCLASSIFIED';
+
   useEffect(
     () =>
-      auth.onAuthStateChanged((user) =>
-        getSingle<UserDetails>('users', user!.uid!).then((details) => {
-          setCurrentUserDetails(details);
-          setIsAdmin(details?.role === 'ADMIN');
-          setIsUnclassified(details?.role === 'UNCLASSIFIED');
-          setCurrentUser(user);
-          setLoading(false);
-        }),
-      ),
+      auth.onAuthStateChanged((user) => {
+        setCurrentUser(user);
+        if (user)
+          getSingle<UserDetails>('users', user.uid!).then((details) => {
+            setCurrentUserDetails(details);
+            setLoading(false);
+          });
+        else setLoading(false);
+      }),
     [],
   );
 

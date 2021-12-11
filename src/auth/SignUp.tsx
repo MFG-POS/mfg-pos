@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FormTemplate from 'components/templates/FormTemplate';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import FormGroupInput from 'components/molecules/FormGroupInput';
 import {
   emailPattern,
@@ -17,8 +17,6 @@ import { UserDetails, UserWrite } from 'model/auth/user-details';
 import { set } from 'api/firebase/firestore/firestore-actions';
 
 const SignUp = () => {
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-
   const toast = useToast();
   const { signup } = useAuth();
 
@@ -31,7 +29,6 @@ const SignUp = () => {
   const onSubmit: SubmitHandler<UserWrite> = (data) =>
     signup(data.email, data.password).then((firebaseUser) =>
       set<UserDetails>('users', prepareDetails(data), firebaseUser.user!.uid!).then(() => {
-        setIsSubmitted(true);
         toast({
           title: 'Konto zostało utworzone, trwa weryfikacja administratora',
           status: 'success',
@@ -51,7 +48,6 @@ const SignUp = () => {
 
   return (
     <FormTemplate onSubmit={handleSubmit(onSubmit)}>
-      {isSubmitted ? <Redirect to="/" /> : null}
       <Heading
         mb="6"
         textAlign="center"
