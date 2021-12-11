@@ -1,7 +1,7 @@
-import { CommonDocument } from 'model/documents/common';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import { BoardTableInstance } from 'model/board/board-table-instance';
 import { Order } from 'model/order/order';
+import { CommonDocument } from 'model/documents/common';
 import {
   CollectionReference,
   DocumentData,
@@ -24,17 +24,21 @@ export const getSingle = async <T extends CommonDocument>(collection: string, do
   return snapshot.data();
 };
 
+export const getSnapshot = async (collection: string, filters?: DocumentFilter[]) => {
+  const reference: CollectionReference = getCollectionReference(collection);
+
+  return (!isEmpty(filters)
+    ? filters!.reduce<Query>((query, filter) => query.where(filter.fieldPath, filter.opStr, filter.value), reference)
+    : reference
+  ).get();
+};
+
 export const getAll = async <T extends CommonDocument>(
   collection: string,
   references?: DocumentReferenceHolder[],
   filters?: DocumentFilter[],
 ): Promise<T[]> => {
-  const reference: CollectionReference = getCollectionReference(collection);
-
-  const snapshot: Snapshot = await (!isEmpty(filters)
-    ? filters!.reduce<Query>((query, filter) => query.where(filter.fieldPath, filter.opStr, filter.value), reference)
-    : reference
-  ).get();
+  const snapshot: Snapshot = await getSnapshot(collection, filters);
 
   let fetchedReferences: DocumentReferenceHolder[];
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
@@ -88,9 +92,8 @@ export const deleteDoc = async (collection: string, document: string): Promise<v
   await reference.delete();
 };
 
-export const getAllOrders = async (): Promise<Order[]> => {
-  const reference: CollectionReference = firestore.collection('orders');
-  const snapshot: Snapshot = await reference.get();
+export const getAllOrders = async (filters?: DocumentFilter[]): Promise<Order[]> => {
+  const snapshot: Snapshot = await getSnapshot('orders', filters);
 
   return snapshot.docs.map((document: Documents) => {
     const documentData = document.data();
