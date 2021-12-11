@@ -9,10 +9,11 @@ import { minLengthErrorMessage, requiredErrorMessage } from 'others/form-default
 
 import FormTemplate from 'components/templates/FormTemplate';
 import FormGroupInput from 'components/molecules/FormGroupInput';
-import { getSingle, update } from 'api/firebase/firestore/firestore-actions';
-import { UserWrite } from 'model/auth/user-details';
+import { getAll, getSingle, update } from 'api/firebase/firestore/firestore-actions';
+import { UserDetails, UserWrite } from 'model/auth/user-details';
 import { UserRole } from 'model/enums/user-role';
 import FormGroupSelect from 'components/molecules/FormGroupSelect';
+import { usersWithAdminRole } from 'api/firebase/firestore/firestore-filters';
 
 const UserForm = () => {
   const location = useLocation<{ isEdit: boolean; id: string }>();
@@ -40,19 +41,39 @@ const UserForm = () => {
     if (doc) getSingle('users', doc).then((data) => reset(data));
   }, []);
 
-  const onSubmit = (data: UserWrite) => {
-    if (doc) {
-      return update('users', doc, data).then(() => {
-        setIsSubmitted(true);
-        toast({
-          title: 'Użytkownik zmodyfikowany 🙌',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
+  const checkUsers = (data: UserWrite): Promise<void> =>
+    getAll<UserDetails>('users', [], [...usersWithAdminRole(doc!)])
+      .then((documents) =>
+        documents?.length >= 1 ? updateUser(data) : openToast('Musi istnieć przynajmniej jeden administrator', 'error'),
+      )
+      .catch((error) => {
+        throw new Error(`Could not fetch users!. Error: ${error.message}`);
       });
-    }
-    throw new Error('Brak dokumentu do aktualizacji');
+
+  const openToast = (message: string, type: 'success' | 'error') => {
+    toast({
+      title: message,
+      status: type,
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
+  const updateUser = (data: UserWrite): Promise<void> =>
+    update('users', doc!, data).then(() => {
+      setIsSubmitted(true);
+      toast({
+        title: 'Użytkownik zmodyfikowany 🙌',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    });
+
+  const onSubmit = (data: UserWrite): Promise<void> => {
+    if (doc && data.role !== 'ADMIN') return checkUsers(data);
+    if (doc) return updateUser(data);
+    throw new Error('Brak użytkownika do aktualizacji');
   };
 
   return (
