@@ -1,5 +1,5 @@
 import { ChakraProvider, ColorModeScript, Flex } from '@chakra-ui/react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import routes, { authenticationRoutes } from 'routing';
 import { theme } from 'others/theme';
@@ -26,6 +26,9 @@ const App = () => (
                   {component}
                 </ProtectedRoute>
               ))}
+              <ProtectedRoute key={uuidv4()} path="*" isProtected>
+                <Redirect to="/" />
+              </ProtectedRoute>
             </Switch>
           </Flex>
         </MainTemplate>
