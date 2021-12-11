@@ -55,6 +55,7 @@ const Users = () => {
     collection: 'users',
     columns,
     buttonRoutePath: ROUTE_ACCESS_FORMS.EMPLOYEES_FORM.path,
+    showButton: false,
     fetchRefresher: state,
   };
 
