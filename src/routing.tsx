@@ -15,9 +15,9 @@ import Categories from 'views/Menu/Categories';
 import Ingredients from 'views/Menu/Ingredients';
 import Order from 'views/Order/Order';
 import Board from 'views/Order/Board';
-import Users from 'views/Menu/Users';
+import Users from 'views/Access/Users';
 import Login from 'auth/Login';
-import UserForm from 'views/Menu/UserForm';
+import UserForm from 'views/Access/UserForm';
 import SignUp from 'auth/SignUp';
 
 export const orderBoardPath = '/orders/board/';
@@ -93,11 +93,16 @@ export const ROUTE_WAREHOUSE: Route<IRouteData> = {
 };
 
 export const ROUTE_ACCESS: Route<IRouteData> = {
-  EMPLOYEES: { path: '/menu/accesses/', name: 'Pracownicy', component: <Users />, isProtected: true },
+  EMPLOYEES: { path: '/menu/users/', name: 'Pracownicy', component: <Users />, isProtected: true },
 };
 
 export const ROUTE_ACCESS_FORMS: Route<IRouteData> = {
-  EMPLOYEES_FORM: { path: '/menu/accessform/', name: 'Users', component: <UserForm />, isProtected: true },
+  EMPLOYEES_FORM: {
+    path: '/menu/user-form/',
+    name: 'Aktualizuj pracownika',
+    component: <UserForm />,
+    isProtected: true,
+  },
 };
 
 export const ROUTE_SETTINGS: Route<IRouteData> = {

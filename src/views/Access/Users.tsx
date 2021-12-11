@@ -51,7 +51,7 @@ const Users = () => {
   );
 
   const tableProps: AdvancedTableProps<TableUser> = {
-    name: 'Użytkownicy',
+    name: 'Pracownicy',
     collection: 'users',
     columns,
     buttonRoutePath: ROUTE_ACCESS_FORMS.EMPLOYEES_FORM.path,
