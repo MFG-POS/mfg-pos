@@ -13,6 +13,8 @@ export type Timestamp = firebase.firestore.Timestamp;
 export type FieldPath = firebase.firestore.FieldPath;
 export type WhereFilterOp = firebase.firestore.WhereFilterOp;
 export type Query = firebase.firestore.Query<DocumentData>;
+export type User = firebase.User;
+export type UserCredential = firebase.auth.UserCredential;
 
 export type DocumentReferenceHolder = {
   fieldName: keyof CommonDocument;
