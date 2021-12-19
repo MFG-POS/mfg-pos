@@ -1,11 +1,11 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading, HeadingProps } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-type LogoProps = {
+interface LogoProps extends HeadingProps {
   isLink?: boolean;
-};
+}
 
-const Logo = ({ isLink }: LogoProps) => (
+const Logo = ({ isLink, ...rest }: LogoProps) => (
   <Heading
     fontWeight="extrabold"
     p="4"
@@ -14,8 +14,9 @@ const Logo = ({ isLink }: LogoProps) => (
     bgClip="text"
     w="100%"
     textAlign="center"
+    {...rest}
   >
-    {isLink ? <Link to="/dashboard">mfg.pos</Link> : 'mfg.pos'}
+    {isLink ? <Link to="/">mfg.pos</Link> : 'mfg.pos'}
   </Heading>
 );
 

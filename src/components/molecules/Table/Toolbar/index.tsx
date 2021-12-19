@@ -5,15 +5,16 @@ import Filter from 'components/molecules/Table/Filter';
 import { Link as RouterLink } from 'react-router-dom';
 
 export interface ToolbarProps {
+  showButton?: boolean;
   buttonRoutePath?: string;
   filterColumns?: FilterColumn[];
   onSearch?: (value: string) => void;
   onFilter?: (filterRules: FilterRuleDefinition[]) => void;
 }
 
-const Toolbar = ({ filterColumns, buttonRoutePath, onSearch, onFilter }: ToolbarProps) => (
+const Toolbar = ({ showButton, filterColumns, buttonRoutePath, onSearch, onFilter }: ToolbarProps) => (
   <Box mb="0.5rem" pb="0.5rem" display="flex" borderBottom="1px solid #e2e8f0" flexDirection="row">
-    {buttonRoutePath && (
+    {showButton && buttonRoutePath && (
       <Button as={RouterLink} to={buttonRoutePath} mx="5px">
         Dodaj
       </Button>

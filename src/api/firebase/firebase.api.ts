@@ -4,7 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
-import firebaseConfig from './firebase.config';
+import { firebaseConfig } from './firebase.config';
 
 firebase.initializeApp(firebaseConfig);
 
@@ -12,6 +12,7 @@ export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 export const storage = firebase.storage();
 export const deleteFieldValue = firebase.firestore.FieldValue.delete();
+export const documentIdFieldValue = firebase.firestore.FieldPath.documentId();
 
 export const storageTaskState = firebase.storage.TaskState;
 export const storageEventState = firebase.storage.TaskEvent;

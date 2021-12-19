@@ -1,8 +1,7 @@
-import { CommonDocument } from 'model/documents/common';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import { BoardTableInstance } from 'model/board/board-table-instance';
 import { Order } from 'model/order/order';
-import { Employee } from 'model/documents/accesses';
+import { CommonDocument } from 'model/documents/common';
 import {
   CollectionReference,
   DocumentData,
@@ -19,29 +18,19 @@ import { firestore } from '../firebase.api';
 
 export const getCollectionReference = (collection: string) => firestore.collection(collection);
 
-export const getAllByParent = async <T extends CommonDocument>(
-  collection: string,
-  parentCollection: string,
-  parentFieldPath: string,
-  parentId?: string,
-  references?: DocumentReferenceHolder[],
-): Promise<T[]> => {
-  const reference: CollectionReference = getCollectionReference(collection);
-  const snapshot: Snapshot = await (parentId !== undefined
-    ? reference.where(parentFieldPath, '==', getCollectionReference(parentCollection).doc(parentId))
-    : reference.where(parentFieldPath, '==', null)
-  ).get();
-
-  let fetchedReferences: DocumentReferenceHolder[];
-  if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
-
-  return snapshot.docs.map((data: Documents) => mapDocumentWithReferences<T>(data, fetchedReferences));
-};
-
 export const getSingle = async <T extends CommonDocument>(collection: string, document: string): Promise<T> => {
   const reference: DocumentReference = firestore.collection(collection).doc(document);
   const snapshot: DocumentData = await reference.get();
   return snapshot.data();
+};
+
+export const getSnapshot = async (collection: string, filters?: DocumentFilter[]) => {
+  const reference: CollectionReference = getCollectionReference(collection);
+
+  return (!isEmpty(filters)
+    ? filters!.reduce<Query>((query, filter) => query.where(filter.fieldPath, filter.opStr, filter.value), reference)
+    : reference
+  ).get();
 };
 
 export const getAll = async <T extends CommonDocument>(
@@ -60,6 +49,11 @@ export const getAll = async <T extends CommonDocument>(
 export const save = async <T>(collection: string, data: T): Promise<DocumentReference> => {
   const reference: CollectionReference = firestore.collection(collection);
   return reference.add(data);
+};
+
+export const set = async <T>(collection: string, data: T, id: string): Promise<void> => {
+  const reference: CollectionReference = firestore.collection(collection);
+  return reference.doc(id).set(data);
 };
 
 export const update = async <T>(collection: string, document: string, data: T): Promise<void> => {
@@ -158,23 +152,4 @@ export const updateTables = async (tables: BoardTableInstance[]): Promise<void> 
   const batch: WriteBatch = firestore.batch();
   tables.forEach((table) => batch.set(reference.doc(table.id), table));
   return batch.commit();
-};
-
-export const saveAccess = async (access: Partial<Employee>): Promise<DocumentReference> => {
-  const reference: CollectionReference = firestore.collection('accesses');
-  return reference.add(access);
-};
-
-export const updateAccess = async <T>(collection: string, document: string, data: T): Promise<void> => {
-  const reference: DocumentReference = firestore.collection(collection).doc(document);
-  return reference.set(data);
-};
-
-export const getAccess = async (id: string): Promise<Employee> => {
-  const reference: CollectionReference = firestore.collection('accesses');
-  const document: DocumentSnapshot = await reference.doc(id).get();
-  return {
-    name: document.id,
-    ...document.data(),
-  } as Employee;
 };
