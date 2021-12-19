@@ -6,10 +6,12 @@ import { Employee } from 'model/documents/accesses';
 import {
   CollectionReference,
   DocumentData,
+  DocumentFilter,
   DocumentReference,
   DocumentReferenceHolder,
   Documents,
   DocumentSnapshot,
+  Query,
   Snapshot,
   WriteBatch,
 } from '../firebase.types';
@@ -45,9 +47,9 @@ export const getSingle = async <T extends CommonDocument>(collection: string, do
 export const getAll = async <T extends CommonDocument>(
   collection: string,
   references?: DocumentReferenceHolder[],
+  filters?: DocumentFilter[],
 ): Promise<T[]> => {
-  const reference: CollectionReference = firestore.collection(collection);
-  const snapshot: Snapshot = await reference.get();
+  const snapshot: Snapshot = await getSnapshot(collection, filters);
 
   let fetchedReferences: DocumentReferenceHolder[];
   if (!isEmpty(references)) fetchedReferences = await getAllReferences(references!);
@@ -96,9 +98,8 @@ export const deleteDoc = async (collection: string, document: string): Promise<v
   await reference.delete();
 };
 
-export const getAllOrders = async (): Promise<Order[]> => {
-  const reference: CollectionReference = firestore.collection('orders');
-  const snapshot: Snapshot = await reference.get();
+export const getAllOrders = async (filters?: DocumentFilter[]): Promise<Order[]> => {
+  const snapshot: Snapshot = await getSnapshot('orders', filters);
 
   return snapshot.docs.map((document: Documents) => {
     const documentData = document.data();
