@@ -1,5 +1,5 @@
 import firebase from 'api/firebase/firebase.api';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 
 export type DocumentData = firebase.firestore.DocumentData;
 export type Snapshot = firebase.firestore.QuerySnapshot<DocumentData>;
@@ -13,11 +13,13 @@ export type Timestamp = firebase.firestore.Timestamp;
 export type FieldPath = firebase.firestore.FieldPath;
 export type WhereFilterOp = firebase.firestore.WhereFilterOp;
 export type Query = firebase.firestore.Query<DocumentData>;
+export type User = firebase.User;
+export type UserCredential = firebase.auth.UserCredential;
 
 export type DocumentReferenceHolder = {
-  fieldName: keyof MenuDocument;
+  fieldName: keyof CommonDocument;
   collectionName: string;
-  documents?: MenuDocument[];
+  documents?: CommonDocument[];
 };
 
 export type DocumentFilter = {

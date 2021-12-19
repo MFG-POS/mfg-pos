@@ -3,6 +3,6 @@ import { Dish } from 'model/documents/dish';
 import { Ingredient } from 'model/documents/ingredient';
 import { Product } from 'model/documents/products';
 import { Tax } from 'model/documents/tax';
+import { UserDetails } from 'model/auth/user-details';
 
-export type MenuForm = Category | Dish | Ingredient | Product | Tax;
-export type MenuDocument = Partial<Category & Dish & Ingredient & Product & Tax>;
+export type CommonDocument = Partial<Category & Dish & Ingredient & Product & Tax & UserDetails>;

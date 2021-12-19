@@ -1,15 +1,16 @@
 import { Grid } from '@chakra-ui/react';
-
 import Sidebar from 'components/organisms/Sidebar';
-import { useLocation } from 'react-router-dom';
+import { useAuth } from 'auth/AuthContext';
+import { ReactNode } from 'react';
 
 type MainTemplateProps = {
-  readonly children: React.ReactNode;
+  readonly children: ReactNode;
 };
 
 const MainTemplate = ({ children }: MainTemplateProps) => {
-  const location = useLocation();
-  return location.pathname === '/' ? (
+  const { currentUser, isUnclassified } = useAuth();
+
+  return !currentUser || isUnclassified ? (
     <>{children}</>
   ) : (
     <Grid templateColumns="250px 1fr">

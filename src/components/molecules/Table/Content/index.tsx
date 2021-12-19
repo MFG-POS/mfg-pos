@@ -2,9 +2,9 @@ import { TableInstance } from 'react-table';
 import { Box, Table } from '@chakra-ui/react';
 import Header from 'components/molecules/Table/Header';
 import Body from 'components/molecules/Table/Body';
-import { MenuDocument } from 'model/menu/menu';
+import { CommonDocument } from 'model/documents/common';
 
-function Content<T extends MenuDocument>({
+function Content<T extends CommonDocument>({
   headerGroups,
   getTableProps,
   getTableBodyProps,

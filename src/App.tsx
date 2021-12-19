@@ -1,25 +1,38 @@
 import { ChakraProvider, ColorModeScript, Flex } from '@chakra-ui/react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Switch } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import routes from 'routing';
+import routes, { authenticationRoutes } from 'routing';
 import { theme } from 'others/theme';
 import MainTemplate from 'components/templates/MainTemplate';
+import ProtectedRoute from 'auth/ProtectedRoute';
+import { AuthProvider } from 'auth/AuthContext';
+import AuthenticationRoute from 'auth/AuthenticationRoute';
 
 const App = () => (
   <Router>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode="light" />
-      <MainTemplate>
-        <Flex alignItems="center" flexDir="column" justifyContent="center">
-          <Switch>
-            {routes.map(({ component, path, isExact }) => (
-              <Route key={uuidv4()} path={path} exact={isExact}>
-                {component}
-              </Route>
-            ))}
-          </Switch>
-        </Flex>
-      </MainTemplate>
+      <AuthProvider>
+        <MainTemplate>
+          <Flex alignItems="center" flexDir="column" justifyContent="center">
+            <Switch>
+              {authenticationRoutes.map(({ component, path, isExact }) => (
+                <AuthenticationRoute key={uuidv4()} path={path} exact={isExact}>
+                  {component}
+                </AuthenticationRoute>
+              ))}
+              {routes.map(({ component, path, isExact, isProtected }) => (
+                <ProtectedRoute key={uuidv4()} path={path} exact={isExact} isProtected={isProtected}>
+                  {component}
+                </ProtectedRoute>
+              ))}
+              <ProtectedRoute key={uuidv4()} path="*" isProtected>
+                <Redirect to="/" />
+              </ProtectedRoute>
+            </Switch>
+          </Flex>
+        </MainTemplate>
+      </AuthProvider>
     </ChakraProvider>
   </Router>
 );

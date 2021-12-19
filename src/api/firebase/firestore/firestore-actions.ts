@@ -1,7 +1,7 @@
-import { MenuDocument } from 'model/menu/menu';
 import { isEmpty, isNullOrUndefined } from 'others/helper-functions';
 import { BoardTableInstance } from 'model/board/board-table-instance';
 import { Order } from 'model/order/order';
+import { CommonDocument } from 'model/documents/common';
 import {
   CollectionReference,
   DocumentData,
@@ -18,7 +18,7 @@ import { firestore } from '../firebase.api';
 
 export const getCollectionReference = (collection: string) => firestore.collection(collection);
 
-export const getSingle = async <T extends MenuDocument>(collection: string, document: string): Promise<T> => {
+export const getSingle = async <T extends CommonDocument>(collection: string, document: string): Promise<T> => {
   const reference: DocumentReference = firestore.collection(collection).doc(document);
   const snapshot: DocumentData = await reference.get();
   return snapshot.data();
@@ -33,7 +33,7 @@ export const getSnapshot = async (collection: string, filters?: DocumentFilter[]
   ).get();
 };
 
-export const getAll = async <T extends MenuDocument>(
+export const getAll = async <T extends CommonDocument>(
   collection: string,
   references?: DocumentReferenceHolder[],
   filters?: DocumentFilter[],
@@ -51,12 +51,20 @@ export const save = async <T>(collection: string, data: T): Promise<DocumentRefe
   return reference.add(data);
 };
 
+export const set = async <T>(collection: string, data: T, id: string): Promise<void> => {
+  const reference: CollectionReference = firestore.collection(collection);
+  return reference.doc(id).set(data);
+};
+
 export const update = async <T>(collection: string, document: string, data: T): Promise<void> => {
   const reference: DocumentReference = firestore.collection(collection).doc(document);
   return reference.set(data);
 };
 
-const mapDocumentWithReferences = <T extends MenuDocument>(data: Documents, references?: DocumentReferenceHolder[]) => {
+const mapDocumentWithReferences = <T extends CommonDocument>(
+  data: Documents,
+  references?: DocumentReferenceHolder[],
+) => {
   const result = {
     id: data.id,
     ...data.data(),
@@ -64,10 +72,10 @@ const mapDocumentWithReferences = <T extends MenuDocument>(data: Documents, refe
 
   if (!isEmpty(references))
     references!.forEach((reference) => {
-      const nestedDocument = result[reference.fieldName] as MenuDocument;
+      const nestedDocument = result[reference.fieldName] as CommonDocument;
       if (!isNullOrUndefined(nestedDocument) && !isEmpty(reference.documents)) {
         const foundDocument = reference.documents!.find((document) => document.id === nestedDocument.id);
-        if (!isNullOrUndefined(foundDocument)) (result[reference.fieldName] as MenuDocument) = foundDocument!;
+        if (!isNullOrUndefined(foundDocument)) (result[reference.fieldName] as CommonDocument) = foundDocument!;
       }
     });
 

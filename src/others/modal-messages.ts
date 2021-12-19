@@ -11,6 +11,7 @@ export const deleteDishContent = tableDeleteContent('wskazane danie zostanie bez
 export const deleteProductContent = tableDeleteContent('wskazany artykuł zostanie bezpowrotnie usunięty');
 export const deleteIngredientContent = tableDeleteContent('wskazany składnik zostanie bezpowrotnie usunięty');
 export const deleteTaxContent = tableDeleteContent('wskazany podatek zostanie bezpowrotnie usunięty');
+export const deleteEmployeeContent = tableDeleteContent('wskazany pracownik zostanie bezpowrotnie usunięty');
 
 export const deleteCategoryToast = 'Kategoria została usunięta 🙌';
 export const deleteDishToast = 'Danie zostało usunięte 🙌';
