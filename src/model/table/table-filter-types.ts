@@ -30,18 +30,31 @@ export type FilterColumn = {
   accessor: string;
 };
 
-type FilterFunction = (value: unknown, filterValue?: string | number) => boolean;
+type FilterFunction = (value: unknown, filterValue: string | number) => boolean;
 
-type FilterFunctionsHolder = {
-  [key: string]: FilterFunction;
-};
+type FilterFunctionsHolder = keyof FilterFunctions;
 
-export class FilterFunctions {
+export abstract class FilterFunctions {
+  private static getFilterFunction = (functionName: string): FilterFunction =>
+    (FilterFunctions as FilterFunctionsHolder)[functionName];
+
+  private static filterRow = <T extends BaseObject>(filter: FilterRuleDefinition, row: T): boolean =>
+    FilterFunctions.getFilterFunction(filter.function.functionName)(get(row, filter.columnAccessor), filter.value);
+
   static filterRows = <T extends BaseObject>(
     data: T[],
     filterColumns: string[],
     filters: FilterRuleDefinition[],
   ): T[] => data.filter((row) => FilterFunctions.buildFilterResult(filters, row));
+
+  private static buildFilterResult = <T extends BaseObject>(filters: FilterRuleDefinition[], row: T) =>
+    filters.reduce<boolean>(
+      (total, filter) =>
+        isNullOrUndefined(filter.operator) || filter.operator === '&&'
+          ? total && FilterFunctions.filterRow(filter, row)
+          : total || FilterFunctions.filterRow(filter, row),
+      true,
+    );
 
   static equal = (value: unknown, filterValue: string | number): boolean => String(value) === String(filterValue);
 
@@ -51,42 +64,22 @@ export class FilterFunctions {
     String(value).toLowerCase().includes(String(filterValue).toLowerCase());
 
   static doesNotContain = (value: unknown, filterValue: string | number): boolean =>
-    !String(value).toLowerCase().includes(String(filterValue).toLowerCase());
+    !FilterFunctions.contains(value, filterValue);
 
   static startsWith = (value: unknown, filterValue: string | number): boolean =>
-    !String(value).startsWith(String(filterValue));
+    String(value).startsWith(String(filterValue));
 
   static endsWith = (value: unknown, filterValue: string | number): boolean =>
-    !String(value).endsWith(String(filterValue));
+    String(value).endsWith(String(filterValue));
 
-  static isEmpty = (value: unknown): boolean => value === null;
+  static isEmpty = (value: unknown): boolean => value === null || (typeof value === 'string' && value.length === 0);
 
-  static isNotEmpty = (value: unknown): boolean => value !== null && String(value).length > 0;
+  static isNotEmpty = (value: unknown): boolean => !FilterFunctions.isEmpty(value);
 
   static text = <T extends BaseObject>(data: T[], filterColumns: string[], filterValue: string): T[] =>
     data.filter((row) =>
       filterColumns.some((id) => String(row[id]).toLowerCase().includes(String(filterValue).toLowerCase())),
     );
-
-  private static buildFilterResult = <T extends BaseObject>(filters: FilterRuleDefinition[], row: T) =>
-    filters.reduce<boolean>(
-      (total, filter) =>
-        isNullOrUndefined(filter.operator) || filter.operator === '&&'
-          ? total &&
-            FilterFunctions.getFilterFunction(filter.function.functionName)(
-              get(row, filter.columnAccessor),
-              filter.value,
-            )
-          : total ||
-            FilterFunctions.getFilterFunction(filter.function.functionName)(
-              get(row, filter.columnAccessor),
-              filter.value,
-            ),
-      true,
-    );
-
-  private static getFilterFunction = (functionName: string): FilterFunction =>
-    ((FilterFunctions as unknown) as FilterFunctionsHolder)[functionName];
 }
 
 export const filterOperators: FilterOperatorDefinition[] = [
