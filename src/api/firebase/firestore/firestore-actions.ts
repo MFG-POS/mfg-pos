@@ -147,9 +147,13 @@ export const updateTable = async (id: string, table: Partial<BoardTableInstance>
   return reference.doc(id).update(table);
 };
 
-export const updateTables = async (tables: BoardTableInstance[]): Promise<void> => {
+export const updateTables = async (
+  tables: BoardTableInstance[],
+  tablesToRemove: BoardTableInstance[],
+): Promise<void> => {
   const reference: CollectionReference = firestore.collection('tables');
   const batch: WriteBatch = firestore.batch();
   tables.forEach((table) => batch.set(reference.doc(table.id), table));
+  tablesToRemove.forEach((table) => batch.delete(reference.doc(table.id)));
   return batch.commit();
 };
