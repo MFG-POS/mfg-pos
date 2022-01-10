@@ -12,6 +12,7 @@ const BoardHolder = () => {
   const toast = useToast();
 
   const [tables, setTables] = useState<BoardTableInstance[]>([]);
+  const [removedTables, setRemovedTables] = useState<BoardTableInstance[]>([]);
 
   useEffect(() => {
     getTables().then((retrievedTables) => setTables(retrievedTables));
@@ -44,6 +45,7 @@ const BoardHolder = () => {
   };
 
   const clearBoard = () => {
+    setRemovedTables(tables);
     setTables(() => [createTable(uuidv4())]);
     toast({
       title: 'Plansza została wyczyszczona 🙌',
@@ -54,6 +56,7 @@ const BoardHolder = () => {
   };
 
   const deleteTable = (id: string) => {
+    setRemovedTables((previousState) => [...previousState, getTable(id)]);
     setTables(() => [...filterTables(id)]);
     toast({
       title: 'Stolik został usunięty 🙌',
@@ -77,7 +80,7 @@ const BoardHolder = () => {
   };
 
   const saveTables = () => {
-    updateTables(tables).then(() => {
+    updateTables(tables, removedTables).then(() => {
       toast({
         title: 'Położenie stolików zostało zaktualizowane 🙌',
         status: 'success',
